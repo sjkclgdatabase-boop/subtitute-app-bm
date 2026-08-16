@@ -104,13 +104,13 @@ onMounted(() => {
 
 const navItems = [
   { name: 'GAMBARAN KESELURUHAN', path: '/', icon: '📊' },
-  { name: 'CUTI GURU', path: '/leave-entry', icon: '📝' },
+  { name: 'PENDAFTARAN CUTI GURU', path: '/leave-entry', icon: '📝' },
   { name: 'PROFIL GURU', path: '/teachers', icon: '👩‍🏫' },
   { name: 'JADUAL WAKTU', path: '/timetable', icon: '📅' },
   { name: 'GURU GANTI', path: '/records', icon: '🔄' },
-  { name: 'LAPORAN', path: '/statistics', icon: '📈' },
-  { name: 'INTERVENSI MMI', path: '/mmi-interruption', icon: '⚠️' }, 
-  { name: 'ANALISIS SUBJEK', path: '/subject-analysis', icon: '🎯' },
+  { name: 'PUSAT LAPORAN MMI', path: '/statistics', icon: '📈' },
+  { name: 'REKOD GANGGUAN MMI', path: '/mmi-interruption', icon: '⚠️' }, 
+  { name: 'PUSAT ANALISIS', path: '/subject-analysis', icon: '🎯' },
   { name: 'TETAPAN SISTEM', path: '/settings', icon: '⚙️' } 
 ]
 

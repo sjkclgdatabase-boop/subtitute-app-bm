@@ -10,18 +10,18 @@
         <p class="text-slate-500 text-sm mt-2 font-medium">SOKONG PENGEDITAN PANTAS GRID, BOLEH IMPORT JADUAL WAKTU SEMUA GURU SECARA BERKELOMPOK</p>
       </div>
       
-      <!-- 右侧操作区：上传下载 -->
-      <div class="flex flex-wrap items-center gap-3">
+       <!-- 右侧操作区：上传下载 -->
+      <div class="flex flex-col sm:flex-row items-center gap-3">
         <!-- 下载模板按钮 -->
-        <button @click="downloadTemplate" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-xl hover:bg-indigo-100 transition-all shadow-sm cursor-pointer">
+        <button @click="downloadTemplate" class="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-xl hover:bg-indigo-100 transition-all shadow-sm cursor-pointer">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          MUAT TURUN TEMPLAT IMPORT
+          MUAT TURUN TEMPLAT
         </button>
         
         <!-- 上传CSV按钮 -->
-        <label class="cursor-pointer inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 hover:shadow-md transition-all shadow-sm">
+        <label class="w-full sm:w-auto whitespace-nowrap cursor-pointer inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 hover:shadow-md transition-all shadow-sm">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-          IMPORT JADUAL BERKELOMPOK
+          IMPORT BERKELOMPOK
           <input type="file" accept=".csv" class="hidden" @change="handleCsvUpload" />
         </label>
       </div>
