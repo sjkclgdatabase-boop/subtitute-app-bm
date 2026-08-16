@@ -120,7 +120,7 @@ const switchToChinese = async () => {
     const { data: { session } } = await supabase.auth.getSession()
     
     // ⚠️ 记得把这个网址换成你中文版部署后的真实网址
-    const chineseAppUrl = 'https://你的中文版网址.netlify.app' 
+    const chineseAppUrl = 'https://subtitute-app.vercel.app/login' 
 
     if (session) {
       window.location.href = `${chineseAppUrl}/?access_token=${session.access_token}&refresh_token=${session.refresh_token}`
