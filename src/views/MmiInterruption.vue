@@ -1,8 +1,8 @@
 <template>
-  <div class="p-8 max-w-7xl mx-auto min-h-screen">
+  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
     <!-- 头部区域 -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
           PUSAT REKOD GANGGUAN MMI
@@ -35,7 +35,7 @@
     <div v-if="activeTab === 'class'" class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 mb-8">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-        PENDAFTARAN KELAS Diganggu
+        PENDAFTARAN KELAS GANGGUAN
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -73,10 +73,10 @@
         </div>
       </div>
 
-      <div class="mb-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
-        <label class="block text-xs font-bold text-slate-700 mb-3">🎯 Skop terjejas:</label>
+      <div class="mb-6 bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+        <label class="block text-xs font-bold text-slate-700">🎯 Skop terjejas:</label>
         
-        <div class="flex flex-wrap gap-4 mb-4">
+        <div class="flex flex-wrap gap-4">
           <label class="inline-flex items-center gap-2 cursor-pointer">
             <input type="radio" v-model="classForm.scopeType" value="specific" class="text-indigo-600 focus:ring-indigo-500" />
             <span class="text-xs font-bold text-slate-800">1. KELAS TERTENTU</span>
@@ -91,20 +91,42 @@
           </label>
         </div>
 
+        <!-- ⭐️ 优化后：规整对齐的班级卡片选择区 -->
         <div v-if="classForm.scopeType === 'specific'" class="space-y-3 pt-2">
-          <div v-for="(classes, grade) in groupedClasses" :key="grade" class="flex flex-wrap items-center gap-2">
-            <span class="text-xs font-black text-slate-400 w-20 shrink-0">
-              TAHUN {{ grade }}:
-            </span>
-            <label 
-              v-for="c in classes" 
-              :key="c" 
-              :class="classForm.selectedClasses.includes(c) ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'"
-              class="px-3.5 py-1.5 border rounded-xl text-xs font-bold cursor-pointer transition-all select-none"
-            >
-              <input type="checkbox" :value="c" v-model="classForm.selectedClasses" class="hidden" />
-              {{ c }}
-            </label>
+          <!-- 顶部快捷操作栏 -->
+          <div class="flex justify-between items-center pb-2 border-b border-slate-200/80 text-xs">
+            <span class="font-bold text-slate-500">Sila pilih kelas yang terjejas:</span>
+            <div class="space-x-3">
+              <button type="button" @click="selectAllClasses" class="text-indigo-600 hover:text-indigo-800 font-bold cursor-pointer">
+                ☑️ Pilih Semua
+              </button>
+              <span class="text-slate-300">|</span>
+              <button type="button" @click="clearAllClasses" class="text-slate-500 hover:text-slate-700 font-bold cursor-pointer">
+                ❌ Kosongkan
+              </button>
+            </div>
+          </div>
+
+          <!-- 各年级规整行 -->
+          <div v-for="(classes, grade) in groupedClasses" :key="grade" class="flex flex-col sm:flex-row sm:items-center gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="w-28 shrink-0 flex items-center justify-between sm:justify-start gap-2">
+              <span class="text-xs font-black text-slate-700 uppercase tracking-wider">TAHUN {{ grade }}</span>
+              <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-extrabold">
+                {{ classes.filter(c => classForm.selectedClasses.includes(c)).length }}/{{ classes.length }}
+              </span>
+            </div>
+
+            <div class="flex flex-wrap gap-2 flex-1">
+              <label 
+                v-for="c in classes" 
+                :key="c" 
+                :class="classForm.selectedClasses.includes(c) ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs scale-105' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30'"
+                class="w-14 h-9 border rounded-xl text-xs font-extrabold flex items-center justify-center cursor-pointer transition-all select-none"
+              >
+                <input type="checkbox" :value="c" v-model="classForm.selectedClasses" class="hidden" />
+                {{ c }}
+              </label>
+            </div>
           </div>
         </div>
 
@@ -114,7 +136,7 @@
             :key="g"
             type="button"
             @click="classForm.selectedGrade = g"
-            :class="classForm.selectedGrade === g ? 'bg-indigo-600 text-white' : 'bg-white text-slate-700 border-slate-200'"
+            :class="classForm.selectedGrade === g ? 'bg-indigo-600 text-white shadow-xs' : 'bg-white text-slate-700 border-slate-200'"
             class="px-4 py-2 border rounded-xl text-xs font-bold transition-all cursor-pointer"
           >
             TAHUN {{ g }} (TAHUN {{ g }})
@@ -237,10 +259,11 @@
       </button>
     </div>
 
-    <!-- ⭐️ 优化版：干扰日志历史记录表格区 -->
+    <!-- ⭐️ 优化版：干扰日志历史记录表格区（上下分层 + 精准对齐 + 完美列宽） -->
     <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5">
       
-      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+      <!-- 第一行：标题与导出按钮 -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-4">
         <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
           <span>📊 JADUAL SEJARAH GANGGUAN MMI</span>
           <span class="text-xs bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 font-semibold">
@@ -248,55 +271,60 @@
           </span>
         </h2>
 
-        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-          <select v-model="typeFilter" class="bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
-            <option value="all">SEMUA JENIS</option>
-            <option value="class">GANGGUAN KELAS</option>
-            <option value="teacher">GANGGUAN GURU</option>
-          </select>
+        <button 
+          @click="exportLogsToExcel" 
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+        >
+          <span>📥 EKSPORT JADUAL EXCEL</span>
+        </button>
+      </div>
 
-          <select v-model="dateRangeFilter" class="bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
-            <option value="all">SEMUA TEMPOH MASA</option>
-            <option value="week">📅 MINGGU INI (7 HARI TERAKHIR)</option>
-            <option value="month">📅 BULAN INI (BULAN SEMASA)</option>
-          </select>
+      <!-- 第二行：所有筛选与搜索框平铺，保持呼吸感 -->
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <select v-model="typeFilter" class="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
+          <option value="all">SEMUA JENIS</option>
+          <option value="class">GANGGUAN KELAS</option>
+          <option value="teacher">GANGGUAN GURU</option>
+        </select>
 
-          <select v-model="selectedMonth" class="bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
-            <option value="all">🗓️ SEMUA BULAN (SETAHUN)</option>
-            <option v-for="m in 12" :key="m" :value="String(m)">BULAN {{ m }}</option>
-          </select>
+        <select v-model="dateRangeFilter" class="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
+          <option value="all">SEMUA TEMPOH MASA</option>
+          <option value="week">📅 MINGGU INI (7 HARI TERAKHIR)</option>
+          <option value="month">📅 BULAN INI (BULAN SEMASA)</option>
+        </select>
 
-          <div class="relative flex-1 sm:w-48">
-            <input 
-              type="text" 
-              v-model="searchQuery" 
-              placeholder="CARI GURU / KELAS / SEBAB..." 
-              class="w-full bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+        <select v-model="selectedMonth" class="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
+          <option value="all">🗓️ SEMUA BULAN (SETAHUN)</option>
+          <option v-for="m in 12" :key="m" :value="String(m)">BULAN {{ m }}</option>
+        </select>
 
-          <button 
-            @click="exportLogsToExcel" 
-            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
-          >
-            <span>📥 EKSPORT JADUAL EXCEL</span>
-          </button>
+        <div class="relative flex-1 min-w-[200px]">
+          <input 
+            type="text" 
+            v-model="searchQuery" 
+            placeholder="CARI GURU / KELAS / SEBAB..." 
+            class="w-full bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
         </div>
       </div>
 
+      <!-- 表格区域：固定列宽、统一对齐、杜绝溢出滚动条 -->
       <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-sm table-fixed">
+        <table class="w-full text-left border-collapse text-xs table-fixed">
           <thead>
-            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-widest font-semibold border-b border-slate-100 select-none">
-              <th @click="handleSort('interruption_date')" class="py-3 px-4 w-36 cursor-pointer hover:bg-slate-100 transition">
-                <div class="flex items-center justify-start gap-1">
+            <tr class="bg-slate-50 text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-200 select-none">
+              <!-- TARIKH: 靠左对齐 -->
+              <th @click="handleSort('interruption_date')" class="py-3 px-4 w-32 cursor-pointer hover:bg-slate-100 transition text-left">
+                <div class="flex items-center gap-1">
                   <span>TARIKH</span>
                   <span class="text-[10px] text-indigo-600 font-bold">
                     {{ sortField === 'interruption_date' ? (sortOrder === 'asc' ? '▲' : '▼') : '↕' }}
                   </span>
                 </div>
               </th>
-              <th @click="handleSort('type')" class="p-3 w-28 cursor-pointer hover:bg-slate-100 transition">
+
+              <!-- JENIS: 居中对齐 -->
+              <th @click="handleSort('type')" class="py-3 px-3 w-28 cursor-pointer hover:bg-slate-100 transition text-center">
                 <div class="flex items-center justify-center gap-1">
                   <span>JENIS</span>
                   <span class="text-[10px] text-indigo-600 font-bold">
@@ -304,15 +332,19 @@
                   </span>
                 </div>
               </th>
-              <th @click="handleSort('target_display')" class="p-3 w-100 cursor-pointer hover:bg-slate-100 transition">
-                <div class="flex items-center justify-center gap-1">
+
+              <!-- SASARAN / SKOP: 改为靠左对齐，解决原本表头居中而内容靠左的错位感 -->
+              <th @click="handleSort('target_display')" class="py-3 px-4 w-auto cursor-pointer hover:bg-slate-100 transition text-left">
+                <div class="flex items-center gap-1">
                   <span>SASARAN / SKOP</span>
                   <span class="text-[10px] text-indigo-600 font-bold">
                     {{ sortField === 'target_display' ? (sortOrder === 'asc' ? '▲' : '▼') : '↕' }}
                   </span>
                 </div>
               </th>
-              <th @click="handleSort('start_period')" class="p-3 w-32 cursor-pointer hover:bg-slate-100 transition">
+
+              <!-- SLOT MASA: 居中对齐 -->
+              <th @click="handleSort('start_period')" class="py-3 px-3 w-32 cursor-pointer hover:bg-slate-100 transition text-center">
                 <div class="flex items-center justify-center gap-1">
                   <span>SLOT MASA</span>
                   <span class="text-[10px] text-indigo-600 font-bold">
@@ -320,7 +352,9 @@
                   </span>
                 </div>
               </th>
-              <th @click="handleSort('reason')" class="p-3 min-w-[180px] cursor-pointer hover:bg-slate-100 transition">
+
+              <!-- SEBAB: 居中对齐（因为里面放的是“LIHAT BUTIRAN”按钮） -->
+              <th @click="handleSort('reason')" class="py-3 px-3 w-36 cursor-pointer hover:bg-slate-100 transition text-center">
                 <div class="flex items-center justify-center gap-1">
                   <span>SEBAB</span>
                   <span class="text-[10px] text-indigo-600 font-bold">
@@ -328,43 +362,56 @@
                   </span>
                 </div>
               </th>
-              <th class="p-3 w-20 text-center">TINDAKAN</th>
+
+              <!-- TINDAKAN: 居中对齐 -->
+              <th class="py-3 px-3 w-24 text-center">TINDAKAN</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
+          <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
             <tr v-if="filteredLogs.length === 0">
               <td colspan="6" class="py-12 text-center text-slate-400 font-medium">
                 TIADA REKOD GANGGUAN MMI DIKESAN
               </td>
             </tr>
             <tr v-for="log in filteredLogs" :key="log.id" class="hover:bg-slate-50/50 transition">
-              <td class="py-3 px-4 w-36 font-bold text-slate-900 truncate">{{ log.interruption_date }}</td>
-              <td class="p-3 text-center truncate">
+              <!-- TARIKH: 靠左 -->
+              <td class="py-3.5 px-4 font-bold text-slate-900 truncate text-left">{{ log.interruption_date }}</td>
+              
+              <!-- JENIS: 居中 -->
+              <td class="py-3.5 px-3 text-center truncate">
                 <span :class="log.type === 'class' ? 'bg-indigo-50 text-indigo-700' : 'bg-violet-50 text-violet-700'" class="px-2.5 py-1 rounded-full text-xs font-bold inline-block">
                   {{ log.type === 'class' ? 'KELAS' : 'GURU' }}
                 </span>
               </td>
-              <td class="p-3 font-semibold text-slate-800 truncate" :title="log.target_display">
-                {{ log.target_display }}
+
+              <!-- SASARAN / SKOP: 靠左（与表头完美对齐） -->
+              <td class="py-3.5 px-4 font-semibold text-slate-800 truncate text-left" :title="formatTargetDisplay(log.target_display)">
+                {{ formatTargetDisplay(log.target_display) }}
               </td>
-              <td class="p-3 text-center truncate">
-                <span class="bg-slate-100 px-2.5 py-0.5 rounded text-xs text-slate-600 font-medium inline-block">
+
+              <!-- SLOT MASA: 居中 -->
+              <td class="py-3.5 px-3 text-center truncate">
+                <span class="bg-slate-100 px-2.5 py-1 rounded-lg text-xs text-slate-700 font-bold inline-block">
                   KE-{{ log.start_period }} - {{ log.end_period }}
                 </span>
               </td>
-              <td class="p-3 text-center truncate">
+
+              <!-- SEBAB: 居中 -->
+              <td class="py-3.5 px-3 text-center truncate">
                 <span v-if="!log.reason || log.reason === '-'">-</span>
                 <button 
                   v-else 
                   @click="openDetailModal(log)" 
-                  class="text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition inline-flex items-center justify-center gap-1 w-28 text-xs mx-auto"
+                  class="text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition inline-flex items-center justify-center gap-1 text-xs mx-auto cursor-pointer"
                 >
                   <span>LIHAT BUTIRAN</span> 
                   <span>🔍</span>
                 </button>
               </td>
-              <td class="p-3 text-right truncate">
-                <button @click="deleteLog(log)" class="text-xs text-red-600 hover:text-red-800 font-semibold px-2 py-1 bg-red-50 rounded-lg cursor-pointer transition">
+
+              <!-- TINDAKAN: 居中 -->
+              <td class="py-3.5 px-3 text-center truncate">
+                <button @click="deleteLog(log)" class="text-xs text-red-600 hover:text-red-800 font-bold px-2.5 py-1.5 bg-red-50 hover:bg-red-100 rounded-lg cursor-pointer transition">
                   PADAM
                 </button>
               </td>
@@ -396,21 +443,16 @@
             <span class="font-semibold text-slate-900">{{ currentDetailLog?.reason }}</span>
           </div>
           
-          <!-- ⭐️ 统一UI版：完整备注与自动同步课程内容 -->
           <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
             <span class="font-bold text-indigo-900 block mb-1">📄 NOTA & KANDUNGAN JADUAL:</span>
             
-            <!-- 如果是教师干扰，直接显示原来的 remarks，并用 replace 魔法把旧数据的前缀擦除掉 -->
             <p v-if="currentDetailLog?.type === 'teacher'" class="text-slate-800 leading-relaxed font-medium whitespace-pre-wrap">
               {{ currentDetailLog?.remarks?.replace('自动同步自请假录入 ', '') }}
             </p>
             
-            <!-- 如果是班级干扰，将 remarks 与排课数据融为一体 -->
             <div v-if="currentDetailLog?.type === 'class'" class="text-slate-800 leading-relaxed font-medium whitespace-pre-wrap">
-              <!-- 先显示用户手写的备注（如果有的话） -->
               <span v-if="currentDetailLog?.remarks">{{ currentDetailLog.remarks }}<br/><br/></span>
               
-              <!-- 再紧接着显示自动排课数据，保持同一种颜色和字体 -->
               <span v-if="loadingDetail" class="animate-pulse inline-flex items-center gap-1">
                 <svg class="animate-spin h-3 w-3 text-slate-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 SEDANG MEMADANKAN JADUAL WAKTU...
@@ -452,6 +494,18 @@ const classForm = ref({
 })
 
 const groupedClasses = ref({})
+
+// 班级全选功能
+const selectAllClasses = () => {
+  const all = []
+  Object.values(groupedClasses.value).forEach(arr => all.push(...arr))
+  classForm.value.selectedClasses = all
+}
+
+// 班级清空功能
+const clearAllClasses = () => {
+  classForm.value.selectedClasses = []
+}
 
 const fetchClasses = async () => {
   const { data } = await supabase
@@ -500,7 +554,6 @@ const handleSort = (field) => {
   }
 }
 
-// ⭐️ 详情弹窗状态 & 自动查课表所需状态
 const showDetailModal = ref(false)
 const currentDetailLog = ref(null)
 const currentDetailAffectedClasses = ref('')
@@ -511,7 +564,6 @@ const openDetailModal = async (log) => {
   showDetailModal.value = true
   currentDetailAffectedClasses.value = ''
 
-  // 如果是班级干扰，实时匹配排课表
   if (log.type === 'class') {
     loadingDetail.value = true
     try {
@@ -666,7 +718,8 @@ const submitClassInterruption = async () => {
   let targetDisplay = ''
   if (classForm.value.scopeType === 'specific') {
     if (classForm.value.selectedClasses.length === 0) return toast.error("SILA PILIH SEKURANG-KURANGNYA SATU KELAS!")
-    targetDisplay = `KELAS: ${classForm.value.selectedClasses.join(', ')}`
+    // ⭐️ 直接去掉 "KELAS: " 前缀，只留班级名称
+    targetDisplay = classForm.value.selectedClasses.join(', ')
   } else if (classForm.value.scopeType === 'grade') {
     targetDisplay = `TAHUN ${classForm.value.selectedGrade} (SETAHUN)`
   } else {
@@ -769,6 +822,12 @@ const exportLogsToExcel = () => {
   link.click()
   document.body.removeChild(link)
   toast.success("EKSPORT LAPORAN BERJAYA!")
+}
+
+// 前端展示清洗函数：自动把 KELAS: 或 班级: 抹掉，只留后面的纯班级名
+const formatTargetDisplay = (text) => {
+  if (!text) return ''
+  return text.replace(/^(KELAS|班级)[:：]\s*/i, '').trim()
 }
 
 const deleteLog = async (log) => {
