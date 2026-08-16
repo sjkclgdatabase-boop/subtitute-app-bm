@@ -107,7 +107,7 @@ const navItems = [
   { name: 'PENDAFTARAN CUTI GURU', path: '/leave-entry', icon: '📝' },
   { name: 'PROFIL GURU', path: '/teachers', icon: '👩‍🏫' },
   { name: 'JADUAL WAKTU', path: '/timetable', icon: '📅' },
-  { name: 'PENGURUSAN JADUALGURU GANTI', path: '/records', icon: '🔄' },
+  { name: 'JADUAL GURU GANTI', path: '/records', icon: '🔄' },
   { name: 'PUSAT LAPORAN MMI', path: '/statistics', icon: '📈' },
   { name: 'REKOD GANGGUAN MMI', path: '/mmi-interruption', icon: '⚠️' }, 
   { name: 'PUSAT ANALISIS', path: '/subject-analysis', icon: '🎯' },
