@@ -136,7 +136,10 @@ const logout = async () => {
   try {
     await supabase.auth.signOut()
     toast.success("BERJAYA LOG KELUAR")
-    router.push('/login')
+    
+    // 🚀 核心修改：用原生强制跳转替换 router.push，彻底清空残留界面
+    window.location.href = '/login'
+    
   } catch (error) {
     toast.error("LOG KELUAR GAGAL: " + error.message)
   }
