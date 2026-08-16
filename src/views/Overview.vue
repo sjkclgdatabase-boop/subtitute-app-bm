@@ -5,12 +5,12 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
       <div>
         <h1 class="text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
-          代课调度中心
+          PUSAT PENGURUSAN GURU GANTI
         </h1>
-        <p class="text-slate-500 text-sm mt-2 font-medium">实时监控教师请假，跟踪代课任务分配进度</p>
+        <p class="text-slate-500 text-sm mt-2 font-medium">PEMANTAUAN CUTI GURU SECARA MASA NYATA, MENJEJAK PROSES AGIHAN TUGASAN GURU GANTI</p>
       </div>
       <router-link to="/leave-entry" class="group relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 bg-slate-900 font-display rounded-full hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 hover:-translate-y-0.5">
-        <span>新建请假</span>
+        <span>DAFTAR CUTI BAHARU</span>
         <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
       </router-link>
     </div>
@@ -19,7 +19,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <div class="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-slate-900/5 hover:shadow-md transition-all">
         <div class="flex items-center justify-between">
-          <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">待分配代课任务</p>
+          <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">TUGASAN GURU GANTI BELUM DIAGIHKAN</p>
           <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center ring-1 ring-amber-500/20">⏳</div>
         </div>
         <p class="text-4xl font-bold text-slate-900 mt-4">{{ pendingCount }}</p>
@@ -27,7 +27,7 @@
       
       <div class="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-slate-900/5 hover:shadow-md transition-all">
         <div class="flex items-center justify-between">
-          <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">已完成代课</p>
+          <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Pengagihan Selesai</p>
           <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center ring-1 ring-emerald-500/20">✓</div>
         </div>
         <p class="text-4xl font-bold text-slate-900 mt-4">{{ assignedCount }}</p>
@@ -35,7 +35,7 @@
       
       <div class="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-slate-900/5 hover:shadow-md transition-all">
         <div class="flex items-center justify-between">
-          <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">历史总任务</p>
+          <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">JUMLAH KESELURUHAN TUGASAN</p>
           <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center ring-1 ring-indigo-500/20">📊</div>
         </div>
         <p class="text-4xl font-bold text-slate-900 mt-4">{{ leaveRequests.length }}</p>
@@ -51,14 +51,14 @@
             :class="viewMode === 'today' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
             class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer"
           >
-            📅  仅今日
+            📅 HARI INI SAHAJA
           </button>
           <button 
             @click="viewMode = 'grouped'"
             :class="viewMode === 'grouped' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'"
             class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer"
           >
-            📂 按日期分组
+            📂 MENGIKUT TARIKH
           </button>
         </div>
 
@@ -71,7 +71,7 @@
       </div>
 
       <div class="text-xs text-slate-400 font-medium">
-        当前显示 <span class="font-bold text-slate-700">{{ displayedRequests.length }}</span> 条请假任务
+        PAPARAN SEMASA <span class="font-bold text-slate-700">{{ displayedRequests.length }}</span> REKOD CUTI
       </div>
     </div>
 
@@ -84,47 +84,47 @@
           <thead>
             <tr class="bg-slate-50/50 border-b border-slate-100 text-slate-500 text-xs uppercase tracking-widest font-semibold select-none">
               <th class="py-4 pl-6 pr-4 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('teacher')">
-                请假老师 <span v-if="sortKey === 'teacher'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                GURU CUTI <span v-if="sortKey === 'teacher'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
               </th>
               <th class="p-4 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('class')">
-                班级 / 科目 <span v-if="sortKey === 'class'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                KELAS / SUBJEK <span v-if="sortKey === 'class'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
               </th>
               <th class="p-4 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('period')">
-                节次 <span v-if="sortKey === 'period'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                SLOT MASA <span v-if="sortKey === 'period'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
               </th>
               <th class="p-4 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('status')">
-                任务状态 <span v-if="sortKey === 'status'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                STATUS TUGASAN <span v-if="sortKey === 'status'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
               </th>
               <th class="p-4 text-left cursor-pointer hover:text-indigo-600 transition" @click="handleSort('substitute')">
-                代课教师 <span v-if="sortKey === 'substitute'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                GURU GANTI <span v-if="sortKey === 'substitute'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
               </th>
-              <th class="py-4 pr-6 pl-4 text-right">操作</th>
+              <th class="py-4 pr-6 pl-4 text-right">TINDAKAN</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100 text-sm">
             <tr v-if="displayedRequests.length === 0">
-              <td colspan="6" class="py-12 text-center text-slate-400 font-medium">所选日期 ({{ targetDate }}) 暂无教师请假记录 </td>
+              <td colspan="6" class="py-12 text-center text-slate-400 font-medium">TIADA REKOD CUTI GURU PADA TARIKH ({{ targetDate }}) </td>
             </tr>
             <tr v-for="req in displayedRequests" :key="req.id" class="hover:bg-slate-50/50 transition-colors group">
               <td class="py-4 pl-6 pr-4 font-bold text-slate-900">
-                {{ teachersMap[req.teacher_id]?.name || '加载中...' }}
+                {{ teachersMap[req.teacher_id]?.name || 'SEDANG DIMUAT...' }}
               </td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
                   <span class="text-slate-900 font-medium">{{ req.class_name }}</span>
-                  <span v-if="req.class_name.includes('/')" class="px-1.5 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">合班</span>
+                  <span v-if="req.class_name.includes('/')" class="px-1.5 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">KELAS GABUNGAN</span>
                   <span class="text-slate-400">·</span>
                   <span class="text-slate-500">{{ req.subject }}</span>
                 </div>
               </td>
               <td class="p-4">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium text-xs">
-                  第 {{ req.period }} 节
+                  SESI KE-{{ req.period }}
                 </span>
               </td>
               <td class="p-4">
                 <span :class="statusClass(req.status)" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset">
-                  {{ req.status === 'pending' ? '待指派' : '已指派' }}
+                  {{ req.status === 'pending' ? 'BELUM DITETAPKAN' : 'TELAH DITETAPKAN' }}
                 </span>
               </td>
               <td class="p-4 text-left">
@@ -139,7 +139,7 @@
                   @click="openRecommendModal(req)"
                   class="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 rounded-full hover:bg-indigo-100 transition-all cursor-pointer"
                 >
-                  ✨ 智能与手动排课
+                  ✨Penjadualan Pintar & Manual
                 </button>
               </td>
             </tr>
@@ -150,7 +150,7 @@
       <!-- 模式二：按日期折叠归类 -->
       <div v-else class="p-6 space-y-4">
         <div v-if="Object.keys(groupedRequests).length === 0" class="py-12 text-center text-slate-400 font-medium">
-          当前暂无任何请假记录
+          TIADA SEBARANG REKOD CUTI
         </div>
 
         <div v-for="(requests, date) in groupedRequests" :key="date" class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
@@ -161,11 +161,11 @@
             <div class="flex items-center gap-3">
               <span class="font-bold text-slate-900 text-base">📅 {{ date }}</span>
               <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold">
-                {{ requests.length }} 节任务
+                {{ requests.length }} SLOT TUGASAN
               </span>
             </div>
             <span class="text-slate-400 text-sm font-semibold">
-              {{ foldedDates[date] ? '展开 ▼' : '收起 ▲' }}
+              {{ foldedDates[date] ? 'BUKA ▼' : 'TUTUP ▲' }}
             </span>
           </button>
 
@@ -174,44 +174,44 @@
               <thead>
                 <tr class="bg-slate-50/50 border-b border-slate-100 text-slate-500 text-xs uppercase tracking-widest font-semibold select-none">
                   <th class="py-3 pl-6 pr-4 w-48 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('teacher')">
-                    请假老师 <span v-if="sortKey === 'teacher'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                    GURU CUTI <span v-if="sortKey === 'teacher'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                   </th>
                   <th class="p-3 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('class')">
-                    班级 / 科目 <span v-if="sortKey === 'class'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                    KELAS / SUBJEK <span v-if="sortKey === 'class'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                   </th>
                   <th class="p-3 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('period')">
-                    节次 <span v-if="sortKey === 'period'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                    SLOT MASA <span v-if="sortKey === 'period'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                   </th>
                   <th class="p-3 cursor-pointer hover:text-indigo-600 transition" @click="handleSort('status')">
-                    状态 <span v-if="sortKey === 'status'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                    STATUS <span v-if="sortKey === 'status'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                   </th>
                   <th class="p-3 text-left cursor-pointer hover:text-indigo-600 transition" @click="handleSort('substitute')">
-                    代课安排 <span v-if="sortKey === 'substitute'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                    TUGASAN GURU GANTI <span v-if="sortKey === 'substitute'" class="text-indigo-600 font-bold ml-1">{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                   </th>
-                  <th class="py-3 pr-6 pl-3 text-right">操作</th>
+                  <th class="py-3 pr-6 pl-3 text-right">TINDAKAN</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 text-sm">
                 <tr v-for="req in requests" :key="req.id" class="hover:bg-slate-50/50 transition-colors group">
                   <td class="py-3 pl-6 pr-4 text-slate-900 font-bold w-48">
-                    {{ teachersMap[req.teacher_id]?.name || '加载中...' }}
+                    {{ teachersMap[req.teacher_id]?.name || 'SEDANG DIMUAT...' }}
                   </td>
                   <td class="p-3">
                     <div class="flex items-center gap-2">
                       <span class="text-slate-900 font-medium">{{ req.class_name }}</span>
-                      <span v-if="req.class_name.includes('/')" class="px-1.5 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">合班</span>
+                      <span v-if="req.class_name.includes('/')" class="px-1.5 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">KELAS GABUNGAN</span>
                       <span class="text-slate-400">·</span>
                       <span class="text-slate-500">{{ req.subject }}</span>
                     </div>
                   </td>
                   <td class="p-3">
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium text-xs">
-                      第 {{ req.period }} 节
+                      SESI KE-{{ req.period }}
                     </span>
                   </td>
                   <td class="p-3">
                     <span :class="statusClass(req.status)" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset">
-                      {{ req.status === 'pending' ? '待指派' : '已指派' }}
+                      {{ req.status === 'pending' ? 'BELUM DITETAPKAN' : 'TELAH DITETAPKAN' }}
                     </span>
                   </td>
                   <td class="p-3 text-left">
@@ -226,7 +226,7 @@
                       @click="openRecommendModal(req)"
                       class="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 rounded-full hover:bg-indigo-100 transition-all cursor-pointer"
                     >
-                      ✨ 排课
+                      ✨ JADUAL
                     </button>
                   </td>
                 </tr>
@@ -246,8 +246,8 @@
           
           <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur-md shrink-0">
             <div>
-              <h2 class="text-xl font-bold text-slate-900">代课指派中心</h2>
-              <p class="text-sm text-slate-500 mt-1">支持智能推荐排序，或在下方直接手动选择任意同班次老师</p>
+              <h2 class="text-xl font-bold text-slate-900">PUSAT PENETAPAN GURU GANTI</h2>
+              <p class="text-sm text-slate-500 mt-1">SOKONGAN CADANGAN PINTAR, ATAU PILIH MANA-MANA GURU SESI YANG SAMA SECARA MANUAL DI BAWAH</p>
             </div>
             <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition cursor-pointer">×</button>
           </div>
@@ -255,27 +255,27 @@
           <div class="p-8 bg-slate-50/50 space-y-6 overflow-y-auto">
             
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">📍 地点/特殊备注:</span>
+              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">📍 LOKASI / CATATAN:</span>
               <input 
                 v-model="assignmentRemark" 
                 type="text" 
-                placeholder="例如: Perpustakaan (若需带去图书馆或合并班级)" 
+                placeholder="CONTOH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)" 
                 class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
               />
             </div>
 
             <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100 shadow-sm">
               <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center gap-2">
-                <span>🛠️ 手动直接指派（不通过智能推荐）</span>
+                <span>🛠️ TETAPAN MANUAL (TANPA CADANGAN PINTAR)</span>
               </h3>
               <div class="flex flex-col sm:flex-row items-center gap-3">
                 <select 
                   v-model="manualSelectedTeacherId" 
                   class="w-full px-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
                 >
-                  <option value="" disabled>-- 请手动选择同班次教师 --</option>
+                  <option value="" disabled>-- SILA PILIH GURU SESI SAMA SECARA MANUAL --</option>
                   <option v-for="t in allSameSessionTeachers" :key="t.id" :value="t.id">
-                    {{ t.name }} (科目: {{ t.subject || '无' }})
+                    {{ t.name }} (SUBJEK: {{ t.subject || 'TIADA' }})
                   </option>
                 </select>
                 <button 
@@ -283,7 +283,7 @@
                   :disabled="!manualSelectedTeacherId"
                   class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer"
                 >
-                  确认手动指派
+                  SAHKAN TETAPAN MANUAL
                 </button>
               </div>
             </div>
@@ -291,15 +291,15 @@
             <hr class="border-slate-200" />
 
             <div>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">✨ 智能推荐候选列表（Top 6）</h3>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">✨ SENARAI CALON CADANGAN PINTAR (TOP 6)</h3>
               
               <div v-if="loading" class="flex flex-col items-center justify-center py-6 space-y-3">
                 <div class="w-6 h-6 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">智能算法计算中...</p>
+                <p class="text-xs text-slate-500 font-medium">ALGORITMA PINTAR SEDANG DIKIRA...</p>
               </div>
               
               <div v-else-if="recommendations.length === 0" class="bg-white p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 text-center">
-                暂无自动推荐人选，请使用上方手动指派。
+                TIADA CADANGAN AUTOMATIK, SILA GUNAKAN TETAPAN MANUAL DI ATAS.
               </div>
 
               <div v-else class="space-y-3">
@@ -314,16 +314,16 @@
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">{{ teacher.subject }}</span>
                       </div>
                       <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2 flex-wrap">
-                        <span>原有节数: <span class="font-bold text-slate-700">{{ teacher.originalClasses }}节</span></span>
+                        <span>JADUAL ASAL: <span class="font-bold text-slate-700">{{ teacher.originalClasses }} KELAS</span></span>
                         <span>·</span>
-                        <span>当天已代: <span class="font-bold text-orange-600">{{ teacher.todaySubCount }}节</span></span>
+                        <span>JUMLAH GANTIAN HARI INI: <span class="font-bold text-orange-600">{{ teacher.todaySubCount }} KELAS</span></span>
                         <span>·</span>
-                        <span>本周已代: <span class="font-bold text-slate-700">{{ teacher.currentSubCount }}/{{ teacher.max_substitute_per_week }}</span></span>
+                        <span>JUMLAH GANTIAN MINGGU INI: <span class="font-bold text-slate-700">{{ teacher.currentSubCount }}/{{ teacher.max_substitute_per_week }}</span></span>
                       </div>    
                     </div>
                   </div>
                   <button @click="assignSubstitute(teacher.id)" class="bg-slate-900 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer">
-                    智能指派
+                    TETAPAN PINTAR
                   </button>
                 </div>
               </div>
@@ -464,7 +464,7 @@ const getSubstituteDisplay = (leaveRequestId) => {
   if (!sub || !sub.sub_teacher_id) return ''
   
   const subTeacher = teachersMap.value[sub.sub_teacher_id]
-  const name = subTeacher ? subTeacher.name : '未知老师'
+  const name = subTeacher ? subTeacher.name : 'TIDAK DIKENALI'
 
   if (sub.remark) {
     return `${name} (${sub.remark})`
@@ -504,7 +504,7 @@ const openRecommendModal = async (req) => {
 
     allSameSessionTeachers.value = teachersData || []
   } catch (error) {
-    toast.error("加载排课数据失败: " + error.message)
+    toast.error("GAGAL MEMUATKAN DATA JADUAL: " + error.message)
   } finally {
     loading.value = false
   }
@@ -516,7 +516,7 @@ const assignSubstitute = async (teacherId) => {
     const { error: insertErr } = await supabase.from('substitute_assignments').insert({
       leave_request_id: currentRequest.value.id,
       sub_teacher_id: teacherId,
-      remark: assignmentRemark.value ? assignmentRemark.value.trim() : null
+      remark: assignmentRemark.value ? assignmentRemark.value.trim().toUpperCase() : null
     })
     if (insertErr) throw insertErr
 
@@ -525,11 +525,11 @@ const assignSubstitute = async (teacherId) => {
       .eq('id', currentRequest.value.id)
     if (updateErr) throw updateErr
 
-    toast.success("代课指派成功！")
+    toast.success("AGIHAN GURU GANTI BERJAYA!")
     showModal.value = false
     fetchRequests()
   } catch (error) {
-    toast.error("指派失败: " + error.message)
+    toast.error("AGIHAN GAGAL: " + error.message)
   }
 }
 

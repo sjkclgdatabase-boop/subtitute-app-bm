@@ -5,23 +5,23 @@
     <div class="mb-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
-          科目目标与达成率分析中心
+          PUSAT ANALISIS SASARAN & KADAR PENCAPAIAN SUBJEK
         </h1>
         <p class="text-slate-500 text-sm mt-2 font-medium">
-          多维度追踪教学目标、MMI 教学干扰与达成情况，支持数据报表、可视化看板及 PDF 报告导出。
+          MENJEJAK SASARAN PENGAJARAN, GANGGUAN MMI DAN PENCAPAIAN DARI PELBAGAI DIMENSI, SOKONG LAPORAN DATA, PAPAN PEMUKA VISUAL & EKSPORT PDF.
         </p>
       </div>
 
       <!-- 顶部操作栏 -->
       <div class="flex items-center gap-3">
         <button @click="exportPdfReport" class="no-print bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-md flex items-center gap-2 cursor-pointer">
-          <span>📥 打印 / 另存为 PDF 报告</span>
+          <span>📥 CETAK / SIMPAN SEBAGAI PDF</span>
         </button>
         <button @click="showManageModal = true" class="no-print bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer">
-          ⚙️ 管理目标
+          ⚙️ URUS SASARAN
         </button>
         <button @click="loadAnalyticsData" :disabled="loading" class="no-print bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-md cursor-pointer">
-          {{ loading ? '计算中...' : '🔄 刷新数据' }}
+          {{ loading ? 'SEDANG MENGIRA...' : '🔄 SEGAR SEMULA DATA' }}
         </button>
       </div>
     </div>
@@ -33,47 +33,47 @@
         class="pb-4 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer"
         :class="activeTab === 'table' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-slate-400 hover:text-slate-700'"
       >
-        <span>📊 详细数据报表</span>
+        <span>📊 LAPORAN DATA TERPERINCI</span>
       </button>
       <button 
         @click="activeTab = 'chart'" 
         class="pb-4 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer"
         :class="activeTab === 'chart' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-slate-400 hover:text-slate-700'"
       >
-        <span>📈 可视化图表看板</span>
+        <span>📈 PAPAN PEMUKA CARTA VISUAL</span>
       </button>
     </div>
 
     <!-- 🔍 多维度高级筛选面板 -->
     <div class="no-print bg-white p-6 rounded-3xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-4 gap-4">
       <div>
-        <label class="block text-xs font-bold text-slate-500 mb-2">按年级筛选</label>
+        <label class="block text-xs font-bold text-slate-500 mb-2">PENAPIS MENGIKUT TAHUN</label>
         <select v-model="filterGrade" @change="onGradeChange" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-          <option value="all">全校所有年级</option>
-          <option v-for="g in [1,2,3,4,5,6]" :key="g" :value="g">{{ g }} 年级</option>
+          <option value="all">SEMUA TAHUN SEKOLAH</option>
+          <option v-for="g in [1,2,3,4,5,6]" :key="g" :value="g">TAHUN {{ g }}</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-500 mb-2">按班级筛选</label>
+        <label class="block text-xs font-bold text-slate-500 mb-2">PENAPIS MENGIKUT KELAS</label>
         <select v-model="filterClass" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-          <option value="all">该年级所有班级</option>
+          <option value="all">SEMUA KELAS UNTUK TAHUN INI</option>
           <option v-for="c in availableClasses" :key="c.id" :value="c.class_name">{{ c.class_name }}</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-500 mb-2">按科目筛选</label>
+        <label class="block text-xs font-bold text-slate-500 mb-2">PENAPIS MENGIKUT SUBJEK</label>
         <select v-model="filterSubject" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-          <option value="all">所有科目</option>
+          <option value="all">SEMUA SUBJEK</option>
           <option v-for="s in uniqueSubjects" :key="s" :value="s">{{ s }}</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-indigo-600 mb-2">👨‍🏫 按任课老师筛选</label>
+        <label class="block text-xs font-bold text-indigo-600 mb-2">👨‍🏫 PENAPIS MENGIKUT GURU SUBJEK</label>
         <select v-model="filterTeacher" class="w-full bg-indigo-50/50 border border-indigo-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-          <option value="all">全校所有教师</option>
+          <option value="all">SEMUA GURU SEKOLAH</option>
           <option v-for="tch in allTeachers" :key="tch.id" :value="tch.name">{{ tch.name }}</option>
         </select>
       </div>
@@ -84,23 +84,23 @@
       
       <!-- 打印专属标题抬头 -->
       <div class="print-header bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-4 text-center">
-        <h2 class="text-xl font-extrabold text-slate-950">学校教学目标与 MMI 干扰评估报告</h2>
+        <h2 class="text-xl font-extrabold text-slate-950">LAPORAN PENILAIAN SASARAN PENGAJARAN SEKOLAH & GANGGUAN MMI</h2>
         <p class="text-xs text-slate-600 mt-1">
-          筛选条件：年级 [{{ filterGrade === 'all' ? '全部' : filterGrade }}] | 班级 [{{ filterClass === 'all' ? '全部' : filterClass }}] | 科目 [{{ filterSubject === 'all' ? '全部' : filterSubject }}] | 老师 [{{ filterTeacher === 'all' ? '全部' : filterTeacher }}]
+          SYARAT PENAPISAN: TAHUN [{{ filterGrade === 'all' ? 'SEMUA' : filterGrade }}] | KELAS [{{ filterClass === 'all' ? 'SEMUA' : filterClass }}] | SUBJEK [{{ filterSubject === 'all' ? 'SEMUA' : filterSubject }}] | GURU [{{ filterTeacher === 'all' ? 'SEMUA' : filterTeacher }}]
         </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 print-summary">
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
-          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">筛选结果总数</div>
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">JUMLAH KEPUTUSAN PENAPISAN</div>
           <div class="text-3xl font-black text-slate-900 mt-2">{{ analysisSummary.total }}</div>
         </div>
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
-          <div class="text-xs font-bold text-emerald-600 uppercase tracking-wider">达成目标 (达标)</div>
+          <div class="text-xs font-bold text-emerald-600 uppercase tracking-wider">SASARAN DICAPAI (MELEPASI)</div>
           <div class="text-3xl font-black text-emerald-700 mt-2">{{ analysisSummary.met }}</div>
         </div>
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
-          <div class="text-xs font-bold text-red-600 uppercase tracking-wider">⚠️ 未达成 (警告)</div>
+          <div class="text-xs font-bold text-red-600 uppercase tracking-wider">⚠️ BELUM DICAPAI (AMARAN)</div>
           <div class="text-3xl font-black text-red-700 mt-2">{{ analysisSummary.unmet }}</div>
         </div>
       </div>
@@ -108,8 +108,8 @@
       <!-- ================= TAB 1: 详细数据报表视图 ================= -->
       <div v-if="activeTab === 'table'" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">细化分析报表 (班级、科目与任课老师对照)</h3>
-          <span class="text-[11px] text-slate-500">有效上课周历比例: {{ (progressRatio * 100).toFixed(1) }}%</span>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">LAPORAN ANALISIS TERPERINCI (PERBANDINGAN KELAS, SUBJEK & GURU)</h3>
+          <span class="text-[11px] text-slate-500">NISBAH KALENDAR PERSEKOLAHAN BERKESAN: {{ (progressRatio * 100).toFixed(1) }}%</span>
         </div>
 
         <div>
@@ -117,60 +117,60 @@
             <thead>
               <tr class="bg-slate-100 text-[11px] font-bold text-slate-700 uppercase tracking-wider border-b border-slate-300">
                 <th @click="toggleSort('class_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-200 transition select-none">
-                  年级 / 班级 <span class="text-indigo-600">{{ getSortIcon('class_name') }}</span>
+                  TAHUN / KELAS <span class="text-indigo-600">{{ getSortIcon('class_name') }}</span>
                 </th>
                 <th @click="toggleSort('subject_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-200 transition select-none">
-                  科目名称 <span class="text-indigo-600">{{ getSortIcon('subject_name') }}</span>
+                  NAMA SUBJEK <span class="text-indigo-600">{{ getSortIcon('subject_name') }}</span>
                 </th>
                 <th @click="toggleSort('teacher_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-200 transition select-none">
-                  任课老师 <span class="text-indigo-600">{{ getSortIcon('teacher_name') }}</span>
+                  GURU SUBJEK <span class="text-indigo-600">{{ getSortIcon('teacher_name') }}</span>
                 </th>
                 <th @click="toggleSort('target')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
-                  学年计划目标 <span class="text-indigo-600">{{ getSortIcon('target') }}</span>
+                  SASARAN RANCANGAN TAHUNAN <span class="text-indigo-600">{{ getSortIcon('target') }}</span>
                 </th>
                 <th @click="toggleSort('expected')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
-                  理论应到进度 <span class="text-indigo-600">{{ getSortIcon('expected') }}</span>
+                  KEMAJUAN SEBENAR TEORETIKAL <span class="text-indigo-600">{{ getSortIcon('expected') }}</span>
                 </th>
                 <th @click="toggleSort('lostCount')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
-                  受干扰损失 <span class="text-indigo-600">{{ getSortIcon('lostCount') }}</span>
+                  Jumlah Waktu PdPc terjejas AKIBAT GANGGUAN <span class="text-indigo-600">{{ getSortIcon('lostCount') }}</span>
                 </th>
                 <th @click="toggleSort('actual')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
-                  实际执行 <span class="text-indigo-600">{{ getSortIcon('actual') }}</span>
+                  PELAKSANAAN SEBENAR <span class="text-indigo-600">{{ getSortIcon('actual') }}</span>
                 </th>
                 <th @click="toggleSort('gap')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
-                  差距 <span class="text-indigo-600">{{ getSortIcon('gap') }}</span>
+                  JURANG <span class="text-indigo-600">{{ getSortIcon('gap') }}</span>
                 </th>
                 <th @click="toggleSort('status')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
-                  状态 <span class="text-indigo-600">{{ getSortIcon('status') }}</span>
+                  STATUS <span class="text-indigo-600">{{ getSortIcon('status') }}</span>
                 </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-200 text-xs font-medium text-slate-800">
               <tr v-if="filteredAnalysisList.length === 0">
                 <td colspan="9" class="py-12 text-center text-slate-500">
-                  没有找到符合该筛选条件的分析记录，请调整筛选条件。
+                  TIADA REKOD ANALISIS DIJUMPAI, SILA LARASKAN SYARAT PENAPISAN.
                 </td>
               </tr>
               <tr v-for="(item, idx) in filteredAnalysisList" :key="idx" class="hover:bg-slate-50">
                 <td class="py-3 px-4 font-bold text-slate-900">
-                  Tahun {{ item.grade }} - {{ item.class_name }}
+                  TAHUN {{ item.grade }} - {{ item.class_name }}
                 </td>
                 <td class="py-3 px-4 font-bold text-slate-900">{{ item.subject_name }}</td>
-                <td class="py-3 px-4 font-bold text-indigo-900">{{ item.teacher_name || '未指派' }}</td>
-                <td class="py-3 px-4 text-center font-bold">{{ item.target }} 节</td>
-                <td class="py-3 px-4 text-center font-bold text-indigo-700">{{ item.expected }} 节</td>
-                <td class="py-3 px-4 text-center text-amber-700 font-bold">-{{ item.lostCount }} 节</td>
-                <td class="py-3 px-4 text-center font-bold text-slate-900">{{ item.actual }} 节</td>
+                <td class="py-3 px-4 font-bold text-indigo-900">{{ item.teacher_name || 'BELUM DITETAPKAN' }}</td>
+                <td class="py-3 px-4 text-center font-bold">{{ item.target }} SLOT</td>
+                <td class="py-3 px-4 text-center font-bold text-indigo-700">{{ item.expected }} SLOT</td>
+                <td class="py-3 px-4 text-center text-amber-700 font-bold">-{{ item.lostCount }} SLOT</td>
+                <td class="py-3 px-4 text-center font-bold text-slate-900">{{ item.actual }} SLOT</td>
                 <td class="py-3 px-4 text-center font-bold" :class="item.gap >= 0 ? 'text-emerald-700' : 'text-red-700'">
-                  {{ item.gap >= 0 ? '+' + item.gap : item.gap }} 节
+                  {{ item.gap >= 0 ? '+' + item.gap : item.gap }} SLOT
                 </td>
                 <td class="py-3 px-4 text-center font-bold">
                   <span 
                     class="px-2.5 py-1 rounded-lg text-xs"
                     :class="{
-                      'bg-red-50 text-red-700': item.status === '未达目标',
-                      'bg-emerald-50 text-emerald-700': item.status === '超过目标',
-                      'bg-slate-100 text-slate-700': item.status === '已达目标'
+                      'bg-red-50 text-red-700': item.status === 'BELUM MENCAPAI SASARAN',
+                      'bg-emerald-50 text-emerald-700': item.status === 'MELEPASI SASARAN',
+                      'bg-slate-100 text-slate-700': item.status === 'MENCAPAI SASARAN'
                     }"
                   >
                     {{ item.status }}
@@ -187,8 +187,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex justify-between items-center">
-              <h3 class="text-sm font-bold text-slate-800">🎯 全校科目总体达标健康率</h3>
-              <span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2.5 py-1 rounded-lg">实时计算</span>
+              <h3 class="text-sm font-bold text-slate-800">🎯 KADAR KESIHATAN PENCAPAIAN KESELURUHAN SUBJEK</h3>
+              <span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2.5 py-1 rounded-lg">PENGIRAAN MASA NYATA</span>
             </div>
             
             <div class="py-4 flex flex-col items-center justify-center space-y-4">
@@ -196,24 +196,24 @@
                    :style="{ borderColor: completionRate >= 80 ? '#10b981' : '#f59e0b' }">
                 <div class="text-center">
                   <span class="text-3xl font-black text-slate-900">{{ completionRate }}%</span>
-                  <div class="text-[10px] text-slate-400 font-bold uppercase mt-1">达成率</div>
+                  <div class="text-[10px] text-slate-400 font-bold uppercase mt-1">KADAR PENCAPAIAN</div>
                 </div>
               </div>
-              <p class="text-xs text-slate-500 font-medium">当前筛选条件下，共有 <strong class="text-slate-800">{{ analysisSummary.met }}</strong> 项科目达标，<strong class="text-red-600">{{ analysisSummary.unmet }}</strong> 项未达标。</p>
+              <p class="text-xs text-slate-500 font-medium">DI BAWAH SYARAT SEMASA, <strong class="text-slate-800">{{ analysisSummary.met }}</strong> SUBJEK TELAH MENCAPAI SASARAN, <strong class="text-red-600">{{ analysisSummary.unmet }}</strong> BELUM MENCAPAI.</p>
             </div>
           </div>
 
           <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex justify-between items-center">
-              <h3 class="text-sm font-bold text-slate-800">📊 各年级达标分布概况</h3>
-              <span class="text-xs text-slate-400">达标 vs 未达标</span>
+              <h3 class="text-sm font-bold text-slate-800">📊 TABURAN PENCAPAIAN MENGIKUT TAHUN</h3>
+              <span class="text-xs text-slate-400">DICAPAI VS BELUM DICAPAI</span>
             </div>
 
             <div class="space-y-3 pt-2">
               <div v-for="g in [1,2,3,4,5,6]" :key="g" class="space-y-1">
                 <div class="flex justify-between text-xs font-bold">
-                  <span class="text-slate-700">Tahun {{ g }} 年级</span>
-                  <span class="text-slate-500">达标: {{ getGradeStats(g).met }} / 未达标: {{ getGradeStats(g).unmet }}</span>
+                  <span class="text-slate-700">TAHUN {{ g }} TAHUN</span>
+                  <span class="text-slate-500">DICAPAI: {{ getGradeStats(g).met }} / BELUM DICAPAI: {{ getGradeStats(g).unmet }}</span>
                 </div>
                 <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
                   <div class="bg-emerald-500 h-full transition-all duration-500" :style="{ width: getGradeStats(g).total > 0 ? (getGradeStats(g).met / getGradeStats(g).total) * 100 + '%' : '0%' }"></div>
@@ -227,15 +227,15 @@
         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
           <div class="flex justify-between items-center">
             <div>
-              <h3 class="text-sm font-bold text-slate-800">⚠️ MMI 干扰损失课时最多科目排行</h3>
-              <p class="text-xs text-slate-400 mt-0.5">直观展示各科目因请假、公务活动损失的教学课时</p>
+              <h3 class="text-sm font-bold text-slate-800">⚠️ KEDUDUKAN SUBJEK KEHILANGAN SLOT TERBANYAK AKIBAT GANGGUAN MMI</h3>
+              <p class="text-xs text-slate-400 mt-0.5">MENUNJUKKAN KEHILANGAN SLOT PENGAJARAN MENGIKUT SUBJEK AKIBAT CUTI ATAU URUSAN RASMI</p>
             </div>
-            <span class="text-xs bg-amber-50 text-amber-700 px-3 py-1 rounded-full font-bold">干扰警示</span>
+            <span class="text-xs bg-amber-50 text-amber-700 px-3 py-1 rounded-full font-bold">AMARAN GANGGUAN</span>
           </div>
 
           <div class="space-y-4">
             <div v-if="subjectLossRanking.length === 0" class="text-xs text-slate-400 text-center py-6">
-              当前筛选条件下暂无干扰损失记录。
+              TIADA REKOD KEHILANGAN GANGGUAN DI BAWAH SYARAT SEMASA.
             </div>
             <div v-for="(item, index) in subjectLossRanking.slice(0, 5)" :key="index" class="space-y-1.5">
               <div class="flex justify-between items-center text-xs font-bold">
@@ -243,7 +243,7 @@
                   <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-[10px] font-black">{{ index + 1 }}</span>
                   {{ item.subject }}
                 </span>
-                <span class="text-amber-600 font-black">-{{ item.lost }} 节总损失</span>
+                <span class="text-amber-600 font-black">-{{ item.lost }} JUMLAH KEHILANGAN SLOT</span>
               </div>
               <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
                 <div class="bg-amber-500 h-full rounded-full transition-all duration-500" 
@@ -260,41 +260,41 @@
     <div v-if="showManageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
       <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
         <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-          <h3 class="text-base font-bold text-slate-800">⚙️ 科目目标在线维护</h3>
-          <button @click="showManageModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-sm cursor-pointer">✕ 关闭</button>
+          <h3 class="text-base font-bold text-slate-800">⚙️ PENYENGGARAN SASARAN SUBJEK DALAM TALIAN</h3>
+          <button @click="showManageModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-sm cursor-pointer">✕ TUTUP</button>
         </div>
 
         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
           <div>
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">年级</label>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">TAHUN</label>
             <select v-model="newTarget.grade" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer">
-              <option v-for="g in [1,2,3,4,5,6]" :key="g" :value="g">{{ g }} 年级</option>
+              <option v-for="g in [1,2,3,4,5,6]" :key="g" :value="g">TAHUN {{ g }}</option>
             </select>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">科目名称</label>
-            <input type="text" v-model="newTarget.subject_name" placeholder="例: MATEMATIK" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold" />
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">NAMA SUBJEK</label>
+            <input type="text" v-model="newTarget.subject_name" placeholder="CONTOH: MATEMATIK" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold" />
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">计划总节数</label>
-            <input type="number" v-model.number="newTarget.planned_periods" placeholder="例: 215" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold" />
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">JUMLAH SLOT RANCANGAN</label>
+            <input type="number" v-model.number="newTarget.planned_periods" placeholder="CONTOH: 215" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold" />
           </div>
           <button @click="addTarget" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer">
-            ➕ 新增目标
+            ➕ TAMBAH SASARAN BAHARU
           </button>
         </div>
 
         <div class="space-y-3">
-          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">已设定的科目目标列表</h4>
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">SENARAI SASARAN SUBJEK YANG DITETAPKAN</h4>
           <div class="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden max-h-60 overflow-y-auto">
             <div v-for="t in allTargets" :key="t.id" class="p-3 flex items-center justify-between bg-white hover:bg-slate-50 transition">
               <div class="flex items-center gap-4 text-xs font-semibold text-slate-700">
-                <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold">{{ t.grade }}年级</span>
+                <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold">TAHUN {{ t.grade }}</span>
                 <span class="text-slate-900 font-bold">{{ t.subject_name }}</span>
-                <span class="text-slate-500">目标: <strong>{{ t.planned_periods }}</strong> 节</span>
+                <span class="text-slate-500">SASARAN: <strong>{{ t.planned_periods }}</strong> SLOT</span>
               </div>
               <button @click="deleteTarget(t.id)" class="text-slate-400 hover:text-red-600 text-xs font-bold px-2 py-1 transition cursor-pointer">
-                🗑️ 删除
+                🗑️ PADAM
               </button>
             </div>
           </div>
@@ -302,7 +302,7 @@
 
         <div class="flex justify-end pt-2">
           <button @click="loadAnalyticsData(); showManageModal = false" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm cursor-pointer">
-            完成并刷新报表
+            SELESAI & SEGAR SEMULA LAPORAN
           </button>
         </div>
       </div>
@@ -474,10 +474,8 @@ const loadAnalyticsData = async () => {
       }
     })
 
-    // 🌟 动态计算当前的真实上课周数
     const today = new Date().toISOString().split('T')[0]
     const currentWeek = (weeks || []).filter(w => w.is_school_week && w.end_date <= today).length || 27
-// 🌟 新增：动态计算全年有效的总上课周数（保底默认为 42 周）
     const validWeeksCount = (weeks || []).filter(w => w.is_school_week).length
     const totalSchoolWeeks = validWeeksCount > 0 ? validWeeksCount : 42
     let results = []
@@ -489,7 +487,6 @@ const loadAnalyticsData = async () => {
         const totalTarget = t.planned_periods || 215 
         const standardizedTargetSubject = standardizeSubjectName(t.subject_name)
 
-        // ⭐️ 核心升级：支持多位老师共同执教同一门合班课，且包含名称智能匹配
         const matchedEntries = enrichedTimetables.filter(item => {
           const itemClass = cleanString(item.class_name)
           const clsName = cleanString(cls.class_name)
@@ -502,15 +499,13 @@ const loadAnalyticsData = async () => {
 
         const assignedTeacherNames = [...new Set(matchedEntries.map(e => e.resolved_teacher_name).filter(Boolean))]
         const assignedTeacherIds = [...new Set(matchedEntries.map(e => e.teacher_id || e.teacher_info?.id).filter(Boolean))]
-        const assignedTeacherName = assignedTeacherNames.length > 0 ? assignedTeacherNames.join(' / ') : '未指派'
+        const assignedTeacherName = assignedTeacherNames.length > 0 ? assignedTeacherNames.join(' / ') : 'BELUM DITETAPKAN'
 
-        // 🌟 核心修复：利用 Set 按“星期-节次”去重，完美解决双师同堂导致节数 Double 的问题！
         const uniquePeriods = new Set(matchedEntries.map(e => `${e.weekday}-${e.period}`))
         const weeklyPeriods = uniquePeriods.size
 
         let lostCount = 0
 
-        // 完整保留：请假干扰损失计算
         if (leaveRequests && leaveRequests.length > 0) {
           leaveRequests.forEach(req => {
             const reqClass = cleanString(req.class_name)
@@ -550,7 +545,6 @@ const loadAnalyticsData = async () => {
           })
         }
 
-        // 完整保留：班级级干扰损失计算
         if (interruptions && interruptions.length > 0) {
           interruptions.forEach(int => {
             if (int.type === 'class') {
@@ -567,9 +561,9 @@ const loadAnalyticsData = async () => {
 
               const isClassAffected = 
                 intScope === 'all' || 
-                targetDisp.includes('全校') ||
+                targetDisp.includes('SEMUA') || targetDisp.includes('全校') ||
                 (intScope === 'grade' && intGrade === Number(cls.grade)) ||
-                targetDisp.includes(`Tahun ${cls.grade}`) ||
+                targetDisp.includes(`TAHUN ${cls.grade}`) || targetDisp.includes(`Tahun ${cls.grade}`) ||
                 (intScope === 'class' && (intClass.includes(clsName) || clsName.includes(intClass || ''))) ||
                 targetDisp.includes(clsName)
 
@@ -594,31 +588,19 @@ const loadAnalyticsData = async () => {
           })
         }
 
-        // ==========================================================
-        // 🎯 核心计算逻辑：基于你的确切要求
-        // ==========================================================
-        
-        // 1. 计划累计 = 当前周次(27) * 每周固定节数(支持合班)
         const plannedAccumulated = currentWeek * weeklyPeriods
-
-        // 2. 实际执行 = 计划累计 - 受干扰损失
         const actual = Math.max(0, Number((plannedAccumulated - lostCount).toFixed(1)))
-        
-        // 3. 理论应到进度 (教育部标准线) = KPM小时 × (当前周次 / 当年动态总周数)
         const moeTarget = t.kpm_min_hours || 160
         const theoryProgress = Math.round(moeTarget * (currentWeek / totalSchoolWeeks))
-        
-        // 4. 差距 = 实际执行节数 - 理论应到进度
         const gap = Number((actual - theoryProgress).toFixed(1))
         
-        // 5. 严格的三段式状态判定
-        let status = '已达目标'
+        let status = 'MENCAPAI SASARAN'
         if (gap < 0) {
-          status = '未达目标'
+          status = 'BELUM MENCAPAI SASARAN'
         } else if (gap > 0) {
-          status = '超过目标'
+          status = 'MELEPASI SASARAN'
         } else {
-          status = '已达目标'
+          status = 'MENCAPAI SASARAN'
         }
 
         results.push({
@@ -627,7 +609,7 @@ const loadAnalyticsData = async () => {
           subject_name: t.subject_name,
           teacher_name: assignedTeacherName,
           target: totalTarget,
-          expected: theoryProgress, // 报表上显示的“理论应到进度”
+          expected: theoryProgress,
           lostCount: lostCount,
           actual: actual,
           gap: gap,
@@ -637,10 +619,10 @@ const loadAnalyticsData = async () => {
     }
 
     analysisList.value = results
-    toast.success("数据分析已精准刷新！")
+    toast.success("DATA ANALISIS BERJAYA DISEGAR SEMULA!")
   } catch (err) {
-    console.error("加载分析数据异常:", err)
-    toast.error("加载数据失败: " + err.message)
+    console.error("RALAT ANALISIS:", err)
+    toast.error("GAGAL MEMUATKAN DATA: " + err.message)
   } finally {
     loading.value = false
   }
@@ -668,18 +650,16 @@ const filteredAnalysisList = computed(() => {
       const strA = String(valA)
       const strB = String(valB)
       return sortOrder.value === 'asc' 
-        ? strA.localeCompare(strB, 'zh-CN') 
-        : strB.localeCompare(strA, 'zh-CN')
+        ? strA.localeCompare(strB, 'ms-MY') 
+        : strB.localeCompare(strA, 'ms-MY')
     }
   })
 })
 
 const analysisSummary = computed(() => {
   const total = filteredAnalysisList.value.length
-  // 🌟 修改点 1：精确匹配“已达目标”和“超过目标”
-  const met = filteredAnalysisList.value.filter(i => i.status === '已达目标' || i.status === '超过目标').length
-  // 🌟 修改点 2：明确统计“未达目标”
-  const unmet = filteredAnalysisList.value.filter(i => i.status === '未达目标').length
+  const met = filteredAnalysisList.value.filter(i => i.status === 'MENCAPAI SASARAN' || i.status === 'MELEPASI SASARAN').length
+  const unmet = filteredAnalysisList.value.filter(i => i.status === 'BELUM MENCAPAI SASARAN').length
   return { total, met, unmet }
 })
 
@@ -690,9 +670,8 @@ const completionRate = computed(() => {
 
 const getGradeStats = (g) => {
   const list = filteredAnalysisList.value.filter(i => Number(i.grade) === Number(g))
-  // 🌟 修改点 3：同步修改图表数据里的状态匹配
-  const met = list.filter(i => i.status === '已达目标' || i.status === '超过目标').length
-  const unmet = list.filter(i => i.status === '未达目标').length
+  const met = list.filter(i => i.status === 'MENCAPAI SASARAN' || i.status === 'MELEPASI SASARAN').length
+  const unmet = list.filter(i => i.status === 'BELUM MENCAPAI SASARAN').length
   return { met, unmet, total: list.length }
 }
 
@@ -718,7 +697,7 @@ const exportPdfReport = () => {
 }
 
 const addTarget = async () => {
-  if (!newTarget.value.subject_name.trim()) return toast.error("请输入科目名称！")
+  if (!newTarget.value.subject_name.trim()) return toast.error("SILA MASUKKAN NAMA SUBJEK!")
   try {
     const { error } = await supabase.from('subject_targets').insert([{
       grade: newTarget.value.grade,
@@ -727,11 +706,11 @@ const addTarget = async () => {
       kpm_min_hours: newTarget.value.kpm_min_hours
     }])
     if (error) throw error
-    toast.success("目标添加成功！")
+    toast.success("SASARAN BERJAYA DITAMBAH!")
     newTarget.value.subject_name = ''
     loadAnalyticsData()
   } catch (err) {
-    toast.error("添加失败: " + err.message)
+    toast.error("GAGAL MENAMBAH: " + err.message)
   }
 }
 
@@ -739,10 +718,10 @@ const deleteTarget = async (id) => {
   try {
     const { error } = await supabase.from('subject_targets').delete().eq('id', id)
     if (error) throw error
-    toast.success("目标已删除")
+    toast.success("SASARAN TELAH DIPADAM")
     loadAnalyticsData()
   } catch (err) {
-    toast.error("删除失败: " + err.message)
+    toast.error("GAGAL MEMADAM: " + err.message)
   }
 }
 

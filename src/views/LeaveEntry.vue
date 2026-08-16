@@ -4,23 +4,23 @@
     <!-- 头部区域 -->
     <div class="mb-10">
       <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
-        教师请假登记
+        PENDAFTARAN CUTI GURU
       </h1>
-      <p class="text-slate-500 text-sm mt-2 font-medium">适配双班运行模式，选定班次与教师后，自主点选需要安排代课的节次生成任务。</p>
+      <p class="text-slate-500 text-sm mt-2 font-medium">DISESUAIKAN DENGAN MOD OPERASI DUA SESI. SELEPAS MEMILIH SESI DAN GURU, PILIH SLOT MASA YANG PERLU DIGANTI UNTUK MENGHASILKAN TUGASAN.</p>
     </div>
 
     <!-- 步骤一：基础信息选择 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 mb-8">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">1</span>
-        请假基础信息
+        MAKLUMAT ASAS CUTI
       </h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         
         <!-- 左侧：班次选择 -->
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">班次选择</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">PEMILIHAN SESI</label>
           <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner">
             <button 
               @click="currentSession = 'morning'; selectedTeacherId = ''; dailyClasses = []" 
@@ -29,7 +29,7 @@
                 ? 'bg-white text-indigo-600 shadow-sm ring-2 ring-blue-600' 
                 : 'text-slate-500 hover:text-slate-900'"
             >
-              <span>☀️</span> 上午班
+              <span>☀️</span> SESI PAGI
             </button>
             <button 
               @click="currentSession = 'afternoon'; selectedTeacherId = ''; dailyClasses = []" 
@@ -38,14 +38,14 @@
                 ? 'bg-white text-orange-600 shadow-sm ring-2 ring-orange-500' 
                 : 'text-slate-500 hover:text-slate-900'"
             >
-              <span>🌙</span> 下午班
+              <span>🌙</span> SESI PETANG
             </button>
           </div>
         </div>
 
         <!-- 右侧：教师选择器 -->
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">请假教师</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">GURU YANG CUTI</label>
           <div class="relative flex items-center bg-white border border-slate-200 rounded-2xl px-4 py-3 shadow-sm hover:border-slate-300 transition">
             <div class="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-base mr-3 shrink-0">
               👩‍🏫
@@ -55,7 +55,7 @@
               @change="fetchDailyTimetable"
               class="w-full bg-transparent border-none text-slate-700 font-semibold focus:ring-0 cursor-pointer text-sm appearance-none outline-none pr-8"
             >
-              <option value="" disabled>请选择{{ currentSession === 'morning' ? '上午班' : '下午班' }}请假教师</option>
+              <option value="" disabled>SILA PILIH GURU {{ currentSession === 'morning' ? 'SESI PAGI' : 'SESI PETANG' }}</option>
               <option v-for="teacher in filteredTeachersList" :key="teacher.id" :value="teacher.id">
                 {{ teacher.name }}{{ teacher.subject ? ` (${teacher.subject})` : '' }}
               </option>
@@ -71,7 +71,7 @@
       <!-- 第二行：选择日期与请假原因 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">请假日期（系统自动推算星期）</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">TARIKH CUTI</label>
           <input 
             type="date" 
             v-model="leaveDate"
@@ -81,11 +81,11 @@
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">请假原因 (选填)</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">SEBAB CUTI (PILIHAN)</label>
           <input 
             type="text" 
             v-model="leaveReason"
-            placeholder="示例：病假、事假、公务外出参会"
+            placeholder="CONTOH: CUTI SAKIT, CUTI PERIBADI, URUSAN RASMI"
             class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-medium text-slate-700"
           />
         </div>
@@ -100,21 +100,21 @@
           <div>
             <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
               <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">2</span>
-              点选需要安排代课的节次
+              PILIH SLOT MASA GURU GANTI
             </h2>
-            <p class="text-xs text-slate-400 mt-1">勾选卡片以生成代课任务，未勾选的节次将不安排代课。</p>
+            <p class="text-xs text-slate-400 mt-1">TANDAKAN KAD UNTUK MENGHASILKAN TUGASAN GURU GANTI. SLOT YANG TIDAK DITANDAKAN TIDAK AKAN DIURUSKAN.</p>
           </div>
 
           <div class="flex items-center gap-3">
             <!-- 全选 / 反选快捷按键 -->
             <button @click="selectAll(true)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer transition">
-              全选
+              PILIH SEMUA
             </button>
             <button @click="selectAll(false)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer transition">
-              取消全选
+              Nyahpilih semua
             </button>
             <span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold">
-              星期{{ computedWeekdayName }}
+              HARI {{ computedWeekdayName }}
             </span>
           </div>
         </div>
@@ -122,13 +122,13 @@
         <!-- 课表展示区 -->
         <div v-if="loading" class="py-12 text-center">
           <div class="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin mx-auto"></div>
-          <p class="text-slate-500 text-sm mt-4">正在从数据库检索课表...</p>
+          <p class="text-slate-500 text-sm mt-4">SEDANG MENGAMBIL JADUAL WAKTU DARI PANGKALAN DATA...</p>
         </div>
 
         <div v-else-if="dailyClasses.length === 0" class="bg-slate-50 rounded-2xl p-8 text-center border border-slate-100">
           <div class="text-4xl mb-3">🎉</div>
-          <p class="text-slate-800 font-bold">该名教师在这一天没有任何排课</p>
-          <p class="text-slate-500 text-sm mt-1">无需安排代课，行政可以直接批准请假。</p>
+          <p class="text-slate-800 font-bold">GURU INI TIADA SEBARANG JADUAL WAKTU PADA HARI INI</p>
+          <p class="text-slate-500 text-sm mt-1">TIDAK PERLU GURU GANTI, PIHAK PENTADBIR BOLEH TERUS MELULUSKAN CUTI.</p>
         </div>
 
         <div v-else class="space-y-3">
@@ -153,7 +153,7 @@
 
               <!-- 节次数字 -->
               <div class="w-12 h-12 rounded-xl bg-white text-indigo-700 flex flex-col items-center justify-center font-bold shadow-sm ring-1 ring-slate-900/5 shrink-0">
-                <span class="text-[10px] text-slate-400">第</span>
+                <span class="text-[10px] text-slate-400">SESI KE-</span>
                 <span class="text-lg leading-none">{{ cls.period }}</span>
               </div>
 
@@ -161,7 +161,7 @@
               <div>
                 <div class="flex items-center gap-2">
                   <p class="font-bold text-slate-900 text-lg">{{ cls.class_name }}</p>
-                  <span v-if="cls.is_combined" class="px-2 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">合班</span>
+                  <span v-if="cls.is_combined" class="px-2 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">KELAS GABUNGAN</span>
                 </div>
                 <p class="text-sm text-indigo-600 font-medium">{{ cls.subject }}</p>
               </div>
@@ -173,7 +173,7 @@
                 :class="cls.selected ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600'" 
                 class="text-xs font-bold px-3 py-1 rounded-full transition"
               >
-                {{ cls.selected ? '已选择代课' : '不安排代课' }}
+                {{ cls.selected ? 'DIPILIH UNTUK GANTI' : 'TIADA GURU GANTI' }}
               </span>
             </div>
           </div>
@@ -181,7 +181,7 @@
           <!-- 提交按钮与统计 -->
           <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
             <div class="text-xs text-slate-500 font-medium">
-              已选中 <strong class="text-indigo-600 text-sm font-bold">{{ selectedClassesCount }}</strong> 节待安排代课任务
+              DIPILIH <strong class="text-indigo-600 text-sm font-bold">{{ selectedClassesCount }}</strong> TUGASAN GURU GANTI
             </div>
 
             <button 
@@ -189,8 +189,8 @@
               :disabled="isSubmitting || selectedClassesCount === 0"
               class="group flex items-center justify-center px-8 py-3 text-sm font-semibold text-white bg-slate-900 rounded-full hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
-              <span v-if="!isSubmitting">生成 {{ selectedClassesCount }} 节代课任务</span>
-              <span v-else>正在生成中...</span>
+              <span v-if="!isSubmitting">JANA TUGASAN GURU GANTI ({{ selectedClassesCount }})</span>
+              <span v-else>SEDANG DIJANA...</span>
               <svg v-if="!isSubmitting" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </button>
           </div>
@@ -220,7 +220,7 @@ const dailyClasses = ref([])
 const loading = ref(false)
 const isSubmitting = ref(false)
 
-const dayNames = ['日', '一', '二', '三', '四', '五', '六']
+const dayNames = ['AHAD', 'ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT', 'SABTU']
 
 onMounted(async () => {
   const { data } = await supabase.from('teachers').select('id, name, subject, session')
@@ -292,14 +292,14 @@ const fetchDailyTimetable = async () => {
         const existing = periodMap.get(cls.period)
         if (!existing.class_name.includes(cls.class_name)) {
           existing.class_name = `${existing.class_name}/${cls.class_name}`
-          existing.is_combined = true // ✅ 已经移到这里面了！
+          existing.is_combined = true
         }
       }
     })
 
     dailyClasses.value = Array.from(periodMap.values())
   } catch (error) {
-    toast.error("抓取课表失败: " + error.message)
+    toast.error("GAGAL MENGAMBIL JADUAL: " + error.message)
   } finally {
     loading.value = false
   }
@@ -309,13 +309,13 @@ const fetchDailyTimetable = async () => {
 const submitLeaveRequests = async () => {
   const selectedList = dailyClasses.value.filter(cls => cls.selected)
   if (selectedList.length === 0) {
-    return toast.error("请至少选择一节需要代课的科目！")
+    return toast.error("SILA PILIH SEKURANG-KURANGNYA SATU SUBJEK UNTUK GURU GANTI!")
   }
 
   isSubmitting.value = true
   try {
     const currentTeacher = teachersList.value.find(t => t.id === selectedTeacherId.value)
-    const teacherName = currentTeacher ? currentTeacher.name : '未知老师'
+    const teacherName = currentTeacher ? currentTeacher.name : 'GURU TIDAK DIKENALI'
 
     // 1. 查询该教师当天数据库里已经存在的请假记录（防止 409 冲突）
     const { data: existingLeaves } = await supabase
@@ -346,27 +346,25 @@ const submitLeaveRequests = async () => {
     selectedList.forEach(cls => {
       const p = Number(cls.period)
       
-      // 🌟 安全门：如果这节课在数据库里已经被安排了代课 (assigned)，自动跳过，绝对不二次插入！
       if (existingPeriodsMap.get(p) === 'assigned') {
         return
       }
 
-      // 🌟 防冲突：合班课（如 4B/4D）直接完整保存名字，坚决不再用 split('/') 拆成两行！
       requests.push({
         teacher_id: selectedTeacherId.value,
         leave_date: leaveDate.value,
         weekday: cls.weekday,
         period: cls.period,
-        class_name: cls.class_name, // 直接用完整合班名
+        class_name: cls.class_name,
         subject: cls.subject,
-        reason: leaveReason.value || '未填写',
+        reason: leaveReason.value || 'TIDAK DINYATAKAN',
         status: 'pending'
       })
       periodsForMMI.push(p)
     })
 
     if (requests.length === 0) {
-      toast.info("所选节次此前均已安排了代课任务，无需重复生成。")
+      toast.info("SLOT YANG DIPILIH TELAH PUN MEMPUNYAI TUGASAN GURU GANTI, TIADA KEPERLUAN UNTUK JANA SEMULA.")
       isSubmitting.value = false
       return
     }
@@ -386,22 +384,21 @@ const submitLeaveRequests = async () => {
         type: 'teacher',
         start_period: minPeriod,
         end_period: maxPeriod,
-        reason: `教师请假: ${leaveReason.value || '未填写'}`,
-        target_display: `教师: ${teacherName}`,
-        // 🌟 终极极简版：只保留括号和里面的节次、课程信息
-        remarks: `(涉及节次: 第 ${periodsForMMI.join(', ')} 节 | 课程: ${requests.map(c => `${c.class_name}(${c.subject})`).join(', ')})`
+        reason: `CUTI GURU: ${leaveReason.value || 'TIDAK DINYATAKAN'}`,
+        target_display: `GURU: ${teacherName}`,
+        remarks: `(MELIBATKAN SLOT: KE-${periodsForMMI.join(', ')} | SUBJEK: ${requests.map(c => `${c.class_name}(${c.subject})`).join(', ')})`
       }
 
       const { error: mmiError } = await supabase.from('mmi_interruptions').insert([mmiLogPayload])
       if (mmiError) {
-        console.error("同步 MMI 历史记录失败:", mmiError.message)
+        console.error("GAGAL MENYELARASKAN REKOD MMI:", mmiError.message)
       }
     }
 
-    toast.success(`成功防冲突生成 ${requests.length} 节代课任务，并已写入 MMI 干扰历史！`)
+    toast.success(`BERJAYA MENJANA TUGASAN GURU GANTI DAN DIREKODKAN KE SEJARAH PENGURUSAN MMI!`)
     router.push('/')
   } catch (error) {
-    toast.error("生成失败: " + error.message)
+    toast.error("PENJANAAN GAGAL: " + error.message)
   } finally {
     isSubmitting.value = false
   }

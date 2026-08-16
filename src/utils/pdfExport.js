@@ -8,7 +8,7 @@ export const exportStandardPdf = (title, headers, dataRows, fileName, startDate,
   // 1. 统一标题
   doc.setFont("Helvetica", "bold")
   doc.setFontSize(16)
-  doc.text("SMK OFFICIAL MMI REPORT", 14, 15)
+  doc.text("LAPORAN MMI RASMI", 14, 15)
   doc.setFontSize(14)
   doc.setTextColor(79, 70, 229)
   doc.text(title, 14, 23)

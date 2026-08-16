@@ -5,9 +5,9 @@
     <div class="print:hidden flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
-          每日代课统筹管理
+          PENGURUSAN GURU GANTI HARIAN
         </h1>
-        <p class="text-slate-500 text-sm mt-2 font-medium">点击表格单元格指派代课教师，支持一键智能生成当日代课排程</p>
+        <p class="text-slate-500 text-sm mt-2 font-medium">KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, SOKONG JANA JADUAL AUTOMATIK DENGAN SATU KLIK</p>
       </div>
 
       <div class="flex flex-wrap items-center gap-3">
@@ -18,7 +18,7 @@
           class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition-all flex items-center gap-2 shrink-0"
         >
           <span v-if="isAutoAssigning" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <span>⚡ 一键智能分配代课</span>
+          <span>⚡ TETAPAN GURU GANTI PINTAR</span>
         </button>
 
         <!-- 班次切换标签 -->
@@ -28,20 +28,20 @@
             :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:text-slate-900'"
             class="px-4 py-2 rounded-lg text-xs font-bold transition-all"
           >
-            ☀️ 上午班
+            ☀️ SESI PAGI
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
             :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:text-slate-900'"
             class="px-4 py-2 rounded-lg text-xs font-bold transition-all"
           >
-            🌙 下午班
+            🌙 SESI PETANG
           </button>
         </div>
 
         <!-- 选择日期 -->
         <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl shadow-sm ring-1 ring-slate-900/5">
-          <span class="text-xs font-bold text-slate-500">选择日期：</span>
+          <span class="text-xs font-bold text-slate-500">PILIH TARIKH:</span>
           <input 
             type="date" 
             v-model="targetDate" 
@@ -54,7 +54,7 @@
           class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-semibold shadow-md transition-all hover:shadow-lg flex items-center gap-2 shrink-0"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-          打印代课统筹表
+          CETAK JADUAL GURU GANTI
         </button>
       </div>
     </div>
@@ -191,8 +191,8 @@
           
           <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur-md shrink-0">
             <div>
-              <h2 class="text-xl font-bold text-slate-900">代课指派中心</h2>
-              <p class="text-sm text-slate-500 mt-1">支持智能推荐排序，或在下方直接手动选择任意同班次老师</p>
+              <h2 class="text-xl font-bold text-slate-900">PUSAT PENETAPAN GURU GANTI</h2>
+              <p class="text-sm text-slate-500 mt-1">SOKONGAN CADANGAN PINTAR, ATAU PILIH MANA-MANA GURU SESI YANG SAMA SECARA MANUAL DI BAWAH</p>
             </div>
             <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition">×</button>
           </div>
@@ -201,41 +201,41 @@
 
             <!-- ⭐️ 新增：任务指派性质选择 -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <h3 class="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">🏷️ 指派性质:</h3>
+              <h3 class="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">🏷️ JENIS TUGASAN:</h3>
               <div class="flex flex-col sm:flex-row gap-4">
                 <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition">
                   <input type="radio" v-model="assignmentType" value="substitute" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
-                  <span class="text-sm font-semibold text-slate-800">正式代课 <span class="text-xs text-slate-400 font-normal ml-1">(计入负荷统计)</span></span>
+                  <span class="text-sm font-semibold text-slate-800">GURU GANTI RASMI <span class="text-xs text-slate-400 font-normal ml-1">(DIKIRA DALAM STATISTIK BEBAN)</span></span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition">
                   <input type="radio" v-model="assignmentType" value="swap" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
-                  <span class="text-sm font-semibold text-slate-800">对调换课 <span class="text-xs text-slate-400 font-normal ml-1">(不计入统计)</span></span>
+                  <span class="text-sm font-semibold text-slate-800">PERTUKARAN JADUAL <span class="text-xs text-slate-400 font-normal ml-1">(TIDAK DIKIRA DALAM STATISTIK)</span></span>
                 </label>
               </div>
             </div>
             
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">📍 地点/特殊备注:</span>
+              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">📍 LOKASI / CATATAN:</span>
               <input 
                 v-model="assignmentRemark" 
                 type="text" 
-                placeholder="例如: Perpustakaan (若需带去图书馆或合并班级)" 
+                placeholder="CONTOH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)" 
                 class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
               />
             </div>
 
             <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100 shadow-sm">
               <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center gap-2">
-                <span>🛠️ 手动直接指派（不通过智能推荐）</span>
+                <span>🛠️ TETAPAN MANUAL (TANPA CADANGAN PINTAR)</span>
               </h3>
               <div class="flex flex-col sm:flex-row items-center gap-3">
                 <select 
                   v-model="manualSelectedTeacherId" 
                   class="w-full px-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
-                  <option value="" disabled>-- 请手动选择同班次教师 --</option>
+                  <option value="" disabled>-- SILA PILIH GURU SESI SAMA SECARA MANUAL --</option>
                   <option v-for="t in allSameSessionTeachers" :key="t.id" :value="t.id">
-                    {{ t.name }} <span v-if="t.subject">(科目: {{ t.subject }})</span>
+                    {{ t.name }} <span v-if="t.subject">(SUBJEK: {{ t.subject }})</span>
                   </option>
                 </select>
                 <button 
@@ -243,7 +243,7 @@
                   :disabled="!manualSelectedTeacherId"
                   class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all shrink-0"
                 >
-                  确认手动指派
+                  SAHKAN TETAPAN MANUAL
                 </button>
               </div>
             </div>
@@ -251,15 +251,15 @@
             <hr class="border-slate-200" />
 
             <div>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">✨ 智能推荐候选列表（Top 6）</h3>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">✨ SENARAI CALON CADANGAN PINTAR (TOP 6)</h3>
               
               <div v-if="loadingRecs" class="flex flex-col items-center justify-center py-6 space-y-3">
                 <div class="w-6 h-6 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">智能算法计算中...</p>
+                <p class="text-xs text-slate-500 font-medium">ALGORITMA PINTAR SEDANG DIKIRA...</p>
               </div>
               
               <div v-else-if="recommendations.length === 0" class="bg-white p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 text-center">
-                暂无自动推荐人选，请使用上方手动指派。
+                TIADA CADANGAN AUTOMATIK, SILA GUNAKAN TETAPAN MANUAL DI ATAS.
               </div>
 
               <div v-else class="space-y-3">
@@ -278,25 +278,25 @@
                         {{ teacher.name }} 
                       </div>
                       <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2 flex-wrap">
-                        <span>原有节数: <span class="font-bold text-slate-700">{{ teacher.originalClasses }}节</span></span>
+                        <span>JUMLAH PDPc HARIAN ASAL: <span class="font-bold text-slate-700">{{ teacher.originalClasses }} KELAS</span></span>
                         <span>·</span>
-                        <span>当天已代: <span class="font-bold text-orange-600">{{ teacher.todaySubCount }}节</span></span>
+                        <span>JUMLAH GANTIAN HARI INI: <span class="font-bold text-orange-600">{{ teacher.todaySubCount }} KELAS</span></span>
                         <span>·</span>
-                        <span>本周已代: <span class="font-bold text-slate-700">{{ teacher.currentSubCount }}/{{ teacher.max_substitute_per_week }}</span></span>
+                        <span>JUMLAH GANTIAN MINGGU INI: <span class="font-bold text-slate-700">{{ teacher.currentSubCount }}/{{ teacher.max_substitute_per_week }}</span></span>
                       </div>
                     </div>
                   </div>
                   <button @click="assignSubstitute(teacher.id)" class="bg-slate-900 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all">
-                    智能指派
+                    TETAPAN PINTAR
                   </button>
                 </div>
               </div>
             </div>
 
             <div v-if="currentLeaveItem && substituteAssignmentsMap[currentLeaveItem.id]" class="pt-2 border-t border-slate-100 flex justify-between items-center">
-              <span class="text-xs text-red-500 font-medium">当前格子已有代课/换课安排</span>
+              <span class="text-xs text-red-500 font-medium">SLOT INI TELAH MEMPUNYAI JADUAL GANTI / TUKAR</span>
               <button @click="removeAssignment" class="text-xs text-red-600 hover:text-red-800 font-bold px-3 py-1 bg-red-50 rounded-lg">
-                取消当前指派
+                BATALKAN PENETAPAN SEMASA
               </button>
             </div>
 
@@ -312,9 +312,9 @@
   
   <!-- 网页端专属操作栏：打印时自动隐藏 -->
   <div class="print:hidden flex justify-between items-center mb-4 bg-amber-50 p-3 rounded-2xl border border-amber-200">
-    <span class="text-xs font-bold text-amber-900">📄 附加自定义手写/编辑备用表 #{{ sIndex + 1 }}</span>
+    <span class="text-xs font-bold text-amber-900">📄 JADUAL TAMBAHAN / MANUAL #{{ sIndex + 1 }}</span>
     <button @click="removeCustomSheet(sheet.id)" class="text-xs text-red-600 bg-white hover:bg-red-50 px-3 py-1.5 rounded-xl font-bold shadow-sm transition">
-      删除此附页
+      PADAM JADUAL INI
     </button>
   </div>
 
@@ -333,11 +333,11 @@
     <div class="flex justify-between items-center mb-4 font-bold text-sm font-serif border-b-2 border-black pb-2">
       <div>
         <span class="underline underline-offset-4">TARIKH :</span> 
-        <input v-model="sheet.date" type="text" placeholder="输入日期" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-32 focus:outline-none" />
+        <input v-model="sheet.date" type="text" placeholder="TARIKH" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-32 focus:outline-none" />
       </div>
       <div>
         <span class="underline underline-offset-4">HARI :</span> 
-        <input v-model="sheet.day" type="text" placeholder="输入星期" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-28 uppercase focus:outline-none" />
+        <input v-model="sheet.day" type="text" placeholder="HARI" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-28 uppercase focus:outline-none" />
       </div>
     </div>
 
@@ -391,7 +391,7 @@
 <!-- ⭐️ 放置在最底部的增加按钮（网页可见，打印时自动隐藏） -->
 <div class="print:hidden mt-8 mb-12 flex justify-center">
   <button @click="addBlankSheet" class="flex items-center gap-2 bg-slate-900 hover:bg-indigo-600 text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-md transition-all">
-    <span class="text-base font-extrabold">+</span> 增加一张官方版空白代课备用表
+    <span class="text-base font-extrabold">+</span> + TAMBAH SATU JADUAL KOSONG RASMI
   </button>
 </div>
 

@@ -4,32 +4,32 @@
     <!-- 头部区域 -->
     <div class="mb-2">
       <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
-        系统全局设置与维护
+        TETAPAN & PENYENGGARAN SISTEM KESELURUHAN
       </h1>
-      <p class="text-slate-500 text-sm mt-2 font-medium">配置学校作息参数、管理基础班级、设置MMI目标，支持上线前数据清理与备份</p>
+      <p class="text-slate-500 text-sm mt-2 font-medium">KONFIGURASI PARAMETER WAKTU SEKOLAH, PENGURUSAN KELAS ASAS, TETAPAN SASARAN MMI, SOKONG PEMBERSIHAN & PEMULIHAN DATA SEBELUM PELANCARAN</p>
     </div>
 
     <!-- 卡片：学校 Logo 与外观设置 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center">🖼️</span>
-        学校 Logo 与外观设置
+        TETAPAN LOGO & PAPARAN SEKOLAH
       </h2>
-      <p class="text-slate-500 text-xs mb-6">修改学校徽标（Logo）与校名，保存后全系统顶部导航栏与登录页将实时更新。</p>
+      <p class="text-slate-500 text-xs mb-6">KEMASKINI LOGO & NAMA SEKOLAH. SELEPAS DISIMPAN, BAR MENU DAN LAMAN LOG MASUK AKAN DIKEMASKINI SECARA MASA NYATA.</p>
 
       <div class="space-y-6">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">当前学校名称</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">NAMA SEKOLAH SEMASA</label>
           <input 
             v-model="schoolNameSetting" 
             type="text" 
-            placeholder="输入学校名称..." 
+            placeholder="MASUKKAN NAMA SEKOLAH..." 
             class="w-full sm:w-96 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">更换学校 Logo (支持本地上传)</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">TUKAR LOGO SEKOLAH (SOKONG MUAT NAIK TEMPATAN)</label>
           
           <div class="flex items-center gap-6">
             <!-- 预览图 -->
@@ -40,10 +40,10 @@
             <!-- 上传按钮与说明 -->
             <div class="flex-1 space-y-2">
               <label class="relative inline-flex cursor-pointer bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-md items-center gap-2">
-                <span>📂 选择新 Logo 图片</span>
+                <span>📂 PILIH IMEJ LOGO BAHARU</span>
                 <input type="file" accept="image/*" @change="handleSettingsLogoUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
               </label>
-              <p class="text-[11px] text-slate-400">支持 PNG, JPG 格式，图片会自动转换，小于 2MB 为佳。</p>
+              <p class="text-[11px] text-slate-400">SOKONG FORMAT PNG, JPG, SAIZ DI BAWAH 2MB ADALAH DIGALAKKAN.</p>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
           @click="saveSchoolIdentity" 
           class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
         >
-          保存 Logo 与校名修改
+          SIMPAN PERUBAHAN LOGO & NAMA
         </button>
       </div>
     </div>
@@ -63,31 +63,31 @@
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">🏫</span>
-        学校作息配置
+        KONFIGURASI WAKTU PERSEKOLAHAN
       </h2>
       
       <div class="space-y-6">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">每周上课天数 (天)</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">BILANGAN HARI PERSEKOLAHAN SEMINGGU (HARI)</label>
           <div class="flex items-center gap-4">
             <input 
               v-model.number="config.daysPerWeek" 
               type="number" min="1" max="7" 
               class="w-full sm:w-64 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
             />
-            <span class="text-sm text-slate-400">例如：5（代表周一至周五）</span>
+            <span class="text-sm text-slate-400">CONTOH: 5 (MEWAKILI ISNIN HINGGA JUMAAT)</span>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">每日总节数 (节)</label>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">JUMLAH SLOT MASA SEHARI (SLOT)</label>
           <div class="flex items-center gap-4">
             <input 
               v-model.number="config.periodsPerDay" 
               type="number" min="1" max="15" 
               class="w-full sm:w-64 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
             />
-            <span class="text-sm text-slate-400">例如：11（上午班总节数）</span>
+            <span class="text-sm text-slate-400">CONTOH: 11 (JUMLAH SLOT SESI PAGI)</span>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@
           @click="saveConfig" 
           class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
         >
-          保存配置
+          SIMPAN KONFIGURASI
         </button>
       </div>
     </div>
@@ -106,22 +106,22 @@
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center">📅</span>
-        学年上课周历与假期配置
+        KONFIGURASI KALENDAR & CUTI PERSEKOLAHAN
       </h2>
-      <p class="text-slate-500 text-xs mb-6">录入全年上课周与假期周，系统自动剔除假期，精准计算科目「理论应达进度」。</p>
+      <p class="text-slate-500 text-xs mb-6">Masukkan minggu persekolahan dan cuti sepanjang tahun. Sistem akan menolak tempoh cuti secara automatik untuk mengira sasaran tahunan dengan tepat.</p>
 
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200 mb-6">
         <div>
-          <h3 class="text-sm font-bold text-slate-900">批量导入/导出上课周历</h3>
-          <p class="text-slate-500 text-xs mt-1">支持下载标准CSV模板，填写后批量上传，适配周历数据格式。</p>
+          <h3 class="text-sm font-bold text-slate-900">IMPORT / EKSPORT KALENDAR PERSEKOLAHAN BERKELOMPOK</h3>
+          <p class="text-slate-500 text-xs mt-1">SOKONG MUAT TURUN TEMPLAT CSV PIAWAI, ISI DAN MUAT NAIK BERKELOMPOK.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button @click="downloadWeekTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
-            📥 下载周历模板
+            📥 MUAT TURUN TEMPLAT KALENDAR
           </button>
           
           <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2">
-            <span>📂 选择周历文件</span>
+            <span>📂 PILIH FAIL KALENDAR</span>
             <input type="file" ref="weekFileInput" accept=".csv" @change="handleWeekFileUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
         </div>
@@ -129,49 +129,49 @@
 
       <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6 grid grid-cols-1 sm:grid-cols-5 gap-3 items-end">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">第几周</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">MINGGU KE-</label>
           <input type="number" v-model.number="newWeek.week_number" placeholder="1" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">开始日期 (YYYY-MM-DD)</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">TARIKH MULA (YYYY-MM-DD)</label>
           <input type="date" v-model="newWeek.start_date" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">结束日期 (YYYY-MM-DD)</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">TARIKH TAMAT (YYYY-MM-DD)</label>
           <input type="date" v-model="newWeek.end_date" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">类型属性</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">JENIS</label>
           <select v-model="newWeek.is_school_week" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800">
-            <option :value="true">🟢 上课周</option>
-            <option :value="false">🔴 假期周</option>
+            <option :value="true">🟢 MINGGU PERSEKOLAHAN</option>
+            <option :value="false">🔴 MINGGU CUTI</option>
           </select>
         </div>
         <button @click="addSchoolWeek" class="bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer">
-          ➕ 单条添加
+          ➕ TAMBAH SATU
         </button>
       </div>
 
       <div class="space-y-3">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">已录入的学年周历列表</h3>
-          <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-full font-bold">共 {{ allSchoolWeeks.length }} 周</span>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">SENARAI KALENDAR PERSEKOLAHAN YANG TELAH DISIMPAN</h3>
+          <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-full font-bold">JUMLAH MINGGU {{ allSchoolWeeks.length }}</span>
         </div>
 
         <div class="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden max-h-64 overflow-y-auto">
           <div v-if="allSchoolWeeks.length === 0" class="p-8 text-center text-xs text-slate-400">
-            还没有录入任何周历数据，请在上方添加或批量导入。
+            TIADA DATA KALENDAR DIMASUKKAN, SILA TAMBAH ATAU IMPORT DI ATAS.
           </div>
           <div v-for="w in allSchoolWeeks" :key="w.id" class="p-3.5 flex items-center justify-between bg-white hover:bg-slate-50 transition">
             <div class="flex items-center gap-4 text-xs font-semibold text-slate-700">
-              <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold">第 {{ w.week_number }} 周</span>
+              <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold">MINGGU KE-{{ w.week_number }}</span>
               <span class="text-slate-600 font-medium">{{ w.start_date }} ~ {{ w.end_date }}</span>
               <span :class="w.is_school_week ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-red-700 bg-red-50 border-red-200'" class="px-2.5 py-0.5 rounded-full text-[10px] font-black border">
-                {{ w.is_school_week ? '🟢 上课周' : '🔴 假期周' }}
+                {{ w.is_school_week ? '🟢 MINGGU PERSEKOLAHAN' : '🔴 MINGGU CUTI' }}
               </span>
             </div>
             <button @click="deleteSchoolWeek(w.id)" class="text-slate-400 hover:text-red-600 text-xs font-bold px-3 py-1 rounded-lg transition hover:bg-red-50 cursor-pointer">
-              🗑️ 删除
+              🗑️ PADAM
             </button>
           </div>
         </div>
@@ -182,24 +182,24 @@
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center">📚</span>
-        学校班级基础管理
+        PENGURUSAN KELAS ASAS SEKOLAH
       </h2>
-      <p class="text-slate-500 text-xs mb-6">维护全校标准班级，供排课、请假与 MMI 干扰记录选用。</p>
+      <p class="text-slate-500 text-xs mb-6">SELENGGARA KELAS PIAWAI SEKOLAH, UNTUK KEGUNAAN JADUAL, CUTI & REKOD GANGGUAN MMI.</p>
 
       <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-8 flex flex-col sm:flex-row gap-4 items-end">
         <div class="w-full sm:w-1/3">
-          <label class="block text-xs font-bold text-slate-700 mb-2">年级 (Tahun):</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2">TAHUN:</label>
           <select v-model="newClassGrade" class="w-full bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800">
-            <option v-for="g in [1, 2, 3, 4, 5, 6]" :key="g" :value="g">Tahun {{ g }}</option>
+            <option v-for="g in [1, 2, 3, 4, 5, 6]" :key="g" :value="g">TAHUN {{ g }}</option>
           </select>
         </div>
 
         <div class="w-full sm:w-1/2">
-          <label class="block text-xs font-bold text-slate-700 mb-2">班级名称 (例如: 1A, 4C):</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2">NAMA KELAS (CONTOH: 1A, 4C):</label>
           <input 
             type="text" 
             v-model="newClassName" 
-            placeholder="输入标准班级名称..." 
+            placeholder="MASUKKAN NAMA KELAS PIAWAI..." 
             class="w-full bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
@@ -208,20 +208,20 @@
           @click="addClass" 
           class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition-all shrink-0 cursor-pointer"
         >
-          ➕ 添加班级
+          ➕ TAMBAH KELAS
         </button>
       </div>
 
       <div class="space-y-6">
         <div class="flex items-center justify-between">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">已录入的全校班级列表</h3>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">SENARAI KELAS SEKOLAH DIMASUKKAN</h3>
           <button @click="toggleAllGrades" class="text-xs text-indigo-600 font-bold hover:underline cursor-pointer">
-            {{ allExpanded ? '全部折叠' : '全部展开' }}
+            {{ allExpanded ? 'LIPAT SEMUA' : 'BUKA SEMUA' }}
           </button>
         </div>
         
         <div v-if="classList.length === 0" class="text-xs text-slate-400 py-6 text-center border border-dashed border-slate-200 rounded-2xl">
-          暂无班级数据，请在上方添加
+          TIADA DATA KELAS, SILA TAMBAH DI ATAS
         </div>
 
         <div v-else class="space-y-4">
@@ -231,7 +231,7 @@
                  @click="toggleGrade(gradeKey)"
                  class="flex items-center gap-3 cursor-pointer group select-none">
               <span class="px-3 py-1 bg-violet-50 text-violet-700 rounded-xl text-xs font-black tracking-wider group-hover:bg-violet-100 transition flex items-center gap-2">
-                Tahun {{ gradeKey }} 
+                TAHUN {{ gradeKey }} 
                 <span class="text-[10px] text-violet-400">{{ expandedGrades[gradeKey] ? '▼' : '▶' }}</span>
               </span>
               <div class="h-px bg-slate-100 flex-1"></div>
@@ -245,12 +245,12 @@
               >
                 <div>
                   <div class="text-xs font-bold text-slate-900">{{ c.class_name }}</div>
-                  <div class="text-[10px] text-slate-400">Tahun {{ c.grade }}</div>
+                  <div class="text-[10px] text-slate-400">TAHUN {{ c.grade }}</div>
                 </div>
                 <button 
                   @click.stop="deleteClass(c.id)" 
                   class="text-slate-300 hover:text-red-600 text-xs font-bold p-1 transition opacity-0 group-hover:opacity-100 ml-3 cursor-pointer"
-                  title="删除"
+                  title="PADAM"
                 >
                   ✕
                 </button>
@@ -266,22 +266,22 @@
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">📊</span>
-        MMI 科目目标 (Sasaran) 批量配置
+        KONFIGURASI BERKELOMPOK SASARAN SUBJEK MMI
       </h2>
-      <p class="text-slate-500 text-xs mb-6">下载标准模板，填写各年级各科目计划目标课时与基准底线，批量导入系统。</p>
+      <p class="text-slate-500 text-xs mb-6">MUAT TURUN TEMPLAT PIAWAI, ISI SASARAN SLOT DAN ASAS UNTUK SETIAP TAHUN DAN SUBJEK, IMPORT BERKELOMPOK.</p>
 
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200">
         <div>
-          <h3 class="text-sm font-bold text-slate-900">导入/导出科目目标</h3>
-          <p class="text-slate-500 text-xs mt-1">支持 CSV 模板，上传后自动更新数据库目标配置。</p>
+          <h3 class="text-sm font-bold text-slate-900">IMPORT / EKSPORT SASARAN SUBJEK</h3>
+          <p class="text-slate-500 text-xs mt-1">SOKONG TEMPLAT CSV, IMPORT AUTOMATIK KEMASKINI KONFIGURASI SASARAN PANGKALAN DATA.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button @click="downloadTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
-            📥 下载模板
+            📥 MUAT TURUN TEMPLAT
           </button>
           
           <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2">
-            <span>📂 选择科目文件</span>
+            <span>📂 PILIH FAIL SUBJEK</span>
             <input type="file" ref="fileInput" accept=".csv" @change="handleFileUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
         </div>
@@ -292,30 +292,30 @@
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">💾</span>
-        本地数据备份与恢复
+        SANDARAN & PEMULIHAN DATA TEMPATAN
       </h2>
-      <p class="text-slate-500 text-xs mb-6">定期将全校的所有核心数据打包备份到本地电脑，安全无忧。</p>
+      <p class="text-slate-500 text-xs mb-6">Buat sandaran berkala bagi semua data teras sekolah dan simpan dalam komputer tempatan untuk memastikan data sentiasa selamat.</p>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- 导出备份 -->
         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">导出全量数据备份</h3>
-            <p class="text-slate-500 text-xs mt-1">一键下载包含全校所有核心数据的 JSON 备份文件。</p>
+            <h3 class="text-sm font-bold text-slate-900">EKSPORT SANDARAN DATA PENUH</h3>
+            <p class="text-slate-500 text-xs mt-1">MUAT TURUN FAIL SANDARAN JSON YANG MENGANDUNGI DATA UTAMA SEKOLAH.</p>
           </div>
           <button @click="exportFullBackup" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer">
-            📤 导出系统完整备份
+            📤 EKSPORT SANDARAN PENUH SISTEM
           </button>
         </div>
 
         <!-- 恢复备份 -->
         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">恢复系统数据</h3>
-            <p class="text-slate-500 text-xs mt-1">通过之前备份的 JSON 文件恢复全校数据。</p>
+            <h3 class="text-sm font-bold text-slate-900">PULIH DATA SISTEM</h3>
+            <p class="text-slate-500 text-xs mt-1">PULIH DATA SEKOLAH MELALUI FAIL SANDARAN JSON TERDAHULU.</p>
           </div>
           <label class="relative block w-full text-center cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
-            <span>📥 选择备份文件并恢复</span>
+            <span>📥 PILIH FAIL SANDARAN & PULIH</span>
             <input type="file" accept=".json" @change="importFullBackup" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
         </div>
@@ -326,48 +326,48 @@
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
       <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">🛠️</span>
-        正式上线数据清理与维护
+        PEMBERSIHAN & PENYENGGARAN DATA PELANCARAN RASMI
       </h2>
-      <p class="text-slate-500 text-xs mb-6">用于测试结束、正式上线前清理历史测试数据，支持一键备份。</p>
+      <p class="text-slate-500 text-xs mb-6">UNTUK MEMBERSIHKAN DATA UJIAN SEBELUM PELANCARAN RASMI, SOKONG SANDARAN SATU KLIK.</p>
       
       <div class="space-y-6">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-100 gap-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">清空所有请假与代课记录</h3>
-            <p class="text-slate-500 text-xs mt-1">仅删除请假、代课历史测试数据，保留教师资料与排课表。</p>
+            <h3 class="text-sm font-bold text-slate-900">KOSONGKAN SEMUA REKOD CUTI & GURU GANTI</h3>
+            <p class="text-slate-500 text-xs mt-1">PADAM HANYA DATA UJIAN CUTI & GURU GANTI, KEKALKAN PROFIL GURU & JADUAL.</p>
           </div>
           <button @click="clearOnlyRecords" :disabled="loading" class="px-5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 font-semibold text-xs rounded-xl transition shadow-sm border border-amber-200 disabled:opacity-50 shrink-0 cursor-pointer">
-            清空请假记录
+            KOSONGKAN REKOD CUTI
           </button>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-100 gap-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">重置全校课表</h3>
-            <p class="text-slate-500 text-xs mt-1">清空全部排课数据，便于批量导入新学年课表（保留教师名单）。</p>
+            <h3 class="text-sm font-bold text-slate-900">TETAP SEMULA JADUAL WAKTU SEKOLAH</h3>
+            <p class="text-slate-500 text-xs mt-1">KOSONGKAN SEMUA DATA JADUAL WAKTU, MEMUDAHKAN IMPORT JADUAL BAHARU.</p>
           </div>
           <button @click="clearOnlyTimetable" :disabled="loading" class="px-5 py-2 bg-orange-50 hover:bg-orange-100 text-orange-700 font-semibold text-xs rounded-xl transition shadow-sm border border-orange-200 disabled:opacity-50 shrink-0 cursor-pointer">
-            清空全校课表
+            KOSONGKAN JADUAL WAKTU SEKOLAH
           </button>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-100 gap-4">
           <div>
-            <h3 class="text-sm font-bold text-indigo-900">备份并清空 MMI 干扰历史数据</h3>
-            <p class="text-slate-500 text-xs mt-1">自动下载 JSON 备份至本地，再安全清除全部 MMI 干扰日志。</p>
+            <h3 class="text-sm font-bold text-indigo-900">SANDARAN & KOSONGKAN DATA SEJARAH GANGGUAN MMI</h3>
+            <p class="text-slate-500 text-xs mt-1">MUAT TURUN SANDARAN JSON, KEMUDIAN PADAM SEMUA LOG GANGGUAN MMI DENGAN SELAMAT.</p>
           </div>
           <button @click="backupAndClearMmi" :disabled="loading" class="px-5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-xl transition shadow-sm border border-indigo-200 disabled:opacity-50 shrink-0 cursor-pointer">
-            📥 备份并清空 MMI 数据
+            📥 SANDARAN & KOSONGKAN DATA MMI
           </button>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h3 class="text-sm font-bold text-red-600">危险操作：初始化系统</h3>
-            <p class="text-slate-500 text-xs mt-1">一键清空请假、代课、课表、教师名单，恢复系统至初始空白状态。</p>
+            <h3 class="text-sm font-bold text-red-600">OPERASI BERBAHAYA: INISIALISASI SISTEM</h3>
+            <p class="text-slate-500 text-xs mt-1">KOSONGKAN CUTI, GURU GANTI, JADUAL, SENARAI GURU, PULIH KEPADA KEADAAN ASAL.</p>
           </div>
           <button @click="clearEverything" :disabled="loading" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs rounded-xl transition shadow-md disabled:opacity-50 shrink-0 cursor-pointer">
-            彻底重置系统
+            TETAP SEMULA SISTEM SEPENUHNYA
           </button>
         </div>
       </div>
@@ -393,7 +393,7 @@
 
           <div>
             <h3 class="text-lg font-extrabold text-slate-900">
-              {{ uploadProgress.percent === 100 ? '模板导入成功！' : '正在导入模板数据...' }}
+              {{ uploadProgress.percent === 100 ? 'IMPORT TEMPLAT BERJAYA!' : 'SEDANG MENGIMPORT DATA TEMPLAT...' }}
             </h3>
             <p class="text-xs font-semibold text-slate-500 mt-1.5">
               {{ uploadProgress.statusText }}
@@ -409,7 +409,7 @@
             </div>
             
             <div class="flex justify-between items-center text-xs font-bold px-1">
-              <span class="text-slate-400">处理进度</span>
+              <span class="text-slate-400">KEMAJUAN PEMPROSESAN</span>
               <span class="text-indigo-600 font-black text-sm">{{ uploadProgress.percent }}%</span>
             </div>
           </div>
@@ -441,7 +441,7 @@ const uploadProgress = ref({
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-const startProgress = (initialText = '正在读取模板文件...') => {
+const startProgress = (initialText = 'SEDANG MEMBACA FAIL TEMPLAT...') => {
   uploadProgress.value = {
     show: true,
     percent: 10,
@@ -454,7 +454,7 @@ const updateProgress = (percent, text) => {
   if (text) uploadProgress.value.statusText = text
 }
 
-const finishProgress = async (successMsg = '导入完成') => {
+const finishProgress = async (successMsg = 'IMPORT BERJAYA') => {
   uploadProgress.value.percent = 100
   uploadProgress.value.statusText = successMsg
   await sleep(600)
@@ -509,11 +509,11 @@ onMounted(() => {
 })
 
 const saveConfig = () => {
-  if (config.value.daysPerWeek < 1 || config.value.daysPerWeek > 7) return toast.error("天数必须在1-7之间")
-  if (config.value.periodsPerDay < 1 || config.value.periodsPerDay > 15) return toast.error("节次必须在1-15之间")
+  if (config.value.daysPerWeek < 1 || config.value.daysPerWeek > 7) return toast.error("BILANGAN HARI MESTI ANTARA 1 HINGGA 7")
+  if (config.value.periodsPerDay < 1 || config.value.periodsPerDay > 15) return toast.error("BILANGAN SLOT MASA MESTI ANTARA 1 HINGGA 15")
   
   localStorage.setItem('school_config', JSON.stringify(config.value))
-  toast.success("系统配置已保存生效！")
+  toast.success("KONFIGURASI SISTEM BERJAYA DISIMPAN!")
 }
 
 const fetchClasses = async () => {
@@ -539,7 +539,7 @@ const fetchSchoolWeeks = async () => {
 
 const addClass = async () => {
   if (!newClassName.value.trim()) {
-    return toast.error("请输入班级名称！")
+    return toast.error("SILA MASUKKAN NAMA KELAS!")
   }
 
   try {
@@ -550,11 +550,11 @@ const addClass = async () => {
 
     if (error) throw error
 
-    toast.success("班级添加成功！")
+    toast.success("KELAS BERJAYA DITAMBAH!")
     newClassName.value = ''
     fetchClasses()
   } catch (err) {
-    toast.error("添加失败（可能班级名称已存在）: " + err.message)
+    toast.error("GAGAL MENAMBAH (NAMA KELAS MUNGKIN WUJUD): " + err.message)
   }
 }
 
@@ -562,27 +562,27 @@ const deleteClass = async (id) => {
   try {
     const { error } = await supabase.from('classes').delete().eq('id', id)
     if (error) throw error
-    toast.success("班级已删除")
+    toast.success("KELAS TELAH DIPADAM")
     fetchClasses()
   } catch (err) {
-    toast.error("删除失败: " + err.message)
+    toast.error("GAGAL MEMADAM: " + err.message)
   }
 }
 
 const addSchoolWeek = async () => {
   if (!newWeek.value.start_date || !newWeek.value.end_date) {
-    return toast.error("请完整填写开始和结束日期！")
+    return toast.error("SILA ISI TARIKH MULA DAN TAMAT DENGAN LENGKAP!")
   }
   try {
     const { error } = await supabase.from('school_weeks').insert([newWeek.value])
     if (error) throw error
-    toast.success("上课周历添加成功！")
+    toast.success("KALENDAR PERSEKOLAHAN BERJAYA DITAMBAH!")
     newWeek.value.week_number += 1 
     newWeek.value.start_date = ''
     newWeek.value.end_date = ''
     fetchSchoolWeeks()
   } catch (err) {
-    toast.error("添加失败: " + err.message)
+    toast.error("GAGAL MENAMBAH: " + err.message)
   }
 }
 
@@ -590,10 +590,10 @@ const deleteSchoolWeek = async (id) => {
   try {
     const { error } = await supabase.from('school_weeks').delete().eq('id', id)
     if (error) throw error
-    toast.success("已删除该周记录")
+    toast.success("REKOD MINGGU INI TELAH DIPADAM")
     fetchSchoolWeeks()
   } catch (err) {
-    toast.error("删除失败: " + err.message)
+    toast.error("GAGAL MEMADAM: " + err.message)
   }
 }
 
@@ -607,24 +607,24 @@ const downloadWeekTemplate = () => {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.setAttribute('href', url)
-  link.setAttribute('download', '学年上课周历_模板.csv')
+  link.setAttribute('download', 'TEMPLAT_KALENDAR_PERSEKOLAHAN.csv')
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
-  toast.success("周历模板下载成功！")
+  toast.success("MUAT TURUN TEMPLAT KALENDAR BERJAYA!")
 }
 
 const handleWeekFileUpload = async (event) => {
   const file = event.target.files[0]
   if (!file) return
 
-  startProgress('正在读取周历 CSV 模板...')
+  startProgress('SEDANG MEMBACA FAIL CSV TEMPLAT KALENDAR...')
 
   const reader = new FileReader()
   reader.onload = async (e) => {
     try {
       await sleep(250)
-      updateProgress(35, '正在校验日期格式与数据合法性...')
+      updateProgress(35, 'SEDANG MENILIK FORMAT TARIKH DAN KESAHIHAN DATA...')
 
       const text = e.target.result
       const lines = text.split('\n')
@@ -658,24 +658,24 @@ const handleWeekFileUpload = async (event) => {
 
       if (rows.length === 0) {
         uploadProgress.value.show = false
-        toast.error("文件内容为空或格式错误！")
+        toast.error("FAIL KOSONG ATAU FORMAT SALAH!")
         return
       }
 
       await sleep(250)
-      updateProgress(70, `正在向数据库写入 ${rows.length} 条周历记录...`)
+      updateProgress(70, `SEDANG MENULIS ${rows.length} REKOD KALENDAR KE PANGKALAN DATA...`)
 
       const { error } = await supabase.from('school_weeks').insert(rows)
       if (error) throw error
 
-      await finishProgress(`成功导入 ${rows.length} 条周历数据！`)
+      await finishProgress(`BERJAYA MENGIMPORT ${rows.length} MINGGU KALENDAR!`)
 
-      toast.success(`成功批量导入 ${rows.length} 条周历数据！`)
+      toast.success(`BERJAYA MENGIMPORT BERKELOMPOK ${rows.length} REKOD KALENDAR!`)
       if (weekFileInput.value) weekFileInput.value.value = ''
       fetchSchoolWeeks()
     } catch (err) {
       uploadProgress.value.show = false
-      toast.error("导入周历失败: " + err.message)
+      toast.error("IMPORT KALENDAR GAGAL: " + err.message)
     }
   }
   reader.readAsText(file)
@@ -691,24 +691,24 @@ const downloadTemplate = () => {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.setAttribute('href', url)
-  link.setAttribute('download', '科目目标_Sasaran_模板.csv')
+  link.setAttribute('download', 'TEMPLAT_SASARAN_SUBJEK.csv')
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
-  toast.success("目标模板下载成功！")
+  toast.success("MUAT TURUN TEMPLAT SASARAN BERJAYA!")
 }
 
 const handleFileUpload = async (event) => {
   const file = event.target.files[0]
   if (!file) return
 
-  startProgress('正在读取科目目标 CSV 模板...')
+  startProgress('SEDANG MEMBACA FAIL CSV TEMPLAT SASARAN...')
 
   const reader = new FileReader()
   reader.onload = async (e) => {
     try {
       await sleep(250)
-      updateProgress(40, '正在解析各年级科目目标指标...')
+      updateProgress(40, 'SEDANG MENGURAIKAN SASARAN SUBJEK SETIAP TAHUN...')
 
       const text = e.target.result
       const lines = text.split('\n')
@@ -730,30 +730,30 @@ const handleFileUpload = async (event) => {
 
       if (rows.length === 0) {
         uploadProgress.value.show = false
-        toast.error("文件内容为空或格式错误！")
+        toast.error("FAIL KOSONG ATAU FORMAT SALAH!")
         return
       }
 
       await sleep(250)
-      updateProgress(75, `正在写入 ${rows.length} 项科目目标至数据库...`)
+      updateProgress(75, `SEDANG MENULIS ${rows.length} SASARAN SUBJEK KE PANGKALAN DATA...`)
 
       const { error } = await supabase.from('subject_targets').insert(rows)
       if (error) throw error
 
-      await finishProgress(`成功导入 ${rows.length} 条科目目标！`)
+      await finishProgress(`BERJAYA MENGIMPORT ${rows.length} SASARAN SUBJEK!`)
 
-      toast.success(`成功导入 ${rows.length} 条科目目标数据！`)
+      toast.success(`BERJAYA MENGIMPORT BERKELOMPOK ${rows.length} REKOD SASARAN SUBJEK!`)
       if (fileInput.value) fileInput.value.value = ''
     } catch (err) {
       uploadProgress.value.show = false
-      toast.error("导入失败: " + err.message)
+      toast.error("IMPORT GAGAL: " + err.message)
     }
   }
   reader.readAsText(file)
 }
 
 const clearOnlyRecords = async () => {
-  if (!confirm("⚠️ 确定要清空所有的请假与代课记录吗？此操作不可逆！")) return
+  if (!confirm("⚠️ ADAKAH ANDA PASTI MAHU MENGKOSONGKAN SEMUA REKOD CUTI & GURU GANTI? TINDAKAN INI TIDAK BOLEH DIBATALKAN!")) return
 
   loading.value = true
   try {
@@ -763,32 +763,32 @@ const clearOnlyRecords = async () => {
     const { error: err2 } = await supabase.from('leave_requests').delete().not('id', 'is', null)
     if (err2) throw err2
 
-    toast.success("所有请假与代课记录已成功清除！")
+    toast.success("SEMUA REKOD CUTI & GURU GANTI BERJAYA DIKOSONGKAN!")
   } catch (error) {
-    toast.error("清除失败: " + error.message)
+    toast.error("PENGKOSONGAN GAGAL: " + error.message)
   } finally {
     loading.value = false
   }
 }
 
 const clearOnlyTimetable = async () => {
-  if (!confirm("⚠️ 确定要清空全校课表吗？老师名单会保留。")) return
+  if (!confirm("⚠️ ADAKAH ANDA PASTI MAHU MENGKOSONGKAN JADUAL WAKTU SEKOLAH? SENARAI GURU AKAN DIKEKALKAN.")) return
 
   loading.value = true
   try {
     const { error } = await supabase.from('timetable').delete().not('id', 'is', null)
     if (error) throw error
 
-    toast.success("全校课表已全部重置！")
+    toast.success("JADUAL WAKTU SEKOLAH TELAH DI TETAP SEMULA!")
   } catch (error) {
-    toast.error("清空课表失败: " + error.message)
+    toast.error("PENGKOSONGAN JADUAL GAGAL: " + error.message)
   } finally {
     loading.value = false
   }
 }
 
 const backupAndClearMmi = async () => {
-  if (!confirm("📥 确定要先备份并清空所有 MMI 教学干扰历史数据吗？")) return
+  if (!confirm("📥 ADAKAH ANDA PASTI MAHU MEMBUAT SANDARAN DAN MENGKOSONGKAN SEMUA DATA SEJARAH GANGGUAN MMI?")) return
 
   loading.value = true
   try {
@@ -804,22 +804,22 @@ const backupAndClearMmi = async () => {
       downloadAnchor.click()
       downloadAnchor.remove()
     } else {
-      toast.success("当前没有 MMI 干扰数据需要备份，即将直接执行清空。")
+      toast.success("TIADA DATA GANGGUAN MMI UNTUK DISANDARKAN, AKAN TERUS KOSONGKAN.")
     }
 
     const { error: deleteErr } = await supabase.from('mmi_interruptions').delete().not('id', 'is', null)
     if (deleteErr) throw deleteErr
 
-    toast.success("MMI 干扰数据已成功备份并从数据库清空！")
+    toast.success("DATA GANGGUAN MMI BERJAYA DISANDARKAN DAN DIKOSONGKAN DARI PANGKALAN DATA!")
   } catch (error) {
-    toast.error("备份或清空 MMI 数据失败: " + error.message)
+    toast.error("SANDARAN ATAU PENGKOSONGAN MMI GAGAL: " + error.message)
   } finally {
     loading.value = false
   }
 }
 
 const clearEverything = async () => {
-  if (!confirm("🚨 警告：这将删除系统中所有的教师、课表、班级和请假数据！确定要让系统彻底恢复出厂设置吗？")) return
+  if (!confirm("🚨 AMARAN: TINDAKAN INI AKAN MEMADAM SEMUA GURU, JADUAL WAKTU, KELAS DAN REKOD CUTI DALAM SISTEM! ADAKAH ANDA PASTI MAHU MENETAP SEMULA KEPADA KEADAAN ASAL?")) return
 
   loading.value = true
   try {
@@ -830,11 +830,11 @@ const clearEverything = async () => {
     const { error } = await supabase.from('teachers').delete().not('id', 'is', null)
     if (error) throw error
 
-    toast.success("系统已完全重置为初始状态！")
+    toast.success("SISTEM TELAH DISET SEMULA SEPENUHNYA KEPADA KEADAAN ASAL!")
     fetchClasses()
     fetchSchoolWeeks()
   } catch (error) {
-    toast.error("重置失败: " + error.message)
+    toast.error("PENETAPAN SEMULA GAGAL: " + error.message)
   } finally {
     loading.value = false
   }
@@ -862,13 +862,13 @@ const handleSettingsLogoUpload = (event) => {
   if (!file) return
 
   if (file.size > 2 * 1024 * 1024) {
-    return toast.error("Logo 图片体积过大，请选择小于 2MB 的图片")
+    return toast.error("SAIZ IMEJ LOGO TERLALU BESAR, SILA PILIH BAWAH 2MB")
   }
 
   const reader = new FileReader()
   reader.onload = (e) => {
     schoolLogoSetting.value = e.target.result
-    toast.success("新 Logo 读取成功，请点击下方保存按钮！")
+    toast.success("LOGO BAHARU BERJAYA DIBACA, SILA KLIK SIMPAN DI BAWAH!")
   }
   reader.readAsDataURL(file)
 }
@@ -888,20 +888,20 @@ const saveSchoolIdentity = async () => {
     localStorage.setItem('school_logo', schoolLogoSetting.value)
     localStorage.setItem('school_name', schoolNameSetting.value.trim())
 
-    toast.success("学校 Logo 与名称修改成功！全系统已实时更新。")
+    toast.success("LOGO & NAMA SEKOLAH BERJAYA DIKEMASKINI! SISTEM TELAH DIKEMASKINI.")
 
     setTimeout(() => {
       window.location.reload()
     }, 600)
   } catch (err) {
-    toast.error("保存失败: " + err.message)
+    toast.error("GAGAL MENYIMPAN: " + err.message)
   }
 }
 
 // 📦 导出全量系统备份（Supabase 云端版）
 const exportFullBackup = async () => {
   try {
-    toast.success("正在打包云端系统数据...")
+    toast.success("SEDANG MENYEDIAKAN SANDARAN DATA CLOUD...")
     
     const [teachers, classes, schoolWeeks, subjectTargets, timetable, leaveRequests, substituteAssignments, schoolSettings] = await Promise.all([
       supabase.from('teachers').select('*'),
@@ -937,9 +937,9 @@ const exportFullBackup = async () => {
     downloadAnchor.click()
     downloadAnchor.remove()
 
-    toast.success("全系统备份导出成功！")
+    toast.success("EKSPORT SANDARAN PENUH SISTEM BERJAYA!")
   } catch (err) {
-    toast.error("导出备份失败: " + err.message)
+    toast.error("EKSPORT SANDARAN GAGAL: " + err.message)
   }
 }
 
@@ -948,12 +948,12 @@ const importFullBackup = async (event) => {
   const file = event.target.files[0]
   if (!file) return
 
-  if (!confirm("⚠️ 警告：恢复备份会覆盖当前云端数据库中的现有数据！确定要导入此备份文件吗？")) {
+  if (!confirm("⚠️ AMARAN: PEMULIHAN SANDARAN AKAN MENIMPA DATA SEMASA DALAM PANGKALAN DATA CLOUD! ADAKAH ANDA PASTI?")) {
     event.target.value = ''
     return
   }
 
-  toast.info("开始读取并校验备份文件...")
+  toast.info("SEDANG MEMBACA DAN MENILIK FAIL SANDARAN...")
   const reader = new FileReader()
   
   reader.onload = async (e) => {
@@ -961,16 +961,13 @@ const importFullBackup = async (event) => {
       const raw = JSON.parse(e.target.result)
       let d = {}
 
-      // 1. 自动兼容两种备份格式
       if (raw.data) {
-        d = raw.data // 格式1：本地打包备份
+        d = raw.data 
       } else if (typeof raw === 'object' && !Array.isArray(raw)) {
-        d = raw      // 格式2：Supabase裸导出
+        d = raw      
       } else {
-        throw new Error("文件格式不支持，仅支持系统完整备份或全站导出JSON")
+        throw new Error("FORMAT FAIL TIDAK SOKONG")
       }
-
-      // 2. 批量 upsert，带有智能数据清洗（防止本地字段污染云端）
       
       if (Array.isArray(d.schoolSettings) && d.schoolSettings.length > 0) {
         await supabase.from('school_settings').upsert(d.schoolSettings)
@@ -981,7 +978,6 @@ const importFullBackup = async (event) => {
       }
 
       if (Array.isArray(d.teachers) && d.teachers.length > 0) {
-        // 🌟 清洗教师表：剔除云端不需要的本地账号/密码字段，兼容节数字段
         const cleanTeachers = d.teachers.map(t => ({
           id: t.id,
           name: t.name,
@@ -993,7 +989,6 @@ const importFullBackup = async (event) => {
       }
 
       if (Array.isArray(d.schoolWeeks) && d.schoolWeeks.length > 0) {
-        // 🌟 清洗周历：确保 is_school_week 绝对是 boolean 类型
         const cleanWeeks = d.schoolWeeks.map(w => ({
           ...w,
           is_school_week: (w.is_school_week === true || w.is_school_week === 1 || w.is_school_week === 'true')
@@ -1006,7 +1001,6 @@ const importFullBackup = async (event) => {
       }
 
       if (Array.isArray(d.timetable) && d.timetable.length > 0) {
-        // 🌟 清洗课表：统一字段名 (云端是 weekday, period)
         const cleanTimetable = d.timetable.map(tt => ({
           id: tt.id,
           teacher_id: tt.teacher_id,
@@ -1018,7 +1012,6 @@ const importFullBackup = async (event) => {
         await supabase.from('timetable').upsert(cleanTimetable)
       }
 
-      // 可选扩展表
       if (Array.isArray(d.leaveRequests) && d.leaveRequests.length > 0) {
         await supabase.from('leave_requests').upsert(d.leaveRequests)
       }
@@ -1029,16 +1022,16 @@ const importFullBackup = async (event) => {
         await supabase.from('mmi_interruptions').upsert(d.mmiInterruptions)
       }
 
-      toast.success("云端系统数据恢复成功！页面即将刷新...")
+      toast.success("PEMULIHAN DATA SISTEM BERJAYA! LAMAN AKAN DIREFRESH...")
       setTimeout(() => {
         window.location.reload()
       }, 1000)
       
     } catch (err) {
-      console.error("导入完整错误详情：", err)
-      toast.error("恢复失败（可能存在字段冲突）: " + err.message)
+      console.error("RALAT IMPORT:", err)
+      toast.error("PEMULIHAN GAGAL: " + err.message)
     } finally {
-      event.target.value = '' // 清除文件缓存，允许重复点击
+      event.target.value = '' 
     }
   }
   

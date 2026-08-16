@@ -4,8 +4,8 @@
     <!-- 顶部标题 -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 no-print">
       <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">教务数据分析与 MMI 报表中心</h1>
-        <p class="text-slate-500 text-sm mt-1">多维度监控教学干扰、科目影响及教师代课负荷</p>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">ANALISIS DATA AKADEMIK & PUSAT LAPORAN MMI</h1>
+        <p class="text-slate-500 text-sm mt-1">PEMANTAUAN PELBAGAI DIMENSI TERHADAP GANGGUAN PENGAJARAN, KESAN SUBJEK DAN BEBAN GURU GANTI</p>
       </div>
     </div>
 
@@ -16,14 +16,14 @@
           📅
         </div>
         <div>
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">时间范围筛选</div>
-          <div class="text-sm font-extrabold text-slate-800">全部报表、排行榜按所选时间段实时计算</div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">PENAPISAN JULAT TARIKH</div>
+          <div class="text-sm font-extrabold text-slate-800">SEMUA LAPORAN DAN CARTA DIKIRA SECARA MASA NYATA MENGIKUT TEMPOH MASA</div>
         </div>
       </div>
       
       <div class="flex flex-wrap items-center gap-3">
         <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl">
-          <span class="text-xs font-bold text-slate-500">从</span>
+          <span class="text-xs font-bold text-slate-500">DARI</span>
           <input 
             type="date" 
             v-model="startDate" 
@@ -33,7 +33,7 @@
         </div>
         <span class="text-slate-400 font-bold">-</span>
         <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl">
-          <span class="text-xs font-bold text-slate-500">至</span>
+          <span class="text-xs font-bold text-slate-500">HINGGA</span>
           <input 
             type="date" 
             v-model="endDate" 
@@ -45,7 +45,7 @@
           @click="resetDateFilter" 
           class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl text-xs font-bold transition"
         >
-          重置
+          TETAP SEMULA
         </button>
       </div>
     </div>
@@ -57,57 +57,57 @@
         :class="currentTab === 'overview' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        📊 综合概览・代课负荷
+        📊 RINGKASAN & BEBAN GURU GANTI
       </button>
       <button 
         @click="currentTab = 'reason'" 
         :class="currentTab === 'reason' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        ⚠️ 项目干扰分析
+        ⚠️ ANALISIS SEBAB GANGGUAN
       </button>
       <button 
         @click="currentTab = 'trend'" 
         :class="currentTab === 'trend' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        📅 干扰高峰日期
+        📅 KEMUNCAK TARIKH GANGGUAN
       </button>
       <button 
         @click="currentTab = 'class'" 
         :class="currentTab === 'class' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        🏫 班级干扰分析
+        🏫 ANALISIS KELAS TERJEJAS
       </button>
       <button 
         @click="currentTab = 'subject'" 
         :class="currentTab === 'subject' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        📚 受影响科目排行
+        📚 SUBJEK TERJEJAS
       </button>
       <button 
         @click="currentTab = 'affectedTeacher'" 
         :class="currentTab === 'affectedTeacher' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        📉 教师课堂干扰统计 (前 5)
+        📉 GURU TERJEJAS (TOP 5)
       </button>
       <button 
         @click="currentTab = 'teacher'" 
         :class="currentTab === 'teacher' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
       >
-        👨‍🏫 教师干扰总表
+        👨‍🏫 REKOD KESELURUHAN GURU
       </button>
     </div>
 
     <!-- 打印专用报表标题抬头 -->
     <div class="print-header hidden mb-6 text-center">
-      <h2 class="text-2xl font-extrabold text-slate-900">教务数据分析与 MMI 评估报告</h2>
+      <h2 class="text-2xl font-extrabold text-slate-900">LAPORAN ANALISIS DATA AKADEMIK & MMI</h2>
       <p class="text-xs text-slate-600 mt-1">
-        统计时间段：[{{ startDate || '不限' }} 至 {{ endDate || '不限' }}]
+        TEMPOH MASA: [{{ startDate || 'TIADA HAD' }} HINGGA {{ endDate || 'TIADA HAD' }}]
       </p>
     </div>
 
@@ -115,35 +115,35 @@
     <div v-if="currentTab === 'overview'" class="space-y-8 animate-fadeIn">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">本期总干扰节数</div>
-          <div class="text-3xl font-black text-slate-900 mt-2">{{ totalInterruptionPeriods }} 节</div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">JUMLAH SLOT GANGGUAN</div>
+          <div class="text-3xl font-black text-slate-900 mt-2">{{ totalInterruptionPeriods }} SLOT</div>
         </div>
         <div class="bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">代课总人次</div>
-          <div class="text-3xl font-black text-indigo-600 mt-2">{{ totalSubstituteCount }} 次</div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Kes Penggantian Guru</div>
+          <div class="text-3xl font-black text-indigo-600 mt-2">{{ totalSubstituteCount }} KALI</div>
         </div>
         <div class="bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">受干扰记录总数</div>
-          <div class="text-3xl font-black text-slate-900 mt-2">{{ interruptionLogs.length }} 宗</div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">JUMLAH REKOD GANGGUAN</div>
+          <div class="text-3xl font-black text-slate-900 mt-2">{{ interruptionLogs.length }} REKOD</div>
         </div>
       </div>
 
       <div class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-base font-bold text-slate-900">⚖️ 高负荷教师排行 (前 5)</h2>
+          <h2 class="text-base font-bold text-slate-900">⚖️ KEDUDUKAN BEBAN TINGGI GURU GANTI (TOP 5)</h2>
           <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-            📥 打印 / 另存为 PDF 报告
+            📥 CETAK / SIMPAN SEBAGAI PDF
           </button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
           <div v-for="(t, idx) in sortedSubstituteStats.slice(0, 5)" :key="t.name" class="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col justify-between">
-            <div class="text-xs font-bold text-slate-400">Rank #{{ idx + 1 }}</div>
+            <div class="text-xs font-bold text-slate-400">RANK #{{ idx + 1 }}</div>
             <div class="my-2">
               <div class="text-sm font-extrabold text-slate-900">{{ t.name }}</div>
-              <div class="text-[11px] text-slate-500">{{ t.subject || '通用科目' }}</div>
+              <div class="text-[11px] text-slate-500">{{ t.subject || 'SUBJEK UMUM' }}</div>
             </div>
             <div class="text-xs font-bold text-indigo-600 bg-white px-3 py-1 rounded-xl shadow-sm text-center border border-slate-200">
-              {{ t.count }} 次代课
+              {{ t.count }} KALI GANTI
             </div>
           </div>
         </div>
@@ -154,19 +154,19 @@
     <div v-if="currentTab === 'reason'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">⚠️ 教学干扰项目统计</h2>
-          <p class="text-xs text-slate-500 mt-1">统计各项活动占用教学课时的节数与占比。</p>
+          <h2 class="text-lg font-bold text-slate-900">⚠️ STATISTIK SEBAB GANGGUAN PDPC</h2>
+          <p class="text-xs text-slate-500 mt-1">STATISTIK SLOT MASA DAN PERATUSAN YANG DIAMBIL OLEH SETIAP AKTIVITI.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-          📥 打印 / 另存为 PDF 报告
+          📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
-      <div v-if="reasonStats.length === 0" class="text-xs text-slate-400 py-12 text-center border border-dashed rounded-2xl">该时间段暂无干扰记录</div>
+      <div v-if="reasonStats.length === 0" class="text-xs text-slate-400 py-12 text-center border border-dashed rounded-2xl">TIADA REKOD GANGGUAN PADA TEMPOH INI</div>
       <div v-else class="space-y-4">
         <div v-for="item in reasonStats" :key="item.reason" class="space-y-1.5 p-4 bg-slate-50 rounded-2xl">
           <div class="flex justify-between text-xs font-bold text-slate-800">
             <span>{{ item.reason }}</span>
-            <span class="text-indigo-600">{{ item.count }} 节 (占 {{ item.percentage }}%)</span>
+            <span class="text-indigo-600">{{ item.count }} SLOT ({{ item.percentage }}%)</span>
           </div>
           <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
             <div class="h-full bg-indigo-600 rounded-full" :style="{ width: item.percentage + '%' }"></div>
@@ -179,18 +179,18 @@
     <div v-if="currentTab === 'trend'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">📅 教学干扰日期统计</h2>
-          <p class="text-xs text-slate-500 mt-1">统计每周各日发生教学中断的频次情况。</p>
+          <h2 class="text-lg font-bold text-slate-900">📅 STATISTIK GANGGUAN MENGIKUT HARI</h2>
+          <p class="text-xs text-slate-500 mt-1">TABURAN KEKERAPAN GANGGUAN MENGIKUT HARI DALAM SEMINGGU.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-          📥 打印 / 另存为 PDF 报告
+          📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
         <div v-for="dayData in dayOfWeekStats" :key="dayData.day" class="p-5 bg-slate-50 border border-slate-100 rounded-2xl text-center space-y-2">
           <div class="text-xs font-bold text-slate-500 uppercase">{{ dayData.day }}</div>
-          <div class="text-2xl font-black text-slate-900">{{ dayData.count }} <span class="text-xs font-normal text-slate-400">节</span></div>
-          <div class="text-[11px] text-indigo-600 font-semibold bg-indigo-50 py-1 rounded-lg">占总干扰 {{ dayData.percentage }}%</div>
+          <div class="text-2xl font-black text-slate-900">{{ dayData.count }} <span class="text-xs font-normal text-slate-400">SLOT</span></div>
+          <div class="text-[11px] text-indigo-600 font-semibold bg-indigo-50 py-1 rounded-lg">PADA {{ dayData.percentage }}%</div>
         </div>
       </div>
     </div>
@@ -199,11 +199,11 @@
     <div v-if="currentTab === 'class'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">🏫 班级教学干扰统计</h2>
-          <p class="text-xs text-slate-500 mt-1">仅统计各班级受活动冲击的累计课时。</p>
+          <h2 class="text-lg font-bold text-slate-900">🏫 STATISTIK GANGGUAN KELAS</h2>
+          <p class="text-xs text-slate-500 mt-1">JUMLAH KUMULATIF SLOT MASA KELAS YANG TERJEJAS.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-          📥 打印 / 另存为 PDF 报告
+          📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
@@ -212,20 +212,20 @@
           <thead>
             <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
               <th @click="sortClassTable('className')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                班级名称 {{ classSortKey === 'className' ? (classSortAsc ? '▲' : '▼') : '↕' }}
+                NAMA KELAS {{ classSortKey === 'className' ? (classSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortClassTable('totalPeriods')" class="p-4 border-b font-bold cursor-pointer hover:bg-slate-100 transition">
-                受干扰累计节数 {{ classSortKey === 'totalPeriods' ? (classSortAsc ? '▲' : '▼') : '↕' }}
+                JUMLAH SLOT TERJEJAS {{ classSortKey === 'totalPeriods' ? (classSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortClassTable('percentage')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                干扰占比 {{ classSortKey === 'percentage' ? (classSortAsc ? '▲' : '▼') : '↕' }}
+                PERATUSAN {{ classSortKey === 'percentage' ? (classSortAsc ? '▲' : '▼') : '↕' }}
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
             <tr v-for="c in sortedClassStats" :key="c.className" class="hover:bg-slate-50">
               <td class="p-4 font-bold text-slate-800">{{ c.className }}</td>
-              <td class="p-4 font-extrabold text-indigo-600">{{ c.totalPeriods }} 节</td>
+              <td class="p-4 font-extrabold text-indigo-600">{{ c.totalPeriods }} SLOT</td>
               <td class="p-4 text-slate-600">{{ c.percentage }}%</td>
             </tr>
           </tbody>
@@ -237,11 +237,11 @@
     <div v-if="currentTab === 'subject'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">📚 科目教学干扰统计</h2>
-          <p class="text-xs text-slate-500 mt-1">统计各类请假及活动造成各学科课程中断的累计课时。</p>
+          <h2 class="text-lg font-bold text-slate-900">📚 STATISTIK GANGGUAN SUBJEK</h2>
+          <p class="text-xs text-slate-500 mt-1">KUMULATIF SLOT MASA SUBJEK YANG TERGANGGU AKIBAT CUTI ATAU AKTIVITI.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-          📥 打印 / 另存为 PDF 报告
+          📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
@@ -250,17 +250,17 @@
           <thead>
             <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
               <th @click="sortSubjectTable('subjectName')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                科目名称 {{ subjectSortKey === 'subjectName' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}
+                NAMA SUBJEK {{ subjectSortKey === 'subjectName' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortSubjectTable('totalPeriods')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                受干扰总节数 {{ subjectSortKey === 'totalPeriods' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}
+                JUMLAH SLOT TERJEJAS {{ subjectSortKey === 'totalPeriods' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
             <tr v-for="s in sortedSubjectStats" :key="s.subjectName" class="hover:bg-slate-50">
               <td class="p-4 font-bold text-slate-800">{{ s.subjectName }}</td>
-              <td class="p-4 font-extrabold text-indigo-600">{{ s.totalPeriods }} 节</td>
+              <td class="p-4 font-extrabold text-indigo-600">{{ s.totalPeriods }} SLOT</td>
             </tr>
           </tbody>
         </table>
@@ -271,11 +271,11 @@
     <div v-if="currentTab === 'affectedTeacher'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">📉 教师课堂干扰统计（前 5）</h2>
-          <p class="text-xs text-slate-500 mt-1">统计教师课堂受中断情况，展示受影响最高的前 5 位教师。</p>
+          <h2 class="text-lg font-bold text-slate-900">📉 STATISTIK GANGGUAN KELAS GURU (TOP 5)</h2>
+          <p class="text-xs text-slate-500 mt-1">SENARAI 5 ORANG GURU UTAMA YANG KELASNYA PALING BANYAK TERGANGGU.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-          📥 打印 / 另存为 PDF 报告
+          📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
@@ -284,17 +284,17 @@
           <thead>
             <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
               <th @click="sortAffectedTeacherTable('teacherName')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                教师姓名 {{ affectedTeacherSortKey === 'teacherName' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}
+                NAMA GURU {{ affectedTeacherSortKey === 'teacherName' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortAffectedTeacherTable('totalPeriods')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                受干扰总节数 {{ affectedTeacherSortKey === 'totalPeriods' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}
+                JUMLAH SLOT TERJEJAS {{ affectedTeacherSortKey === 'totalPeriods' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
             <tr v-for="(t, index) in sortedAffectedTeacherStats.slice(0, 5)" :key="t.teacherName" class="hover:bg-slate-50">
               <td class="p-4 font-bold text-slate-800">{{ t.teacherName }}</td>
-              <td class="p-4 font-extrabold text-amber-600">{{ t.totalPeriods }} 节</td>
+              <td class="p-4 font-extrabold text-amber-600">{{ t.totalPeriods }} SLOT</td>
             </tr>
           </tbody>
         </table>
@@ -305,11 +305,11 @@
     <div v-if="currentTab === 'teacher'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">👨‍🏫 全校教师代课及课堂干扰总览</h2>
-          <p class="text-xs text-slate-500 mt-1">展示全校登记教师，完整统计代课量及课堂受干扰数据。</p>
+          <h2 class="text-lg font-bold text-slate-900">👨‍🏫 KESELURUHAN BEBAN GANTI & GANGGUAN GURU</h2>
+          <p class="text-xs text-slate-500 mt-1">PAPARAN SEMUA GURU BERDAFTAR BESERTA BEBAN GANTI DAN GANGGUAN KELAS.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
-          📥 打印 / 另存为 PDF 报告
+          📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
@@ -318,16 +318,16 @@
           <thead>
             <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
               <th @click="sortTeacherTable('name')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                教师姓名 {{ teacherSortKey === 'name' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+                NAMA GURU {{ teacherSortKey === 'name' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortTeacherTable('subject')" class="p-4 border-b font-bold cursor-pointer hover:bg-slate-100 transition">
-                任教科目 {{ teacherSortKey === 'subject' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+                SUBJEK DIAJAR {{ teacherSortKey === 'subject' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortTeacherTable('count')" class="p-4 border-b font-bold cursor-pointer hover:bg-slate-100 transition">
-                累计代课节数 {{ teacherSortKey === 'count' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+                JUMLAH KALI GANTI {{ teacherSortKey === 'count' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
               </th>
               <th @click="sortTeacherTable('interruptedCount')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                受干扰总节数 {{ teacherSortKey === 'interruptedCount' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+                JUMLAH SLOT TERJEJAS {{ teacherSortKey === 'interruptedCount' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
               </th>
             </tr>
           </thead>
@@ -335,8 +335,8 @@
             <tr v-for="stat in sortedTeacherStats" :key="stat.name" class="hover:bg-slate-50">
               <td class="p-4 font-bold text-slate-800">{{ stat.name }}</td>
               <td class="p-4 text-slate-600">{{ stat.subject || '-' }}</td>
-              <td class="p-4 font-extrabold text-indigo-600">{{ stat.count }} 节</td>
-              <td class="p-4 font-extrabold text-amber-600">{{ stat.interruptedCount }} 节</td>
+              <td class="p-4 font-extrabold text-indigo-600">{{ stat.count }} SLOT</td>
+              <td class="p-4 font-extrabold text-amber-600">{{ stat.interruptedCount }} SLOT</td>
             </tr>
           </tbody>
         </table>
@@ -479,7 +479,8 @@ const loadAllData = async () => {
   mmiData?.forEach(l => {
     let rawTarget = (l.target_display || '').trim()
     let tName = ''
-    if (rawTarget.includes('教师:')) tName = rawTarget.replace('教师:', '').trim()
+    if (rawTarget.includes('GURU:')) tName = rawTarget.replace('GURU:', '').trim()
+    else if (rawTarget.includes('教师:')) tName = rawTarget.replace('教师:', '').trim()
     else if (teacherNameSet.has(rawTarget.toUpperCase())) tName = rawTarget
 
     if (tName) {
@@ -500,10 +501,10 @@ const loadAllData = async () => {
     mmiData.forEach(l => { const pCount = (l.end_period || 0) - (l.start_period || 0) + 1; reasons[l.reason] = (reasons[l.reason] || 0) + pCount })
     reasonStats.value = Object.entries(reasons).map(([reason, count]) => ({ reason, count, percentage: totalPAll > 0 ? ((count / totalPAll) * 100).toFixed(1) : 0 })).sort((a, b) => b.count - a.count)
 
-    const dayNames = { 1: '星期一', 2: '星期二', 3: '星期三', 4: '星期四', 5: '星期五', 6: '星期六', 7: '星期日' }
+    const dayNames = { 1: 'ISNIN', 2: 'SELASA', 3: 'RABU', 4: 'KHAMIS', 5: 'JUMAAT', 6: 'SABTU', 7: 'AHAD' }
     const daysCount = {}
-    mmiData.forEach(l => { const dIndex = new Date(l.interruption_date).getDay() || 7; const dName = dayNames[dIndex] || '其他'; const pCount = (l.end_period || 0) - (l.start_period || 0) + 1; daysCount[dName] = (daysCount[dName] || 0) + pCount })
-    dayOfWeekStats.value = ['星期一', '星期二', '星期三', '星期四', '星期五'].map(day => ({ day, count: daysCount[day] || 0, percentage: totalPAll > 0 ? (((daysCount[day] || 0) / totalPAll) * 100).toFixed(1) : 0 }))
+    mmiData.forEach(l => { const dIndex = new Date(l.interruption_date).getDay() || 7; const dName = dayNames[dIndex] || 'LAIN-LAIN'; const pCount = (l.end_period || 0) - (l.start_period || 0) + 1; daysCount[dName] = (daysCount[dName] || 0) + pCount })
+    dayOfWeekStats.value = ['ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT'].map(day => ({ day, count: daysCount[day] || 0, percentage: totalPAll > 0 ? (((daysCount[day] || 0) / totalPAll) * 100).toFixed(1) : 0 }))
   }
 
   // ================== 核心升级：双表融合计算班级和科目干扰 ==================
@@ -514,14 +515,12 @@ const loadAllData = async () => {
   // 步骤A：融入单纯的班级活动 (来自 MMI 表)
   mmiData?.forEach(l => { 
     let rawTarget = (l.target_display || '').trim(); 
-    // 忽略属于教师请假的记录，后面用请假表精准算
-    if (rawTarget.includes('教师') || teacherNameSet.has(rawTarget.toUpperCase())) return; 
+    if (rawTarget.includes('GURU') || rawTarget.includes('教师') || teacherNameSet.has(rawTarget.toUpperCase())) return; 
     
     const pCount = (l.end_period || 0) - (l.start_period || 0) + 1; 
     
-    // 如果录入时包含多个班级 (如 "班级: 3A, 3B")，拆解开来
-    if (rawTarget.startsWith('班级:')) {
-      const cNames = rawTarget.replace('班级:', '').split(',');
+    if (rawTarget.startsWith('KELAS:') || rawTarget.startsWith('班级:')) {
+      const cNames = rawTarget.replace(/(?:KELAS|班级)[:：]/, '').split(',');
       cNames.forEach(c => {
         const cleanC = c.trim();
         if (cleanC) {
@@ -530,7 +529,7 @@ const loadAllData = async () => {
         }
       });
     } else {
-      const cName = rawTarget || '全校/未指定'; 
+      const cName = rawTarget || 'SEMUA KELAS'; 
       classMap[cName] = (classMap[cName] || 0) + pCount; 
       totalClassPeriods += pCount;
     }
@@ -538,27 +537,23 @@ const loadAllData = async () => {
 
   // 步骤B：融入教师请假对班级的冲击 (来自 leave_requests 表)
   leaveData?.forEach(req => {
-    // 🚨 剔除换课：如果是换课就不算班级损失和科目损失！
     if (swapLeaveIds.has(req.id)) return;
 
-    // 计算班级损失 (自动拆解合班 3E/3F)
-    const cNames = req.class_name ? req.class_name.split('/') : ['未知班级'];
+    const cNames = req.class_name ? req.class_name.split('/') : ['KELAS TIDAK DIKETAHUI'];
     cNames.forEach(c => {
       const cleanName = c.trim();
       if (cleanName) {
-        classMap[cleanName] = (classMap[cleanName] || 0) + 1; // 一条记录就是1节课
+        classMap[cleanName] = (classMap[cleanName] || 0) + 1; 
         totalClassPeriods += 1;
       }
     })
 
-    // 计算科目损失
-    const sub = req.subject ? req.subject.trim() : '未知科目';
-    if (sub && sub !== '未知科目') {
+    const sub = req.subject ? req.subject.trim() : 'SUBJEK TIDAK DIKETAHUI';
+    if (sub && sub !== 'SUBJEK TIDAK DIKETAHUI') {
       subjectMap[sub] = (subjectMap[sub] || 0) + 1;
     }
   })
 
-  // 渲染视图数据
   classStats.value = Object.entries(classMap)
     .map(([className, totalPeriods]) => ({ 
       className, 
