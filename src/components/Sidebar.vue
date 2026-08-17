@@ -111,7 +111,6 @@ const toast = useToast()
 const currentLogo = ref('/logo.png')
 const currentSchoolName = ref('SISTEM PENGURUSAN AKADEMIK PINTAR')
 
-// 侧边栏折叠状态控制
 const isSidebarCollapsed = ref(false)
 
 const toggleSidebar = () => {
@@ -158,7 +157,6 @@ const navItems = [
   { name: 'TETAPAN SISTEM', path: '/settings', icon: '⚙️' } 
 ]
 
-// 统一的带 Token 免登跨域跳转逻辑
 const switchToLanguage = async (targetUrl) => {
   try {
     const { data: { session } } = await supabase.auth.getSession()
