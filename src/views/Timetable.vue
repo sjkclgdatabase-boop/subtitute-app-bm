@@ -5,7 +5,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
-          Pengurusan Jadual Guru
+          PENGURUSAN JADUAL GURU
         </h1>
         <p class="text-slate-500 text-sm mt-2 font-medium">SOKONG PENGEDITAN PANTAS GRID, BOLEH IMPORT JADUAL WAKTU SEMUA GURU SECARA BERKELOMPOK</p>
       </div>
@@ -47,17 +47,17 @@
         </button>
       </div>
 
-      <!-- 教师选择器 -->
+      <!-- 教师选择器（文字已居中） -->
       <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">
+        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">
           👩‍🏫
         </div>
         <select 
           v-model="selectedTeacherId" 
           @change="fetchTeacherTimetable"
-          class="bg-transparent border-none text-slate-700 font-semibold focus:ring-0 cursor-pointer pr-6 text-sm w-full sm:w-64"
+          class="bg-transparent border-none text-slate-700 font-semibold focus:ring-0 cursor-pointer pr-6 text-sm w-full sm:w-72 text-center"
         >
-          <option value="" disabled>PILIH GURU SESI PAGI / SESI PETANG</option>
+          <option value="" disabled>-- Sila Pilih Guru --</option>
           <option v-for="teacher in filteredTeachersList" :key="teacher.id" :value="teacher.id">
             {{ teacher.name }}{{ teacher.subject ? ` (${teacher.subject})` : '' }}
           </option>

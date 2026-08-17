@@ -11,20 +11,27 @@
           MELINDUNGI MASA INSTRUKSIONAL · REKOD MENGIKUT KELAS DAN GURU UNTUK MENJAMIN MASA PENGAJARAN
         </p>
       </div>
+    </div>
 
-      <!-- 模式切换标签 -->
-      <div class="flex bg-white p-1 rounded-2xl shadow-sm ring-1 ring-slate-900/5">
+    <!-- ⭐️ 已将文字大小改为 text-lg，与其他区块标题保持一致 -->
+    <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+        <span class="text-lg font-bold text-slate-900">PILIH MOD REKOD GANGGUAN</span>
+      </div>
+
+      <div class="inline-flex bg-slate-100 p-1.5 rounded-2xl shadow-inner">
         <button 
           @click="activeTab = 'class'" 
           :class="activeTab === 'class' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'"
-          class="px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+          class="px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
           <span>🏫 REKOD KELAS</span>
         </button>
         <button 
           @click="activeTab = 'teacher'" 
           :class="activeTab === 'teacher' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'"
-          class="px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+          class="px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
           <span>👩‍🏫 REKOD GURU</span>
         </button>
@@ -35,7 +42,7 @@
     <div v-if="activeTab === 'class'" class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 mb-8">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-        PENDAFTARAN KELAS GANGGUAN
+        PENDAFTARAN GANGGUAN
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -457,7 +464,7 @@
                 <svg class="animate-spin h-3 w-3 text-slate-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 SEDANG MEMADANKAN JADUAL WAKTU...
               </span>
-              <span v-else>{{ currentDetailAffectedClasses || 'TIADA REKOD JADUAL TERJEJAS' }}</span>
+              <span v-else>{{ currentDetailAffectedClasses || 'TIADA REKOD JADUAL ATAU KELAS TERJEJAS' }}</span>
             </div>
           </div>
         </div>

@@ -2,60 +2,68 @@
   <div class="p-8 max-w-7xl mx-auto min-h-screen print:p-0 print:max-w-none">
     
     <!-- 屏幕显示的操作栏 (打印时自动隐藏) -->
-    <div class="print:hidden flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
-          PENGURUSAN GURU GANTI HARIAN
-        </h1>
-        <p class="text-slate-500 text-sm mt-2 font-medium">KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, SOKONG JANA JADUAL AUTOMATIK DENGAN SATU KLIK</p>
-      </div>
+    <div class="print:hidden bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 mb-8 flex flex-col gap-5">
+      
+      <!-- 第一行：大标题 -->
+      <h1 class="text-2xl font-extrabold tracking-tight text-slate-900">
+        PENGURUSAN GURU GANTI HARIAN
+      </h1>
 
-      <div class="flex flex-wrap items-center gap-3">
-        <!-- ⚡ 一键智能自动排课按钮 -->
-        <button 
-          @click="handleAutoAssignAll"
-          :disabled="isAutoAssigning"
-          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md transition-all flex items-center gap-2 shrink-0"
-        >
-          <span v-if="isAutoAssigning" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <span>⚡ TETAPAN GURU GANTI PINTAR</span>
-        </button>
+      <!-- 第二行：副标题说明 -->
+      <p class="text-slate-500 text-xs font-medium tracking-wide">
+        KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, SOKONG JANA JADUAL AUTOMATIK DENGAN SATU KLIK
+      </p>
 
-        <!-- 班次切换标签 -->
-        <div class="flex bg-white p-1 rounded-xl shadow-sm ring-1 ring-slate-900/5">
+      <!-- 第三行：所有功能按钮横向平铺排列 -->
+      <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100">
+        
+        <!-- 1. 班次切换标签 (SESI PAGI / SESI PETANG) -->
+        <div class="flex bg-slate-100 p-1 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0">
           <button 
             @click="currentSession = 'morning'" 
-            :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:text-slate-900'"
-            class="px-4 py-2 rounded-lg text-xs font-bold transition-all"
+            :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
           >
-            ☀️ SESI PAGI
+            <span>☀️ SESI PAGI</span>
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
-            :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:text-slate-900'"
-            class="px-4 py-2 rounded-lg text-xs font-bold transition-all"
+            :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
           >
-            🌙 SESI PETANG
+            <span>🌙 SESI PETANG</span>
           </button>
         </div>
 
-        <!-- 选择日期 -->
-        <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl shadow-sm ring-1 ring-slate-900/5">
-          <span class="text-xs font-bold text-slate-500">PILIH TARIKH:</span>
+        <!-- 2. 选择日期 (PILIH TARIKH) -->
+        <div class="flex items-center gap-2 bg-slate-50 px-3.5 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0">
+          <span class="text-xs font-bold text-slate-500 whitespace-nowrap">PILIH TARIKH:</span>
           <input 
             type="date" 
             v-model="targetDate" 
-            class="bg-slate-50 border border-slate-200 px-3 py-1 rounded-lg text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            class="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
           />
         </div>
 
+        <!-- 3. 智能排课 (TETAPAN GURU GANTI PINTAR) -->
+        <button 
+          @click="handleAutoAssignAll"
+          :disabled="isAutoAssigning"
+          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+        >
+          <span v-if="isAutoAssigning" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+          <span>⚡ TETAPAN GURU GANTI PINTAR</span>
+        </button>
+
+        <!-- 4. 打印按钮 (CETAK JADUAL) -->
         <button 
           @click="handlePrint"
-          class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-semibold shadow-md transition-all hover:shadow-lg flex items-center gap-2 shrink-0"
+          class="bg-slate-900 hover:bg-slate-800 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-          CETAK JADUAL GURU GANTI
+          <span>CETAK JADUAL</span>
         </button>
+
       </div>
     </div>
 
@@ -136,14 +144,12 @@
 
               <template v-else>
                 <tr>
-                  <!-- ⭐️ 改成了 whitespace-pre-wrap 完美保留回车换行 -->
                   <td contenteditable="true" 
                       @blur="saveManualEntry(slotIndex, 'name', 0, $event)" 
                       v-text="getManualEntry(slotIndex, 'name', 0)" 
                       class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors overflow-hidden whitespace-pre-wrap break-words leading-tight uppercase text-[10px]" 
                       rowspan="3" style="width: 120px; max-width: 120px;"></td>
                   <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 80px;">KELAS</td>
-                  <!-- ⭐️ 改成了 whitespace-pre-wrap 完美保留回车换行 -->
                   <td v-for="p in currentPeriodTimes.length" :key="'kelas-'+p" 
                       contenteditable="true" 
                       @blur="saveManualEntry(slotIndex, 'kelas', p, $event)" 
@@ -153,7 +159,6 @@
                 </tr>
                 <tr>
                   <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">GURU GANTI</td>
-                  <!-- ⭐️ 改成了 whitespace-pre-wrap 完美保留回车换行 -->
                   <td v-for="p in currentPeriodTimes.length" :key="'ganti-'+p" 
                       contenteditable="true" 
                       @blur="saveManualEntry(slotIndex, 'ganti', p, $event)" 
@@ -255,10 +260,7 @@
               <div v-else class="space-y-3">
                 <div v-for="(teacher, index) in recommendations" 
                     :key="teacher.id" 
-                    :class="[
-                      'group flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-300 hover:shadow-sm transition-all',
-                      { 'force-page-break': (index + 1) % 5 === 0 }
-                    ]">
+                    class="group flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-300 hover:shadow-sm transition-all">
                   <div class="flex items-center gap-3 mb-3 sm:mb-0">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 text-indigo-700 font-extrabold flex items-center justify-center text-xs">
                       #{{ index + 1 }}
@@ -336,17 +338,14 @@
                 </th>
               </tr>
             </thead>
-            <!-- ⭐️ 核心魔法：取消包裹的 <tbody>，直接循环独立 <tbody> -->
             <tbody v-for="slotIndex in 5" :key="slotIndex" style="page-break-inside: avoid; break-inside: avoid;" class="print:break-inside-avoid">
                 <tr>
-                  <!-- ⭐️ 附页：改成了 whitespace-pre-wrap -->
                   <td contenteditable="true" 
                       @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0, $event)"
                       v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0)"
                       class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors overflow-hidden whitespace-pre-wrap break-words leading-tight uppercase text-[10px]" 
                       rowspan="3" style="width: 120px; max-width: 120px;"></td>
                   <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 80px;">KELAS</td>
-                  <!-- ⭐️ 附页：改成了 whitespace-pre-wrap -->
                   <td v-for="p in currentPeriodTimes.length" :key="'kelas-'+p" 
                       contenteditable="true" 
                       @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'kelas', p, $event)"
@@ -356,7 +355,6 @@
                 </tr>
                 <tr>
                   <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">GURU GANTI</td>
-                  <!-- ⭐️ 附页：改成了 whitespace-pre-wrap -->
                   <td v-for="p in currentPeriodTimes.length" :key="'ganti-'+p" 
                       contenteditable="true" 
                       @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p, $event)"
