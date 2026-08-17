@@ -333,7 +333,7 @@
                 </div>
               </th>
 
-              <!-- SASARAN / SKOP: 改为靠左对齐，解决原本表头居中而内容靠左的错位感 -->
+              <!-- SASARAN / SKOP: 改为靠左对齐 -->
               <th @click="handleSort('target_display')" class="py-3 px-4 w-auto cursor-pointer hover:bg-slate-100 transition text-left">
                 <div class="flex items-center gap-1">
                   <span>SASARAN / SKOP</span>
@@ -353,7 +353,7 @@
                 </div>
               </th>
 
-              <!-- SEBAB: 居中对齐（因为里面放的是“LIHAT BUTIRAN”按钮） -->
+              <!-- SEBAB: 居中对齐 -->
               <th @click="handleSort('reason')" class="py-3 px-3 w-36 cursor-pointer hover:bg-slate-100 transition text-center">
                 <div class="flex items-center justify-center gap-1">
                   <span>SEBAB</span>
@@ -384,7 +384,7 @@
                 </span>
               </td>
 
-              <!-- SASARAN / SKOP: 靠左（与表头完美对齐） -->
+              <!-- SASARAN / SKOP: 靠左（使用清洗函数） -->
               <td class="py-3.5 px-4 font-semibold text-slate-800 truncate text-left" :title="formatTargetDisplay(log.target_display)">
                 {{ formatTargetDisplay(log.target_display) }}
               </td>
@@ -474,15 +474,24 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onActivated } from 'vue'
 import { supabase } from '../services/supabase'
 import { useToast } from '../utils/toast'
 
 const toast = useToast()
 const activeTab = ref('class')
 
+// 获取本地时区当前日期的标准函数
+const getLocalToday = () => {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 const classForm = ref({
-  date: new Date().toISOString().split('T')[0],
+  date: getLocalToday(),
   reason: 'Perhimpunan',
   customReason: '',
   scopeType: 'specific',
@@ -526,7 +535,7 @@ const fetchClasses = async () => {
 }
 
 const teacherForm = ref({
-  date: new Date().toISOString().split('T')[0],
+  date: getLocalToday(),
   teacherId: '',
   reason: ''
 })
@@ -718,7 +727,6 @@ const submitClassInterruption = async () => {
   let targetDisplay = ''
   if (classForm.value.scopeType === 'specific') {
     if (classForm.value.selectedClasses.length === 0) return toast.error("SILA PILIH SEKURANG-KURANGNYA SATU KELAS!")
-    // ⭐️ 直接去掉 "KELAS: " 前缀，只留班级名称
     targetDisplay = classForm.value.selectedClasses.join(', ')
   } else if (classForm.value.scopeType === 'grade') {
     targetDisplay = `TAHUN ${classForm.value.selectedGrade} (SETAHUN)`
@@ -817,7 +825,7 @@ const exportLogsToExcel = () => {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.setAttribute('href', url)
-  link.setAttribute('download', `MMI_SEJARAH_GANGGUAN_${new Date().toISOString().split('T')[0]}.csv`)
+  link.setAttribute('download', `MMI_SEJARAH_GANGGUAN_${getLocalToday()}.csv`)
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
@@ -886,8 +894,18 @@ const deleteLog = async (log) => {
 }
 
 onMounted(() => {
+  const today = getLocalToday()
+  classForm.value.date = today
+  teacherForm.value.date = today
+
   loadTeachers()
   fetchLogs()
   fetchClasses()
+})
+
+onActivated(() => {
+  const today = getLocalToday()
+  classForm.value.date = today
+  teacherForm.value.date = today
 })
 </script>
