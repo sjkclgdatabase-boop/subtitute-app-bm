@@ -1,25 +1,27 @@
 <template>
-  <div class="p-8 max-w-7xl mx-auto min-h-screen">
+  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
-    <!-- 头部区域 -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
+    <!-- 头部区域：统一的卡片风格与渐变色标题 -->
+    <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div class="space-y-2 max-w-3xl">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
           PENGURUSAN JADUAL GURU
         </h1>
-        <p class="text-slate-500 text-sm mt-2 font-medium">SOKONG PENGEDITAN PANTAS GRID, BOLEH IMPORT JADUAL WAKTU SEMUA GURU SECARA BERKELOMPOK</p>
+        <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
+          SOKONG PENGEDITAN PANTAS GRID, BOLEH IMPORT JADUAL WAKTU SEMUA GURU SECARA BERKELOMPOK.
+        </p>
       </div>
       
        <!-- 右侧操作区：上传下载 -->
-      <div class="flex flex-col sm:flex-row items-center gap-3">
+      <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0">
         <!-- 下载模板按钮 -->
-        <button @click="downloadTemplate" class="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-xl hover:bg-indigo-100 transition-all shadow-sm cursor-pointer">
+        <button @click="downloadTemplate" class="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center px-4 h-11 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-2xl hover:bg-indigo-100 transition-all shadow-sm cursor-pointer">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           MUAT TURUN TEMPLAT
         </button>
         
         <!-- 上传CSV按钮 -->
-        <label class="w-full sm:w-auto whitespace-nowrap cursor-pointer inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 hover:shadow-md transition-all shadow-sm">
+        <label class="w-full sm:w-auto whitespace-nowrap cursor-pointer inline-flex items-center justify-center px-4 h-11 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-md transition-all shadow-sm">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
           IMPORT BERKELOMPOK
           <input type="file" accept=".csv" class="hidden" @change="handleCsvUpload" />
@@ -28,34 +30,34 @@
     </div>
 
     <!-- 班次切换标签栏 & 教师选择器 -->
-    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center bg-white p-4 rounded-2xl shadow-sm ring-1 ring-slate-900/5 mb-6 gap-4">
+    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5 gap-4">
       <!-- 切换标签 -->
-      <div class="flex bg-slate-100 p-1.5 rounded-xl">
+      <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner">
         <button 
           @click="currentSession = 'morning'; selectedTeacherId = ''; currentTimetable = []" 
-          :class="currentSession === 'morning' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-          class="flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer"
+          :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+          class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer"
         >
           ☀️ SESI PAGI
         </button>
         <button 
           @click="currentSession = 'afternoon'; selectedTeacherId = ''; currentTimetable = []" 
-          :class="currentSession === 'afternoon' ? 'bg-white text-orange-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-          class="flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer"
+          :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+          class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer"
         >
           🌙 SESI PETANG
         </button>
       </div>
 
       <!-- 教师选择器（文字已居中） -->
-      <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">
+      <div class="flex items-center gap-3 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200">
+        <div class="w-7 h-7 rounded-xl bg-white text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
           👩‍🏫
         </div>
         <select 
           v-model="selectedTeacherId" 
           @change="fetchTeacherTimetable"
-          class="bg-transparent border-none text-slate-700 font-semibold focus:ring-0 cursor-pointer pr-6 text-sm w-full sm:w-72 text-center"
+          class="bg-transparent border-none text-slate-800 font-bold focus:ring-0 cursor-pointer pr-6 text-xs w-full sm:w-72 text-center outline-none"
         >
           <option value="" disabled>-- Sila Pilih Guru --</option>
           <option v-for="teacher in filteredTeachersList" :key="teacher.id" :value="teacher.id">
@@ -66,20 +68,20 @@
     </div>
 
     <!-- 提示状态 -->
-    <div v-if="!selectedTeacherId" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-16 text-center flex flex-col items-center justify-center mt-6">
-      <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-4xl mb-4 ring-1 ring-slate-100">👆</div>
-      <h3 class="text-lg font-bold text-slate-800">SILA PILIH SEORANG GURU DI ATAS</h3>
-      <p class="text-slate-500 mt-2 text-sm">SELEPAS DIPILIH, LIHAT DAN EDIT JADUAL GURU TERSEBUT</p>
+    <div v-if="!selectedTeacherId" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-16 text-center flex flex-col items-center justify-center">
+      <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-3xl mb-4 ring-1 ring-slate-100 shadow-inner">👆</div>
+      <h3 class="text-base font-bold text-slate-900">SILA PILIH SEORANG GURU DI ATAS</h3>
+      <p class="text-slate-500 mt-1 text-xs font-medium">SELEPAS DIPILIH, LIHAT DAN EDIT JADUAL GURU TERSEBUT</p>
     </div>
 
     <!-- 可视化二维网格 (选中教师后显示) -->
-    <div v-else class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 mt-6">
+    <div v-else class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
       <div class="overflow-x-auto p-6">
         <table class="w-full text-center border-collapse">
           <thead>
             <tr>
-              <th class="p-4 text-slate-400 font-medium text-sm w-32 border-b-2 border-slate-100">SLOT \ HARI</th>
-              <th v-for="day in config.daysPerWeek" :key="day" class="p-4 text-slate-700 font-bold text-sm w-40 border-b-2 border-slate-100">
+              <th class="p-4 text-slate-400 font-bold text-xs w-32 border-b-2 border-slate-100 uppercase">SLOT \ HARI</th>
+              <th v-for="day in config.daysPerWeek" :key="day" class="p-4 text-slate-800 font-extrabold text-xs w-40 border-b-2 border-slate-100">
                 HARI {{ dayNames[day - 1] }}
               </th>
             </tr>
@@ -88,9 +90,9 @@
             <template v-for="(row, index) in tableRows" :key="index">
               <!-- 正常上课节次行 -->
               <tr v-if="row.type === 'period'" class="group">
-                <td class="p-3 text-slate-600 font-bold border-r-2 border-slate-50 bg-slate-50/30 group-hover:bg-slate-50 transition-colors">
+                <td class="p-3 text-slate-600 font-bold border-r-2 border-slate-50 bg-slate-50/50 group-hover:bg-slate-50 transition-colors">
                   <div class="text-xs text-indigo-900 font-extrabold">SESI KE-{{ row.period }}</div>
-                  <div class="text-[10px] text-slate-400 font-medium mt-0.5">{{ row.time }}</div>
+                  <div class="text-[10px] text-slate-400 font-semibold mt-0.5">{{ row.time }}</div>
                 </td>
                 
                 <td v-for="day in config.daysPerWeek" :key="day" class="p-2 border border-slate-50">
@@ -98,7 +100,7 @@
                     @click="openEditModal(day, row.period)"
                     class="h-20 w-full rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200 border-2 relative"
                     :class="getCell(day, row.period) 
-                      ? 'bg-indigo-50 border-indigo-100 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5' 
+                      ? 'bg-indigo-50/50 border-indigo-100 hover:border-indigo-300 hover:shadow-sm hover:-translate-y-0.5' 
                       : 'bg-transparent border-dashed border-slate-200 hover:border-indigo-300 hover:bg-slate-50'"
                   >
                     <template v-if="getCell(day, row.period)">
@@ -106,11 +108,11 @@
                       <span v-if="getCell(day, row.period).class_name.includes('/')" class="absolute top-1.5 right-1.5 px-1.5 py-0.5 bg-violet-100 text-violet-700 rounded text-[9px] font-bold">
                         KELAS GABUNGAN
                       </span>
-                      <span class="font-bold text-indigo-900 text-sm">{{ getCell(day, row.period).class_name }}</span>
-                      <span class="text-xs text-indigo-500 font-medium mt-1">{{ getCell(day, row.period).subject }}</span>
+                      <span class="font-bold text-slate-900 text-sm">{{ getCell(day, row.period).class_name }}</span>
+                      <span class="text-xs text-indigo-600 font-semibold mt-1">{{ getCell(day, row.period).subject }}</span>
                     </template>
                     <template v-else>
-                      <span class="text-slate-300 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span class="text-slate-400 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                         + KLIK UNTUK JADUAL
                       </span>
                     </template>
@@ -124,7 +126,7 @@
                   ☕ REHAT
                 </td>
                 <td :colspan="config.daysPerWeek" class="p-3 text-center text-amber-900 font-bold text-xs tracking-wider uppercase">
-                  {{ row.title }} <span class="ml-2 font-normal text-amber-700">({{ row.time }})</span>
+                  {{ row.title }} <span class="ml-2 font-semibold text-amber-700">({{ row.time }})</span>
                 </td>
               </tr>
             </template>
@@ -135,34 +137,34 @@
 
     <!-- 高级编辑弹窗 -->
     <transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition duration-150 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" @click="closeModal"></div>
-        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden ring-1 ring-slate-900/10 p-6">
-          <div class="flex justify-between items-center mb-6">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+        <div class="absolute inset-0" @click="closeModal"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden ring-1 ring-slate-900/10 p-6 space-y-4">
+          <div class="flex justify-between items-center mb-2">
             <div>
-              <h2 class="text-lg font-bold text-slate-900">EDIT JADUAL WAKTU</h2>
-              <p class="text-xs text-slate-500 mt-1 font-medium">HARI {{ dayNames[editingData.weekday - 1] }} · SESI KE-{{ editingData.period }} ({{ getPeriodTime(editingData.period) }})</p>
+              <h2 class="text-base font-bold text-slate-900">EDIT JADUAL WAKTU</h2>
+              <p class="text-[11px] text-slate-500 mt-0.5 font-medium">HARI {{ dayNames[editingData.weekday - 1] }} · SESI KE-{{ editingData.period }} ({{ getPeriodTime(editingData.period) }})</p>
             </div>
-            <button @click="closeModal" class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer">×</button>
+            <button @click="closeModal" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition cursor-pointer">×</button>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">KELAS (BOLEH GUNA GARIS CONDONG SEPERTI: 3A/3B)</label>
-              <input v-model="editingData.class_name" type="text" placeholder="CONTOH: 3C ATAU 3A/3B" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all">
+              <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">KELAS (BOLEH GUNA GARIS CONDONG: 3A/3B)</label>
+              <input v-model="editingData.class_name" type="text" placeholder="CONTOH: 3C ATAU 3A/3B" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">SUBJEK</label>
-              <input v-model="editingData.subject" type="text" placeholder="CONTOH: BAHASA INGGERIS ATAU PM" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all">
+              <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">SUBJEK</label>
+              <input v-model="editingData.subject" type="text" placeholder="CONTOH: BAHASA INGGERIS" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all">
             </div>
           </div>
 
-          <div class="mt-8 flex gap-3">
-            <button v-if="editingData.id" @click="deleteClass" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer">
-              KOSONGKAN SLOT INI
+          <div class="mt-6 flex gap-3 pt-2">
+            <button v-if="editingData.id" @click="deleteClass" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2.5 rounded-xl text-xs transition-colors cursor-pointer">
+              KOSONGKAN
             </button>
-            <button @click="saveClass" class="flex-[2] bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
-              SIMPAN PERUBAHAN
+            <button @click="saveClass" class="flex-[2] bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition-all hover:shadow-lg cursor-pointer">
+              SIMPAN
             </button>
           </div>
         </div>

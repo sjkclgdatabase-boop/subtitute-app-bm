@@ -1,49 +1,51 @@
 <template>
-  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8 bg-slate-50">
+  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8 print:p-0 print:max-w-none">
     
-    <!-- 顶部标题 -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 no-print">
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">ANALISIS DATA AKADEMIK & PUSAT LAPORAN MMI</h1>
-        <p class="text-slate-500 text-sm mt-1">PEMANTAUAN PELBAGAI DIMENSI TERHADAP GANGGUAN PENGAJARAN, KESAN SUBJEK DAN BEBAN GURU GANTI</p>
-      </div>
+    <!-- 顶部标题：统一的卡片风格与渐变色大标题 -->
+    <div class="no-print bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+        ANALISIS DATA AKADEMIK & PUSAT LAPORAN MMI
+      </h1>
+      <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
+        PEMANTAUAN PELBAGAI DIMENSI TERHADAP GANGGUAN PENGAJARAN, KESAN SUBJEK DAN BEBAN GURU GANTI.
+      </p>
     </div>
 
     <!-- 🌐 全局日期范围筛选器控制面板 -->
-    <div class="no-print bg-white p-5 rounded-3xl shadow-sm ring-1 ring-slate-900/5 flex flex-wrap items-center justify-between gap-4">
+    <div class="no-print bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5 flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg">
           📅
         </div>
         <div>
           <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">PENAPISAN JULAT TARIKH</div>
-          <div class="text-sm font-extrabold text-slate-800">SEMUA LAPORAN DAN CARTA DIKIRA SECARA MASA NYATA MENGIKUT TEMPOH MASA</div>
+          <div class="text-xs font-extrabold text-slate-800">SEMUA LAPORAN DAN CARTA DIKIRA SECARA MASA NYATA MENGIKUT TEMPOH MASA</div>
         </div>
       </div>
       
       <div class="flex flex-wrap items-center gap-3">
-        <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl">
+        <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-4 h-11 rounded-2xl">
           <span class="text-xs font-bold text-slate-500">DARI</span>
           <input 
             type="date" 
             v-model="startDate" 
             @change="loadAllData"
-            class="bg-transparent text-xs font-semibold text-slate-700 focus:outline-none"
+            class="bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer"
           />
         </div>
         <span class="text-slate-400 font-bold">-</span>
-        <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl">
+        <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-4 h-11 rounded-2xl">
           <span class="text-xs font-bold text-slate-500">HINGGA</span>
           <input 
             type="date" 
             v-model="endDate" 
             @change="loadAllData"
-            class="bg-transparent text-xs font-semibold text-slate-700 focus:outline-none"
+            class="bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer"
           />
         </div>
         <button 
           @click="resetDateFilter" 
-          class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl text-xs font-bold transition"
+          class="px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition cursor-pointer"
         >
           TETAP SEMULA
         </button>
@@ -51,53 +53,53 @@
     </div>
 
     <!-- 顶栏：分析视角切换按钮 (Tab) -->
-    <div class="no-print flex flex-wrap gap-2 bg-white p-2 rounded-2xl shadow-sm ring-1 ring-slate-900/5">
+    <div class="no-print flex flex-wrap gap-2 bg-white p-3 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
       <button 
         @click="currentTab = 'overview'" 
-        :class="currentTab === 'overview' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'overview' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         📊 RINGKASAN & BEBAN GURU GANTI
       </button>
       <button 
         @click="currentTab = 'reason'" 
-        :class="currentTab === 'reason' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'reason' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         ⚠️ ANALISIS SEBAB GANGGUAN
       </button>
       <button 
         @click="currentTab = 'trend'" 
-        :class="currentTab === 'trend' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'trend' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         📅 KEMUNCAK TARIKH GANGGUAN
       </button>
       <button 
         @click="currentTab = 'class'" 
-        :class="currentTab === 'class' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'class' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         🏫 ANALISIS KELAS TERJEJAS
       </button>
       <button 
         @click="currentTab = 'subject'" 
-        :class="currentTab === 'subject' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'subject' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         📚 SUBJEK TERJEJAS
       </button>
       <button 
         @click="currentTab = 'affectedTeacher'" 
-        :class="currentTab === 'affectedTeacher' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'affectedTeacher' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         📉 GURU TERJEJAS (TOP 5)
       </button>
       <button 
         @click="currentTab = 'teacher'" 
-        :class="currentTab === 'teacher' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
-        class="px-4 py-2 rounded-xl text-xs font-bold transition-all"
+        :class="currentTab === 'teacher' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer"
       >
         👨‍🏫 REKOD KESELURUHAN GURU
       </button>
@@ -131,7 +133,7 @@
       <div class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-base font-bold text-slate-900">⚖️ KEDUDUKAN BEBAN TINGGI GURU GANTI (TOP 5)</h2>
-          <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+          <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
             📥 CETAK / SIMPAN SEBAGAI PDF
           </button>
         </div>
@@ -142,7 +144,7 @@
               <div class="text-sm font-extrabold text-slate-900">{{ t.name }}</div>
               <div class="text-[11px] text-slate-500">{{ t.subject || 'SUBJEK UMUM' }}</div>
             </div>
-            <div class="text-xs font-bold text-indigo-600 bg-white px-3 py-1 rounded-xl shadow-sm text-center border border-slate-200">
+            <div class="text-xs font-bold text-indigo-600 bg-white px-3 py-1.5 rounded-xl shadow-sm text-center border border-slate-200">
               {{ t.count }} KALI GANTI
             </div>
           </div>
@@ -157,7 +159,7 @@
           <h2 class="text-lg font-bold text-slate-900">⚠️ STATISTIK SEBAB GANGGUAN PDPC</h2>
           <p class="text-xs text-slate-500 mt-1">STATISTIK SLOT MASA DAN PERATUSAN YANG DIAMBIL OLEH SETIAP AKTIVITI.</p>
         </div>
-        <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
           📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
@@ -182,7 +184,7 @@
           <h2 class="text-lg font-bold text-slate-900">📅 STATISTIK GANGGUAN MENGIKUT HARI</h2>
           <p class="text-xs text-slate-500 mt-1">TABURAN KEKERAPAN GANGGUAN MENGIKUT HARI DALAM SEMINGGU.</p>
         </div>
-        <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
           📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
@@ -202,30 +204,30 @@
           <h2 class="text-lg font-bold text-slate-900">🏫 STATISTIK GANGGUAN KELAS</h2>
           <p class="text-xs text-slate-500 mt-1">JUMLAH KUMULATIF SLOT MASA KELAS YANG TERJEJAS.</p>
         </div>
-        <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
           📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm border-collapse print-table">
+        <table class="w-full text-left text-xs border-collapse print-table">
           <thead>
-            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
-              <th @click="sortClassTable('className')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                NAMA KELAS {{ classSortKey === 'className' ? (classSortAsc ? '▲' : '▼') : '↕' }}
+            <tr class="bg-slate-50 text-slate-500 uppercase tracking-wider select-none font-semibold">
+              <th @click="sortClassTable('className')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                NAMA KELAS <span class="text-indigo-600">{{ classSortKey === 'className' ? (classSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortClassTable('totalPeriods')" class="p-4 border-b font-bold cursor-pointer hover:bg-slate-100 transition">
-                JUMLAH SLOT TERJEJAS {{ classSortKey === 'totalPeriods' ? (classSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortClassTable('totalPeriods')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                JUMLAH SLOT TERJEJAS <span class="text-indigo-600">{{ classSortKey === 'totalPeriods' ? (classSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortClassTable('percentage')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                PERATUSAN {{ classSortKey === 'percentage' ? (classSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortClassTable('percentage')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                PERATUSAN <span class="text-indigo-600">{{ classSortKey === 'percentage' ? (classSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
+          <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
             <tr v-for="c in sortedClassStats" :key="c.className" class="hover:bg-slate-50">
-              <td class="p-4 font-bold text-slate-800">{{ c.className }}</td>
-              <td class="p-4 font-extrabold text-indigo-600">{{ c.totalPeriods }} SLOT</td>
+              <td class="p-4 font-bold text-slate-900">{{ c.className }}</td>
+              <td class="p-4 font-bold text-indigo-600">{{ c.totalPeriods }} SLOT</td>
               <td class="p-4 text-slate-600">{{ c.percentage }}%</td>
             </tr>
           </tbody>
@@ -240,27 +242,27 @@
           <h2 class="text-lg font-bold text-slate-900">📚 STATISTIK GANGGUAN SUBJEK</h2>
           <p class="text-xs text-slate-500 mt-1">KUMULATIF SLOT MASA SUBJEK YANG TERGANGGU AKIBAT CUTI ATAU AKTIVITI.</p>
         </div>
-        <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
           📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm border-collapse print-table">
+        <table class="w-full text-left text-xs border-collapse print-table">
           <thead>
-            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
-              <th @click="sortSubjectTable('subjectName')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                NAMA SUBJEK {{ subjectSortKey === 'subjectName' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}
+            <tr class="bg-slate-50 text-slate-500 uppercase tracking-wider select-none font-semibold">
+              <th @click="sortSubjectTable('subjectName')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                NAMA SUBJEK <span class="text-indigo-600">{{ subjectSortKey === 'subjectName' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortSubjectTable('totalPeriods')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                JUMLAH SLOT TERJEJAS {{ subjectSortKey === 'totalPeriods' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortSubjectTable('totalPeriods')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                JUMLAH SLOT TERJEJAS <span class="text-indigo-600">{{ subjectSortKey === 'totalPeriods' ? (subjectSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
+          <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
             <tr v-for="s in sortedSubjectStats" :key="s.subjectName" class="hover:bg-slate-50">
-              <td class="p-4 font-bold text-slate-800">{{ s.subjectName }}</td>
-              <td class="p-4 font-extrabold text-indigo-600">{{ s.totalPeriods }} SLOT</td>
+              <td class="p-4 font-bold text-slate-900">{{ s.subjectName }}</td>
+              <td class="p-4 font-bold text-indigo-600">{{ s.totalPeriods }} SLOT</td>
             </tr>
           </tbody>
         </table>
@@ -274,27 +276,27 @@
           <h2 class="text-lg font-bold text-slate-900">📉 STATISTIK GANGGUAN KELAS GURU (TOP 5)</h2>
           <p class="text-xs text-slate-500 mt-1">SENARAI 5 ORANG GURU UTAMA YANG KELASNYA PALING BANYAK TERGANGGU.</p>
         </div>
-        <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
           📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm border-collapse print-table">
+        <table class="w-full text-left text-xs border-collapse print-table">
           <thead>
-            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
-              <th @click="sortAffectedTeacherTable('teacherName')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                NAMA GURU {{ affectedTeacherSortKey === 'teacherName' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}
+            <tr class="bg-slate-50 text-slate-500 uppercase tracking-wider select-none font-semibold">
+              <th @click="sortAffectedTeacherTable('teacherName')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                NAMA GURU <span class="text-indigo-600">{{ affectedTeacherSortKey === 'teacherName' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortAffectedTeacherTable('totalPeriods')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                JUMLAH SLOT TERJEJAS {{ affectedTeacherSortKey === 'totalPeriods' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortAffectedTeacherTable('totalPeriods')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                JUMLAH SLOT TERJEJAS <span class="text-indigo-600">{{ affectedTeacherSortKey === 'totalPeriods' ? (affectedTeacherSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
+          <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
             <tr v-for="(t, index) in sortedAffectedTeacherStats.slice(0, 5)" :key="t.teacherName" class="hover:bg-slate-50">
-              <td class="p-4 font-bold text-slate-800">{{ t.teacherName }}</td>
-              <td class="p-4 font-extrabold text-amber-600">{{ t.totalPeriods }} SLOT</td>
+              <td class="p-4 font-bold text-slate-900">{{ t.teacherName }}</td>
+              <td class="p-4 font-bold text-amber-600">{{ t.totalPeriods }} SLOT</td>
             </tr>
           </tbody>
         </table>
@@ -308,35 +310,35 @@
           <h2 class="text-lg font-bold text-slate-900">👨‍🏫 KESELURUHAN BEBAN GANTI & GANGGUAN GURU</h2>
           <p class="text-xs text-slate-500 mt-1">PAPARAN SEMUA GURU BERDAFTAR BESERTA BEBAN GANTI DAN GANGGUAN KELAS.</p>
         </div>
-        <button @click="exportSinglePdf" class="no-print px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
           📥 CETAK / SIMPAN SEBAGAI PDF
         </button>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm border-collapse print-table">
+        <table class="w-full text-left text-xs border-collapse print-table">
           <thead>
-            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider select-none">
-              <th @click="sortTeacherTable('name')" class="p-4 border-b font-bold rounded-l-xl cursor-pointer hover:bg-slate-100 transition">
-                NAMA GURU {{ teacherSortKey === 'name' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+            <tr class="bg-slate-50 text-slate-500 uppercase tracking-wider select-none font-semibold">
+              <th @click="sortTeacherTable('name')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                NAMA GURU <span class="text-indigo-600">{{ teacherSortKey === 'name' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortTeacherTable('subject')" class="p-4 border-b font-bold cursor-pointer hover:bg-slate-100 transition">
-                SUBJEK DIAJAR {{ teacherSortKey === 'subject' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortTeacherTable('subject')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                SUBJEK DIAJAR <span class="text-indigo-600">{{ teacherSortKey === 'subject' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortTeacherTable('count')" class="p-4 border-b font-bold cursor-pointer hover:bg-slate-100 transition">
-                JUMLAH KALI GANTI {{ teacherSortKey === 'count' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortTeacherTable('count')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                JUMLAH KALI GANTI <span class="text-indigo-600">{{ teacherSortKey === 'count' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
-              <th @click="sortTeacherTable('interruptedCount')" class="p-4 border-b font-bold rounded-r-xl cursor-pointer hover:bg-slate-100 transition">
-                JUMLAH SLOT TERJEJAS {{ teacherSortKey === 'interruptedCount' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}
+              <th @click="sortTeacherTable('interruptedCount')" class="p-4 border-b cursor-pointer hover:bg-slate-100 transition">
+                JUMLAH SLOT TERJEJAS <span class="text-indigo-600">{{ teacherSortKey === 'interruptedCount' ? (teacherSortAsc ? '▲' : '▼') : '↕' }}</span>
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
+          <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
             <tr v-for="stat in sortedTeacherStats" :key="stat.name" class="hover:bg-slate-50">
-              <td class="p-4 font-bold text-slate-800">{{ stat.name }}</td>
+              <td class="p-4 font-bold text-slate-900">{{ stat.name }}</td>
               <td class="p-4 text-slate-600">{{ stat.subject || '-' }}</td>
-              <td class="p-4 font-extrabold text-indigo-600">{{ stat.count }} SLOT</td>
-              <td class="p-4 font-extrabold text-amber-600">{{ stat.interruptedCount }} SLOT</td>
+              <td class="p-4 font-bold text-indigo-600">{{ stat.count }} SLOT</td>
+              <td class="p-4 font-bold text-amber-600">{{ stat.interruptedCount }} SLOT</td>
             </tr>
           </tbody>
         </table>

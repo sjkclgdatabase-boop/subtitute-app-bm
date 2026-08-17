@@ -1,7 +1,7 @@
 <template>
   <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
-    <!-- 头部区域：精简的大标题与副标题 -->
+    <!-- 头部区域：统一的卡片风格、排版规范与渐变大标题 -->
     <div class="no-print bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-6">
       
       <!-- 第一部分：大标题与副标题 -->
@@ -53,35 +53,35 @@
 
     </div>
 
-    <!-- 🔍 多维度高级筛选面板 -->
-    <div class="no-print bg-white p-6 rounded-3xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-4 gap-4">
+    <!-- 🔍 多维度高级筛选面板：统一样式规范 -->
+    <div class="no-print bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm grid grid-cols-1 sm:grid-cols-4 gap-4">
       <div>
-        <label class="block text-xs font-bold text-slate-500 mb-2">PENAPIS MENGIKUT TAHUN</label>
-        <select v-model="filterGrade" @change="onGradeChange" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">PENAPIS MENGIKUT TAHUN</label>
+        <select v-model="filterGrade" @change="onGradeChange" class="w-full bg-slate-50 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
           <option value="all">SEMUA TAHUN SEKOLAH</option>
           <option v-for="g in [1,2,3,4,5,6]" :key="g" :value="g">TAHUN {{ g }}</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-500 mb-2">PENAPIS MENGIKUT KELAS</label>
-        <select v-model="filterClass" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">PENAPIS MENGIKUT KELAS</label>
+        <select v-model="filterClass" class="w-full bg-slate-50 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
           <option value="all">SEMUA KELAS UNTUK TAHUN INI</option>
           <option v-for="c in availableClasses" :key="c.id" :value="c.class_name">{{ c.class_name }}</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-500 mb-2">PENAPIS MENGIKUT SUBJEK</label>
-        <select v-model="filterSubject" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">PENAPIS MENGIKUT SUBJEK</label>
+        <select v-model="filterSubject" class="w-full bg-slate-50 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
           <option value="all">SEMUA SUBJEK</option>
           <option v-for="s in uniqueSubjects" :key="s" :value="s">{{ s }}</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-indigo-600 mb-2">👨‍🏫 PENAPIS MENGIKUT GURU SUBJEK</label>
-        <select v-model="filterTeacher" class="w-full bg-indigo-50/50 border border-indigo-200 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+        <label class="block text-xs font-bold text-indigo-600 mb-2 uppercase tracking-wider">👨‍🏫 PENAPIS MENGIKUT GURU SUBJEK</label>
+        <select v-model="filterTeacher" class="w-full bg-indigo-50/50 border border-indigo-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
           <option value="all">SEMUA GURU SEKOLAH</option>
           <option v-for="tch in allTeachers" :key="tch.id" :value="tch.name">{{ tch.name }}</option>
         </select>
@@ -89,7 +89,7 @@
     </div>
 
     <!-- 🎯 核心统计指标卡片容器 -->
-    <div id="pdfContentContainer" class="space-y-8 bg-white p-4 rounded-3xl">
+    <div id="pdfContentContainer" class="space-y-8 bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5">
       
       <!-- 打印专属标题抬头 -->
       <div class="print-header bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-4 text-center">
@@ -118,49 +118,49 @@
       <div v-if="activeTab === 'table'" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">LAPORAN ANALISIS TERPERINCI (PERBANDINGAN KELAS, SUBJEK & GURU)</h3>
-          <span class="text-[11px] text-slate-500">NISBAH KALENDAR PERSEKOLAHAN BERKESAN: {{ (progressRatio * 100).toFixed(1) }}%</span>
+          <span class="text-[11px] text-slate-500 font-bold">NISBAH KALENDAR PERSEKOLAHAN BERKESAN: {{ (progressRatio * 100).toFixed(1) }}%</span>
         </div>
 
         <div>
           <table class="w-full text-left border-collapse print-table">
             <thead>
-              <tr class="bg-slate-100 text-[11px] font-bold text-slate-700 uppercase tracking-wider border-b border-slate-300">
-                <th @click="toggleSort('class_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-200 transition select-none">
+              <tr class="bg-slate-50 text-[11px] font-bold text-slate-700 uppercase tracking-wider border-b border-slate-200">
+                <th @click="toggleSort('class_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-100 transition select-none">
                   TAHUN / KELAS <span class="text-indigo-600">{{ getSortIcon('class_name') }}</span>
                 </th>
-                <th @click="toggleSort('subject_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('subject_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-100 transition select-none">
                   NAMA SUBJEK <span class="text-indigo-600">{{ getSortIcon('subject_name') }}</span>
                 </th>
-                <th @click="toggleSort('teacher_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('teacher_name')" class="py-3 px-4 cursor-pointer hover:bg-slate-100 transition select-none">
                   GURU SUBJEK <span class="text-indigo-600">{{ getSortIcon('teacher_name') }}</span>
                 </th>
-                <th @click="toggleSort('target')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('target')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition select-none">
                   SASARAN RANCANGAN TAHUNAN <span class="text-indigo-600">{{ getSortIcon('target') }}</span>
                 </th>
-                <th @click="toggleSort('expected')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('expected')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition select-none">
                   KEMAJUAN SEBENAR TEORETIKAL <span class="text-indigo-600">{{ getSortIcon('expected') }}</span>
                 </th>
-                <th @click="toggleSort('lostCount')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('lostCount')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition select-none">
                   Jumlah Waktu PdPc terjejas AKIBAT GANGGUAN <span class="text-indigo-600">{{ getSortIcon('lostCount') }}</span>
                 </th>
-                <th @click="toggleSort('actual')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('actual')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition select-none">
                   PELAKSANAAN SEBENAR <span class="text-indigo-600">{{ getSortIcon('actual') }}</span>
                 </th>
-                <th @click="toggleSort('gap')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('gap')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition select-none">
                   JURANG <span class="text-indigo-600">{{ getSortIcon('gap') }}</span>
                 </th>
-                <th @click="toggleSort('status')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200 transition select-none">
+                <th @click="toggleSort('status')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition select-none">
                   STATUS <span class="text-indigo-600">{{ getSortIcon('status') }}</span>
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 text-xs font-medium text-slate-800">
+            <tbody class="divide-y divide-slate-100 text-xs font-medium text-slate-800">
               <tr v-if="filteredAnalysisList.length === 0">
-                <td colspan="9" class="py-12 text-center text-slate-500">
+                <td colspan="9" class="py-12 text-center text-slate-400 font-medium">
                   TIADA REKOD ANALISIS DIJUMPAI, SILA LARASKAN SYARAT PENAPISAN.
                 </td>
               </tr>
-              <tr v-for="(item, idx) in filteredAnalysisList" :key="idx" class="hover:bg-slate-50">
+              <tr v-for="(item, idx) in filteredAnalysisList" :key="idx" class="hover:bg-slate-50/50 transition">
                 <td class="py-3 px-4 font-bold text-slate-900">
                   TAHUN {{ item.grade }} - {{ item.class_name }}
                 </td>
@@ -194,7 +194,7 @@
       <!-- ================= TAB 2: 📈 视觉图表分析看板 ================= -->
       <div v-if="activeTab === 'chart'" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex justify-between items-center">
               <h3 class="text-sm font-bold text-slate-800">🎯 KADAR KESIHATAN PENCAPAIAN KESELURUHAN SUBJEK</h3>
               <span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2.5 py-1 rounded-lg">PENGIRAAN MASA NYATA</span>
@@ -212,10 +212,10 @@
             </div>
           </div>
 
-          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex justify-between items-center">
               <h3 class="text-sm font-bold text-slate-800">📊 TABURAN PENCAPAIAN MENGIKUT TAHUN</h3>
-              <span class="text-xs text-slate-400">DICAPAI VS BELUM DICAPAI</span>
+              <span class="text-xs text-slate-400 font-semibold">DICAPAI VS BELUM DICAPAI</span>
             </div>
 
             <div class="space-y-3 pt-2">
@@ -233,11 +233,11 @@
           </div>
         </div>
 
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
           <div class="flex justify-between items-center">
             <div>
               <h3 class="text-sm font-bold text-slate-800">⚠️ KEDUDUKAN SUBJEK KEHILANGAN SLOT TERBANYAK AKIBAT GANGGUAN MMI</h3>
-              <p class="text-xs text-slate-400 mt-0.5">MENUNJUKKAN KEHILANGAN SLOT PENGAJARAN MENGIKUT SUBJEK AKIBAT CUTI ATAU URUSAN RASMI</p>
+              <p class="text-xs text-slate-400 mt-0.5 font-medium">MENUNJUKKAN KEHILANGAN SLOT PENGAJARAN MENGIKUT SUBJEK AKIBAT CUTI ATAU URUSAN RASMI</p>
             </div>
             <span class="text-xs bg-amber-50 text-amber-700 px-3 py-1 rounded-full font-bold">AMARAN GANGGUAN</span>
           </div>

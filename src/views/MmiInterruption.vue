@@ -1,19 +1,17 @@
 <template>
   <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
-    <!-- 头部区域 -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
-          PUSAT REKOD GANGGUAN MMI
-        </h1>
-        <p class="text-slate-500 text-sm mt-2 font-medium">
-          MELINDUNGI MASA INSTRUKSIONAL · REKOD MENGIKUT KELAS DAN GURU UNTUK MENJAMIN MASA PENGAJARAN
-        </p>
-      </div>
+    <!-- 头部区域：统一的卡片风格、排版规范与渐变大标题 -->
+    <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+        PUSAT REKOD GANGGUAN MMI
+      </h1>
+      <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
+        MELINDUNGI MASA INSTRUKSIONAL · REKOD MENGIKUT KELAS DAN GURU UNTUK MENJAMIN MASA PENGAJARAN.
+      </p>
     </div>
 
-    <!-- ⭐️ 已将文字大小改为 text-lg，与其他区块标题保持一致 -->
+    <!-- 模式切换卡片：统一样式规范 -->
     <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 space-y-4">
       <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
@@ -51,7 +49,7 @@
           <input 
             type="date" 
             v-model="classForm.date" 
-            class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
           />
         </div>
 
@@ -59,7 +57,7 @@
           <label class="block text-xs font-bold text-slate-700 mb-2">⚠️ SEBAB GANGGUAN:</label>
           <select 
             v-model="classForm.reason" 
-            class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3 cursor-pointer"
+            class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3 cursor-pointer"
           >
             <option value="Perhimpunan">PERHIMPUNAN</option>
             <option value="Program Sekolah">PROGRAM SEKOLAH</option>
@@ -75,7 +73,7 @@
             type="text" 
             v-model="classForm.customReason" 
             placeholder="NYATAKAN SEBAB GANGGUAN DI SINI..." 
-            class="w-full bg-white border border-indigo-300 px-4 py-2 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+            class="w-full bg-white border border-indigo-300 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
           />
         </div>
       </div>
@@ -98,7 +96,7 @@
           </label>
         </div>
 
-        <!-- ⭐️ 优化后：规整对齐的班级卡片选择区 -->
+        <!-- 规整对齐的班级卡片选择区 -->
         <div v-if="classForm.scopeType === 'specific'" class="space-y-3 pt-2">
           <!-- 顶部快捷操作栏 -->
           <div class="flex justify-between items-center pb-2 border-b border-slate-200/80 text-xs">
@@ -158,13 +156,13 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-2">⏰ SLOT MASA MULA:</label>
-          <select v-model="classForm.startPeriod" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 cursor-pointer">
+          <select v-model="classForm.startPeriod" class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-bold text-slate-800 cursor-pointer">
             <option v-for="p in 11" :key="p" :value="p">SESI KE-{{ p }}</option>
           </select>
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-2">⏰ SLOT MASA TAMAT:</label>
-          <select v-model="classForm.endPeriod" class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 cursor-pointer">
+          <select v-model="classForm.endPeriod" class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-bold text-slate-800 cursor-pointer">
             <option v-for="p in 11" :key="p" :value="p">SESI KE-{{ p }}</option>
           </select>
         </div>
@@ -176,13 +174,13 @@
           v-model="classForm.remarks" 
           type="text" 
           placeholder="CONTOH: CERAMAH DEMAM DENGGI DI DEWAN UTAMA." 
-          class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
 
       <button 
         @click="submitClassInterruption" 
-        class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer"
+        class="bg-slate-900 hover:bg-slate-800 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer"
       >
         💾 SIMPAN REKOD GANGGUAN KELAS
       </button>
@@ -202,7 +200,7 @@
             type="date" 
             v-model="teacherForm.date" 
             @change="loadTeacherSubjects"
-            class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
           />
         </div>
 
@@ -211,7 +209,7 @@
           <select 
             v-model="teacherForm.teacherId" 
             @change="loadTeacherSubjects"
-            class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+            class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
           >
             <option value="" disabled>-- SILA PILIH GURU --</option>
             <option v-for="t in teachersList" :key="t.id" :value="t.id">{{ t.name }}</option>
@@ -225,7 +223,7 @@
           v-model="teacherForm.reason" 
           type="text" 
           placeholder="CONTOH: MENGIRINGI PASUKAN, MESYUARAT, BENGKEL, CUTI SAKIT" 
-          class="w-full bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-800"
+          class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800"
         />
       </div>
 
@@ -260,13 +258,13 @@
       <button 
         @click="submitTeacherInterruption" 
         :disabled="exportedSubjects.length === 0"
-        class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer"
+        class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer"
       >
         💾 SAH DAN SIMPAN REKOD GANGGUAN GURU
       </button>
     </div>
 
-    <!-- ⭐️ 优化版：干扰日志历史记录表格区（上下分层 + 精准对齐 + 完美列宽） -->
+    <!-- 干扰日志历史记录表格区 -->
     <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5">
       
       <!-- 第一行：标题与导出按钮 -->
@@ -280,27 +278,27 @@
 
         <button 
           @click="exportLogsToExcel" 
-          class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
         >
           <span>📥 EKSPORT JADUAL EXCEL</span>
         </button>
       </div>
 
-      <!-- 第二行：所有筛选与搜索框平铺，保持呼吸感 -->
+      <!-- 第二行：所有筛选与搜索框平铺 -->
       <div class="flex flex-wrap items-center gap-3 mb-6">
-        <select v-model="typeFilter" class="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
+        <select v-model="typeFilter" class="bg-slate-50 border border-slate-200 px-3.5 h-11 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
           <option value="all">SEMUA JENIS</option>
           <option value="class">GANGGUAN KELAS</option>
           <option value="teacher">GANGGUAN GURU</option>
         </select>
 
-        <select v-model="dateRangeFilter" class="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
+        <select v-model="dateRangeFilter" class="bg-slate-50 border border-slate-200 px-3.5 h-11 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
           <option value="all">SEMUA TEMPOH MASA</option>
           <option value="week">📅 MINGGU INI (7 HARI TERAKHIR)</option>
           <option value="month">📅 BULAN INI (BULAN SEMASA)</option>
         </select>
 
-        <select v-model="selectedMonth" class="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none">
+        <select v-model="selectedMonth" class="bg-slate-50 border border-slate-200 px-3.5 h-11 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none cursor-pointer">
           <option value="all">🗓️ SEMUA BULAN (SETAHUN)</option>
           <option v-for="m in 12" :key="m" :value="String(m)">BULAN {{ m }}</option>
         </select>
@@ -310,12 +308,12 @@
             type="text" 
             v-model="searchQuery" 
             placeholder="CARI GURU / KELAS / SEBAB..." 
-            class="w-full bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full bg-slate-50 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
       </div>
 
-      <!-- 表格区域：固定列宽、统一对齐、杜绝溢出滚动条 -->
+      <!-- 表格区域 -->
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs table-fixed">
           <thead>
@@ -340,7 +338,7 @@
                 </div>
               </th>
 
-              <!-- SASARAN / SKOP: 改为靠左对齐 -->
+              <!-- SASARAN / SKOP: 靠左对齐 -->
               <th @click="handleSort('target_display')" class="py-3 px-4 w-auto cursor-pointer hover:bg-slate-100 transition text-left">
                 <div class="flex items-center gap-1">
                   <span>SASARAN / SKOP</span>
@@ -391,7 +389,7 @@
                 </span>
               </td>
 
-              <!-- SASARAN / SKOP: 靠左（使用清洗函数） -->
+              <!-- SASARAN / SKOP: 靠左 -->
               <td class="py-3.5 px-4 font-semibold text-slate-800 truncate text-left" :title="formatTargetDisplay(log.target_display)">
                 {{ formatTargetDisplay(log.target_display) }}
               </td>
@@ -409,7 +407,7 @@
                 <button 
                   v-else 
                   @click="openDetailModal(log)" 
-                  class="text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition inline-flex items-center justify-center gap-1 text-xs mx-auto cursor-pointer"
+                  class="text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl transition inline-flex items-center justify-center gap-1 text-xs mx-auto cursor-pointer"
                 >
                   <span>LIHAT BUTIRAN</span> 
                   <span>🔍</span>
@@ -418,7 +416,7 @@
 
               <!-- TINDAKAN: 居中 -->
               <td class="py-3.5 px-3 text-center truncate">
-                <button @click="deleteLog(log)" class="text-xs text-red-600 hover:text-red-800 font-bold px-2.5 py-1.5 bg-red-50 hover:bg-red-100 rounded-lg cursor-pointer transition">
+                <button @click="deleteLog(log)" class="text-xs text-red-600 hover:text-red-800 font-bold px-3 py-1.5 bg-red-50 hover:bg-red-100 rounded-xl cursor-pointer transition">
                   PADAM
                 </button>
               </td>
@@ -428,7 +426,7 @@
       </div>
     </div>
 
-    <!-- ⭐️ 备注详情弹窗 -->
+    <!-- 备注详情弹窗 -->
     <div v-if="showDetailModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div class="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl ring-1 ring-slate-900/10 animate-in fade-in zoom-in duration-200">
         <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
@@ -488,7 +486,6 @@ import { useToast } from '../utils/toast'
 const toast = useToast()
 const activeTab = ref('class')
 
-// 获取本地时区当前日期的标准函数
 const getLocalToday = () => {
   const now = new Date()
   const year = now.getFullYear()
@@ -511,14 +508,12 @@ const classForm = ref({
 
 const groupedClasses = ref({})
 
-// 班级全选功能
 const selectAllClasses = () => {
   const all = []
   Object.values(groupedClasses.value).forEach(arr => all.push(...arr))
   classForm.value.selectedClasses = all
 }
 
-// 班级清空功能
 const clearAllClasses = () => {
   classForm.value.selectedClasses = []
 }
@@ -839,7 +834,6 @@ const exportLogsToExcel = () => {
   toast.success("EKSPORT LAPORAN BERJAYA!")
 }
 
-// 前端展示清洗函数：自动把 KELAS: 或 班级: 抹掉，只留后面的纯班级名
 const formatTargetDisplay = (text) => {
   if (!text) return ''
   return text.replace(/^(KELAS|班级)[:：]\s*/i, '').trim()

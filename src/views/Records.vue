@@ -1,24 +1,24 @@
 <template>
-  <div class="p-8 max-w-7xl mx-auto min-h-screen print:p-0 print:max-w-none">
+  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8 print:p-0 print:max-w-none">
     
     <!-- 屏幕显示的操作栏 (打印时自动隐藏) -->
-    <div class="print:hidden bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 mb-8 flex flex-col gap-5">
+    <div class="print:hidden bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col gap-6">
       
-      <!-- 第一行：大标题 -->
-      <h1 class="text-2xl font-extrabold tracking-tight text-slate-900">
-        PENGURUSAN GURU GANTI HARIAN
-      </h1>
-
-      <!-- 第二行：副标题说明 -->
-      <p class="text-slate-500 text-xs font-medium tracking-wide">
-        KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, SOKONG JANA JADUAL AUTOMATIK DENGAN SATU KLIK
-      </p>
+      <!-- 第一/二行：大标题与副标题 -->
+      <div class="space-y-2 max-w-4xl">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+          PENGURUSAN GURU GANTI HARIAN
+        </h1>
+        <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
+          KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, SOKONG JANA JADUAL AUTOMATIK DENGAN SATU KLIK
+        </p>
+      </div>
 
       <!-- 第三行：所有功能按钮横向平铺排列 -->
-      <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100">
+      <div class="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-100">
         
         <!-- 1. 班次切换标签 (SESI PAGI / SESI PETANG) -->
-        <div class="flex bg-slate-100 p-1 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0">
+        <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner">
           <button 
             @click="currentSession = 'morning'" 
             :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
@@ -36,7 +36,7 @@
         </div>
 
         <!-- 2. 选择日期 (PILIH TARIKH) -->
-        <div class="flex items-center gap-2 bg-slate-50 px-3.5 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0">
+        <div class="flex items-center gap-2 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0">
           <span class="text-xs font-bold text-slate-500 whitespace-nowrap">PILIH TARIKH:</span>
           <input 
             type="date" 

@@ -1,35 +1,37 @@
 <template>
-  <div class="p-8 max-w-4xl mx-auto min-h-screen space-y-8">
+  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
-    <!-- 头部区域 -->
-    <div class="mb-2">
-      <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+    <!-- 头部区域：统一的卡片风格、排版规范与渐变大标题 -->
+    <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
         TETAPAN & PENYENGGARAN SISTEM KESELURUHAN
       </h1>
-      <p class="text-slate-500 text-sm mt-2 font-medium">KONFIGURASI PARAMETER WAKTU SEKOLAH, PENGURUSAN KELAS ASAS, TETAPAN SASARAN MMI, SOKONG PEMBERSIHAN & PEMULIHAN DATA SEBELUM PELANCARAN</p>
+      <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
+        KONFIGURASI PARAMETER WAKTU SEKOLAH, PENGURUSAN KELAS ASAS, TETAPAN SASARAN MMI, SOKONG PEMBERSIHAN & PEMULIHAN DATA SEBELUM PELANCARAN.
+      </p>
     </div>
 
     <!-- 卡片：学校 Logo 与外观设置 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center">🖼️</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">🖼️</span>
         TETAPAN LOGO & PAPARAN SEKOLAH
       </h2>
-      <p class="text-slate-500 text-xs mb-6">KEMASKINI LOGO & NAMA SEKOLAH. SELEPAS DISIMPAN, BAR MENU DAN LAMAN LOG MASUK AKAN DIKEMASKINI SECARA MASA NYATA.</p>
+      <p class="text-slate-500 text-xs font-medium">KEMASKINI LOGO & NAMA SEKOLAH. SELEPAS DISIMPAN, BAR MENU DAN LAMAN LOG MASUK AKAN DIKEMASKINI SECARA MASA NYATA.</p>
 
       <div class="space-y-6">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">NAMA SEKOLAH SEMASA</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">NAMA SEKOLAH SEMASA</label>
           <input 
             v-model="schoolNameSetting" 
             type="text" 
             placeholder="MASUKKAN NAMA SEKOLAH..." 
-            class="w-full sm:w-96 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+            class="w-full sm:w-96 px-4 h-11 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">TUKAR LOGO SEKOLAH (SOKONG MUAT NAIK TEMPATAN)</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TUKAR LOGO SEKOLAH (SOKONG MUAT NAIK TEMPATAN)</label>
           
           <div class="flex items-center gap-6">
             <!-- 预览图 -->
@@ -39,11 +41,11 @@
 
             <!-- 上传按钮与说明 -->
             <div class="flex-1 space-y-2">
-              <label class="relative inline-flex cursor-pointer bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-md items-center gap-2">
+              <label class="relative inline-flex cursor-pointer bg-slate-900 hover:bg-slate-800 text-white px-5 h-11 rounded-2xl text-xs font-bold transition shadow-sm items-center gap-2">
                 <span>📂 PILIH IMEJ LOGO BAHARU</span>
                 <input type="file" accept="image/*" @change="handleSettingsLogoUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
               </label>
-              <p class="text-[11px] text-slate-400">SOKONG FORMAT PNG, JPG, SAIZ DI BAWAH 2MB ADALAH DIGALAKKAN.</p>
+              <p class="text-[11px] text-slate-400 font-medium">SOKONG FORMAT PNG, JPG, SAIZ DI BAWAH 2MB ADALAH DIGALAKKAN.</p>
             </div>
           </div>
         </div>
@@ -52,7 +54,7 @@
       <div class="mt-10 pt-6 border-t border-slate-100 flex justify-end">
         <button 
           @click="saveSchoolIdentity" 
-          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all duration-200 cursor-pointer"
         >
           SIMPAN PERUBAHAN LOGO & NAMA
         </button>
@@ -60,34 +62,34 @@
     </div>
 
     <!-- 卡片一：学校作息配置 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">🏫</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">🏫</span>
         KONFIGURASI WAKTU PERSEKOLAHAN
       </h2>
       
       <div class="space-y-6">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">BILANGAN HARI PERSEKOLAHAN SEMINGGU (HARI)</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">BILANGAN HARI PERSEKOLAHAN SEMINGGU (HARI)</label>
           <div class="flex items-center gap-4">
             <input 
               v-model.number="config.daysPerWeek" 
               type="number" min="1" max="7" 
-              class="w-full sm:w-64 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+              class="w-full sm:w-64 px-4 h-11 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
             />
-            <span class="text-sm text-slate-400">CONTOH: 5 (MEWAKILI ISNIN HINGGA JUMAAT)</span>
+            <span class="text-xs text-slate-400 font-medium">CONTOH: 5 (MEWAKILI ISNIN HINGGA JUMAAT)</span>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">JUMLAH SLOT MASA SEHARI (SLOT)</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">JUMLAH SLOT MASA SEHARI (SLOT)</label>
           <div class="flex items-center gap-4">
             <input 
               v-model.number="config.periodsPerDay" 
               type="number" min="1" max="15" 
-              class="w-full sm:w-64 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+              class="w-full sm:w-64 px-4 h-11 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
             />
-            <span class="text-sm text-slate-400">CONTOH: 11 (JUMLAH SLOT SESI PAGI)</span>
+            <span class="text-xs text-slate-400 font-medium">CONTOH: 11 (JUMLAH SLOT SESI PAGI)</span>
           </div>
         </div>
       </div>
@@ -95,7 +97,7 @@
       <div class="mt-10 pt-6 border-t border-slate-100 flex justify-end">
         <button 
           @click="saveConfig" 
-          class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+          class="bg-slate-900 hover:bg-slate-800 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all duration-200 cursor-pointer"
         >
           SIMPAN KONFIGURASI
         </button>
@@ -103,24 +105,24 @@
     </div>
 
     <!-- 卡片二：学年上课周历与假期维护 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center">📅</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs">📅</span>
         KONFIGURASI KALENDAR & CUTI PERSEKOLAHAN
       </h2>
-      <p class="text-slate-500 text-xs mb-6">Masukkan minggu persekolahan dan cuti sepanjang tahun. Sistem akan menolak tempoh cuti secara automatik untuk mengira sasaran tahunan dengan tepat.</p>
+      <p class="text-slate-500 text-xs font-medium mb-6">Masukkan minggu persekolahan dan cuti sepanjang tahun. Sistem akan menolak tempoh cuti secara automatik untuk mengira sasaran tahunan dengan tepat.</p>
 
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200 mb-6">
         <div>
-          <h3 class="text-sm font-bold text-slate-900">IMPORT / EKSPORT KALENDAR PERSEKOLAHAN BERKELOMPOK</h3>
-          <p class="text-slate-500 text-xs mt-1">SOKONG MUAT TURUN TEMPLAT CSV PIAWAI, ISI DAN MUAT NAIK BERKELOMPOK.</p>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">IMPORT / EKSPORT KALENDAR PERSEKOLAHAN BERKELOMPOK</h3>
+          <p class="text-slate-500 text-xs mt-1 font-medium">SOKONG MUAT TURUN TEMPLAT CSV PIAWAI, ISI DAN MUAT NAIK BERKELOMPOK.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
-          <button @click="downloadWeekTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
+          <button @click="downloadWeekTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
             📥 MUAT TURUN TEMPLAT KALENDAR
           </button>
           
-          <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2">
+          <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2">
             <span>📂 PILIH FAIL KALENDAR</span>
             <input type="file" ref="weekFileInput" accept=".csv" @change="handleWeekFileUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
@@ -130,24 +132,24 @@
       <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6 grid grid-cols-1 sm:grid-cols-5 gap-3 items-end">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">MINGGU KE-</label>
-          <input type="number" v-model.number="newWeek.week_number" placeholder="1" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800" />
+          <input type="number" v-model.number="newWeek.week_number" placeholder="1" class="w-full bg-white border border-slate-200 px-3 h-11 rounded-xl text-xs font-bold text-slate-800" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">TARIKH MULA (YYYY-MM-DD)</label>
-          <input type="date" v-model="newWeek.start_date" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800" />
+          <input type="date" v-model="newWeek.start_date" class="w-full bg-white border border-slate-200 px-3 h-11 rounded-xl text-xs font-bold text-slate-800 cursor-pointer" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">TARIKH TAMAT (YYYY-MM-DD)</label>
-          <input type="date" v-model="newWeek.end_date" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800" />
+          <input type="date" v-model="newWeek.end_date" class="w-full bg-white border border-slate-200 px-3 h-11 rounded-xl text-xs font-bold text-slate-800 cursor-pointer" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">JENIS</label>
-          <select v-model="newWeek.is_school_week" class="w-full bg-white border border-slate-200 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-800">
+          <select v-model="newWeek.is_school_week" class="w-full bg-white border border-slate-200 px-3 h-11 rounded-xl text-xs font-bold text-slate-800 cursor-pointer">
             <option :value="true">🟢 MINGGU PERSEKOLAHAN</option>
             <option :value="false">🔴 MINGGU CUTI</option>
           </select>
         </div>
-        <button @click="addSchoolWeek" class="bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer">
+        <button @click="addSchoolWeek" class="bg-slate-900 hover:bg-slate-800 text-white h-11 rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer">
           ➕ TAMBAH SATU
         </button>
       </div>
@@ -159,18 +161,18 @@
         </div>
 
         <div class="divide-y divide-slate-100 border border-slate-200 rounded-2xl overflow-hidden max-h-64 overflow-y-auto">
-          <div v-if="allSchoolWeeks.length === 0" class="p-8 text-center text-xs text-slate-400">
+          <div v-if="allSchoolWeeks.length === 0" class="p-8 text-center text-xs text-slate-400 font-medium">
             TIADA DATA KALENDAR DIMASUKKAN, SILA TAMBAH ATAU IMPORT DI ATAS.
           </div>
           <div v-for="w in allSchoolWeeks" :key="w.id" class="p-3.5 flex items-center justify-between bg-white hover:bg-slate-50 transition">
-            <div class="flex items-center gap-4 text-xs font-semibold text-slate-700">
-              <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold">MINGGU KE-{{ w.week_number }}</span>
+            <div class="flex items-center gap-4 text-xs font-bold text-slate-700">
+              <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-xl font-bold">MINGGU KE-{{ w.week_number }}</span>
               <span class="text-slate-600 font-medium">{{ w.start_date }} ~ {{ w.end_date }}</span>
-              <span :class="w.is_school_week ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-red-700 bg-red-50 border-red-200'" class="px-2.5 py-0.5 rounded-full text-[10px] font-black border">
+              <span :class="w.is_school_week ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-red-700 bg-red-50 border-red-200'" class="px-2.5 py-1 rounded-full text-[10px] font-black border">
                 {{ w.is_school_week ? '🟢 MINGGU PERSEKOLAHAN' : '🔴 MINGGU CUTI' }}
               </span>
             </div>
-            <button @click="deleteSchoolWeek(w.id)" class="text-slate-400 hover:text-red-600 text-xs font-bold px-3 py-1 rounded-lg transition hover:bg-red-50 cursor-pointer">
+            <button @click="deleteSchoolWeek(w.id)" class="text-slate-400 hover:text-red-600 text-xs font-bold px-3 py-1.5 rounded-xl transition hover:bg-red-50 cursor-pointer">
               🗑️ PADAM
             </button>
           </div>
@@ -179,34 +181,34 @@
     </div>
 
     <!-- 卡片三：学校班级基础管理 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center">📚</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center font-bold text-xs">📚</span>
         PENGURUSAN KELAS ASAS SEKOLAH
       </h2>
-      <p class="text-slate-500 text-xs mb-6">SELENGGARA KELAS PIAWAI SEKOLAH, UNTUK KEGUNAAN JADUAL, CUTI & REKOD GANGGUAN MMI.</p>
+      <p class="text-slate-500 text-xs font-medium mb-6">SELENGGARA KELAS PIAWAI SEKOLAH, UNTUK KEGUNAAN JADUAL, CUTI & REKOD GANGGUAN MMI.</p>
 
       <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-8 flex flex-col sm:flex-row gap-4 items-end">
         <div class="w-full sm:w-1/3">
-          <label class="block text-xs font-bold text-slate-700 mb-2">TAHUN:</label>
-          <select v-model="newClassGrade" class="w-full bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800">
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TAHUN:</label>
+          <select v-model="newClassGrade" class="w-full bg-white border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-800 cursor-pointer">
             <option v-for="g in [1, 2, 3, 4, 5, 6]" :key="g" :value="g">TAHUN {{ g }}</option>
           </select>
         </div>
 
         <div class="w-full sm:w-1/2">
-          <label class="block text-xs font-bold text-slate-700 mb-2">NAMA KELAS (CONTOH: 1A, 4C):</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">NAMA KELAS (CONTOH: 1A, 4C):</label>
           <input 
             type="text" 
             v-model="newClassName" 
             placeholder="MASUKKAN NAMA KELAS PIAWAI..." 
-            class="w-full bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full bg-white border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
         <button 
           @click="addClass" 
-          class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition-all shrink-0 cursor-pointer"
+          class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-md transition-all shrink-0 cursor-pointer"
         >
           ➕ TAMBAH KELAS
         </button>
@@ -220,7 +222,7 @@
           </button>
         </div>
         
-        <div v-if="classList.length === 0" class="text-xs text-slate-400 py-6 text-center border border-dashed border-slate-200 rounded-2xl">
+        <div v-if="classList.length === 0" class="text-xs text-slate-400 font-medium py-6 text-center border border-dashed border-slate-200 rounded-2xl">
           TIADA DATA KELAS, SILA TAMBAH DI ATAS
         </div>
 
@@ -245,7 +247,7 @@
               >
                 <div>
                   <div class="text-xs font-bold text-slate-900">{{ c.class_name }}</div>
-                  <div class="text-[10px] text-slate-400">TAHUN {{ c.grade }}</div>
+                  <div class="text-[10px] text-slate-400 font-medium">TAHUN {{ c.grade }}</div>
                 </div>
                 <button 
                   @click.stop="deleteClass(c.id)" 
@@ -263,24 +265,24 @@
     </div>
 
     <!-- 卡片四：MMI 科目目标模板管理与批量导入 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">📊</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">📊</span>
         KONFIGURASI BERKELOMPOK SASARAN SUBJEK MMI
       </h2>
-      <p class="text-slate-500 text-xs mb-6">MUAT TURUN TEMPLAT PIAWAI, ISI SASARAN SLOT DAN ASAS UNTUK SETIAP TAHUN DAN SUBJEK, IMPORT BERKELOMPOK.</p>
+      <p class="text-slate-500 text-xs font-medium mb-6">MUAT TURUN TEMPLAT PIAWAI, ISI SASARAN SLOT DAN ASAS UNTUK SETIAP TAHUN DAN SUBJEK, IMPORT BERKELOMPOK.</p>
 
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200">
         <div>
-          <h3 class="text-sm font-bold text-slate-900">IMPORT / EKSPORT SASARAN SUBJEK</h3>
-          <p class="text-slate-500 text-xs mt-1">SOKONG TEMPLAT CSV, IMPORT AUTOMATIK KEMASKINI KONFIGURASI SASARAN PANGKALAN DATA.</p>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">IMPORT / EKSPORT SASARAN SUBJEK</h3>
+          <p class="text-slate-500 text-xs mt-1 font-medium">SOKONG TEMPLAT CSV, IMPORT AUTOMATIK KEMASKINI KONFIGURASI SASARAN PANGKALAN DATA.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
-          <button @click="downloadTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
+          <button @click="downloadTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
             📥 MUAT TURUN TEMPLAT
           </button>
           
-          <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2">
+          <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2">
             <span>📂 PILIH FAIL SUBJEK</span>
             <input type="file" ref="fileInput" accept=".csv" @change="handleFileUpload" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
@@ -289,21 +291,21 @@
     </div>
 
     <!-- 卡片五：本地数据备份与恢复 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">💾</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">💾</span>
         SANDARAN & PEMULIHAN DATA TEMPATAN
       </h2>
-      <p class="text-slate-500 text-xs mb-6">Buat sandaran berkala bagi semua data teras sekolah dan simpan dalam komputer tempatan untuk memastikan data sentiasa selamat.</p>
+      <p class="text-slate-500 text-xs font-medium mb-6">Buat sandaran berkala bagi semua data teras sekolah dan simpan dalam komputer tempatan untuk memastikan data sentiasa selamat.</p>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- 导出备份 -->
         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">EKSPORT SANDARAN DATA PENUH</h3>
-            <p class="text-slate-500 text-xs mt-1">MUAT TURUN FAIL SANDARAN JSON YANG MENGANDUNGI DATA UTAMA SEKOLAH.</p>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">EKSPORT SANDARAN DATA PENUH</h3>
+            <p class="text-slate-500 text-xs mt-1 font-medium">MUAT TURUN FAIL SANDARAN JSON YANG MENGANDUNGI DATA UTAMA SEKOLAH.</p>
           </div>
-          <button @click="exportFullBackup" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer">
+          <button @click="exportFullBackup" class="w-full bg-slate-900 hover:bg-slate-800 text-white h-11 rounded-2xl text-xs font-bold transition shadow-sm cursor-pointer">
             📤 EKSPORT SANDARAN PENUH SISTEM
           </button>
         </div>
@@ -311,10 +313,10 @@
         <!-- 恢复备份 -->
         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">PULIH DATA SISTEM</h3>
-            <p class="text-slate-500 text-xs mt-1">PULIH DATA SEKOLAH MELALUI FAIL SANDARAN JSON TERDAHULU.</p>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">PULIH DATA SISTEM</h3>
+            <p class="text-slate-500 text-xs mt-1 font-medium">PULIH DATA SEKOLAH MELALUI FAIL SANDARAN JSON TERDAHULU.</p>
           </div>
-          <label class="relative block w-full text-center cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
+          <label class="relative block w-full text-center cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center justify-center">
             <span>📥 PILIH FAIL SANDARAN & PULIH</span>
             <input type="file" accept=".json" @change="importFullBackup" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
@@ -323,50 +325,54 @@
     </div>
 
     <!-- 卡片六：正式上线数据清理、备份与维护面板 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md">
-      <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">🛠️</span>
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center font-bold text-xs">🛠️</span>
         PEMBERSIHAN & PENYENGGARAN DATA PELANCARAN RASMI
       </h2>
-      <p class="text-slate-500 text-xs mb-6">UNTUK MEMBERSIHKAN DATA UJIAN SEBELUM PELANCARAN RASMI, SOKONG SANDARAN SATU KLIK.</p>
+      <p class="text-slate-500 text-xs font-medium mb-6">UNTUK MEMBERSIHKAN DATA UJIAN SEBELUM PELANCARAN RASMI, SOKONG SANDARAN SATU KLIK.</p>
       
       <div class="space-y-6">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-100 gap-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">KOSONGKAN SEMUA REKOD CUTI & GURU GANTI</h3>
-            <p class="text-slate-500 text-xs mt-1">PADAM HANYA DATA UJIAN CUTI & GURU GANTI, KEKALKAN PROFIL GURU & JADUAL.</p>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">KOSONGKAN SEMUA REKOD CUTI & GURU GANTI</h3>
+            <p class="text-slate-500 text-xs mt-1 font-medium">PADAM HANYA DATA UJIAN CUTI & GURU GANTI, KEKALKAN PROFIL GURU & JADUAL.</p>
           </div>
-          <button @click="clearOnlyRecords" :disabled="loading" class="px-5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 font-semibold text-xs rounded-xl transition shadow-sm border border-amber-200 disabled:opacity-50 shrink-0 cursor-pointer">
+          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
+          <button @click="clearOnlyRecords" :disabled="loading" class="w-full sm:w-80 h-11 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-xs rounded-2xl transition shadow-sm border border-amber-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             KOSONGKAN REKOD CUTI
           </button>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-100 gap-4">
           <div>
-            <h3 class="text-sm font-bold text-slate-900">TETAP SEMULA JADUAL WAKTU SEKOLAH</h3>
-            <p class="text-slate-500 text-xs mt-1">KOSONGKAN SEMUA DATA JADUAL WAKTU, MEMUDAHKAN IMPORT JADUAL BAHARU.</p>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">TETAP SEMULA JADUAL WAKTU SEKOLAH</h3>
+            <p class="text-slate-500 text-xs mt-1 font-medium">KOSONGKAN SEMUA DATA JADUAL WAKTU, MEMUDAHKAN IMPORT JADUAL BAHARU.</p>
           </div>
-          <button @click="clearOnlyTimetable" :disabled="loading" class="px-5 py-2 bg-orange-50 hover:bg-orange-100 text-orange-700 font-semibold text-xs rounded-xl transition shadow-sm border border-orange-200 disabled:opacity-50 shrink-0 cursor-pointer">
+          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
+          <button @click="clearOnlyTimetable" :disabled="loading" class="w-full sm:w-80 h-11 bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold text-xs rounded-2xl transition shadow-sm border border-orange-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             KOSONGKAN JADUAL WAKTU SEKOLAH
           </button>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-100 gap-4">
           <div>
-            <h3 class="text-sm font-bold text-indigo-900">SANDARAN & KOSONGKAN DATA SEJARAH GANGGUAN MMI</h3>
-            <p class="text-slate-500 text-xs mt-1">MUAT TURUN SANDARAN JSON, KEMUDIAN PADAM SEMUA LOG GANGGUAN MMI DENGAN SELAMAT.</p>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900">SANDARAN & KOSONGKAN DATA SEJARAH GANGGUAN MMI</h3>
+            <p class="text-slate-500 text-xs mt-1 font-medium">MUAT TURUN SANDARAN JSON, KEMUDIAN PADAM SEMUA LOG GANGGUAN MMI DENGAN SELAMAT.</p>
           </div>
-          <button @click="backupAndClearMmi" :disabled="loading" class="px-5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-xl transition shadow-sm border border-indigo-200 disabled:opacity-50 shrink-0 cursor-pointer">
+          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
+          <button @click="backupAndClearMmi" :disabled="loading" class="w-full sm:w-80 h-11 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-2xl transition shadow-sm border border-indigo-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             📥 SANDARAN & KOSONGKAN DATA MMI
           </button>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h3 class="text-sm font-bold text-red-600">OPERASI BERBAHAYA: INISIALISASI SISTEM</h3>
-            <p class="text-slate-500 text-xs mt-1">KOSONGKAN CUTI, GURU GANTI, JADUAL, SENARAI GURU, PULIH KEPADA KEADAAN ASAL.</p>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-red-600">OPERASI BERBAHAYA: INISIALISASI SISTEM</h3>
+            <p class="text-slate-500 text-xs mt-1 font-medium">KOSONGKAN CUTI, GURU GANTI, JADUAL, SENARAI GURU, PULIH KEPADA KEADAAN ASAL.</p>
           </div>
-          <button @click="clearEverything" :disabled="loading" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs rounded-xl transition shadow-md disabled:opacity-50 shrink-0 cursor-pointer">
+          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
+          <button @click="clearEverything" :disabled="loading" class="w-full sm:w-80 h-11 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-2xl transition shadow-md disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             TETAP SEMULA SISTEM SEPENUHNYA
           </button>
         </div>

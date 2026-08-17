@@ -1,27 +1,42 @@
 <template>
-  <div class="p-6 max-w-7xl mx-auto">
-    <h1 class="text-2xl font-bold mb-6 text-gray-800">PENGURUSAN PROFIL GURU</h1>
+  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
+    
+    <!-- 头部区域：统一的卡片、排版规范与渐变标题 -->
+    <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div class="space-y-2 max-w-3xl">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+          PENGURUSAN PROFIL GURU
+        </h1>
+        <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
+          PENGURUSAN MAKLUMAT GURU, AGIHAN SESI, HAD MAKSIMUM GANTIAN DAN IMPORT BERKELOMPOK CSV.
+        </p>
+      </div>
+
+      <button @click="showModal = true" class="w-full md:w-auto bg-slate-900 hover:bg-slate-800 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition cursor-pointer shrink-0">
+        + TAMBAH GURU
+      </button>
+    </div>
     
     <!-- 顶部操作栏：双班制胶囊切换器与功能区 -->
-    <div class="bg-white p-4 rounded-3xl shadow-sm ring-1 ring-slate-900/5 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5 flex flex-col md:flex-row justify-between items-center gap-4">
       
       <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
         <!-- 左侧：上午班 / 下午班胶囊切换器 -->
         <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner w-full sm:w-auto">
           <button 
             @click="currentSession = 'morning'" 
-            class="flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+            class="flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
             :class="currentSession === 'morning' 
-              ? 'bg-white text-indigo-600 shadow-sm ring-2 ring-blue-600' 
+              ? 'bg-slate-900 text-white shadow-sm' 
               : 'text-slate-500 hover:text-slate-900'"
           >
             <span>☀️</span> SESI PAGI
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
-            class="flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+            class="flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
             :class="currentSession === 'afternoon' 
-              ? 'bg-white text-orange-600 shadow-sm ring-2 ring-orange-500' 
+              ? 'bg-slate-900 text-white shadow-sm' 
               : 'text-slate-500 hover:text-slate-900'"
           >
             <span>🌙</span> SESI PETANG
@@ -29,48 +44,45 @@
         </div>
 
         <!-- 批量导入与模版按钮组 -->
-        <div class="flex gap-2 w-full sm:w-auto">
-          <button @click="downloadTemplate" class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl hover:bg-emerald-700 text-sm font-semibold shadow-sm transition cursor-pointer">
+        <div class="flex gap-3 w-full sm:w-auto">
+          <button @click="downloadTemplate" class="bg-emerald-600 text-white px-4 h-11 rounded-2xl hover:bg-emerald-700 text-xs font-bold shadow-sm transition cursor-pointer">
             MUAT TURUN TEMPLAT IMPORT
           </button>
-          <label class="bg-blue-600 text-white px-4 py-2.5 rounded-xl hover:bg-blue-700 cursor-pointer text-sm font-semibold shadow-sm transition flex items-center justify-center">
+          <label class="bg-blue-600 text-white px-4 h-11 rounded-2xl hover:bg-blue-700 cursor-pointer text-xs font-bold shadow-sm transition flex items-center justify-center">
             IMPORT BERKELOMPOK
             <input type="file" accept=".csv" @change="handleCsvUpload" class="hidden" />
           </label>
         </div>
       </div>
 
-      <button @click="showModal = true" class="w-full md:w-auto bg-purple-600 text-white px-6 py-2.5 rounded-xl hover:bg-purple-700 text-sm font-semibold shadow-md transition cursor-pointer">
-        +  TAMBAH GURU
-      </button>
     </div>
 
     <!-- 教师列表表格 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 overflow-hidden">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="bg-gray-50 text-gray-700 select-none text-sm border-b border-slate-100">
-            <th @click="sortBy('name')" class="p-4 cursor-pointer hover:bg-gray-100 transition">
+          <tr class="bg-slate-50/50 border-b border-slate-100 text-slate-500 text-xs uppercase tracking-widest font-semibold select-none">
+            <th @click="sortBy('name')" class="p-4 cursor-pointer hover:text-indigo-600 transition">
               <div class="flex items-center gap-1 font-bold">
                 NAMA GURU <span class="text-xs text-slate-400">{{ getSortIcon('name') }}</span>
               </div>
             </th>
-            <th @click="sortBy('subject')" class="p-4 cursor-pointer hover:bg-gray-100 transition">
+            <th @click="sortBy('subject')" class="p-4 cursor-pointer hover:text-indigo-600 transition">
               <div class="flex items-center gap-1 font-bold">
                 SUBJEK <span class="text-xs text-slate-400">{{ getSortIcon('subject') }}</span>
               </div>
             </th>
-            <th @click="sortBy('session')" class="p-4 cursor-pointer hover:bg-gray-100 transition">
+            <th @click="sortBy('session')" class="p-4 cursor-pointer hover:text-indigo-600 transition">
               <div class="flex items-center gap-1 font-bold">
                 SESI <span class="text-xs text-slate-400">{{ getSortIcon('session') }}</span>
               </div>
             </th>
-            <th @click="sortBy('max_substitute_per_week')" class="p-4 cursor-pointer hover:bg-gray-100 transition">
+            <th @click="sortBy('max_substitute_per_week')" class="p-4 cursor-pointer hover:text-indigo-600 transition">
               <div class="flex items-center gap-1 font-bold">
-                JUMLAH  GANTIAN MAKSIMUM SEMINGGU <span class="text-xs text-slate-400">{{ getSortIcon('max_substitute_per_week') }}</span>
+                JUMLAH GANTIAN MAKSIMUM SEMINGGU <span class="text-xs text-slate-400">{{ getSortIcon('max_substitute_per_week') }}</span>
               </div>
             </th>
-            <th @click="sortBy('is_active')" class="p-4 cursor-pointer hover:bg-gray-100 transition">
+            <th @click="sortBy('is_active')" class="p-4 cursor-pointer hover:text-indigo-600 transition">
               <div class="flex items-center gap-1 font-bold">
                 STATUS <span class="text-xs text-slate-400">{{ getSortIcon('is_active') }}</span>
               </div>
@@ -78,14 +90,14 @@
             <th class="p-4 font-bold">TINDAKAN</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="divide-y divide-slate-100 text-xs font-medium text-slate-800">
           <tr v-if="filteredTeachers.length === 0">
-            <td colspan="6" class="p-12 text-center text-slate-400 text-sm">
+            <td colspan="6" class="p-12 text-center text-slate-400 text-xs font-medium">
               TIADA DATA GURU UNTUK SESI INI
             </td>
           </tr>
-          <tr v-for="t in filteredTeachers" :key="t.id" class="hover:bg-slate-50/80 transition border-b border-slate-50 last:border-none">
-            <td class="p-4 font-semibold text-slate-800">
+          <tr v-for="t in filteredTeachers" :key="t.id" class="hover:bg-slate-50/80 transition">
+            <td class="p-4 font-bold text-slate-900">
               {{ t.name }}
               <!-- 行政人员标签 -->
               <span v-if="t.is_admin" class="ml-2 px-2 py-0.5 bg-rose-100 text-rose-700 rounded-md text-[10px] font-bold tracking-widest">
@@ -96,20 +108,20 @@
                 KAUNSELOR
               </span>
             </td>
-            <td class="p-4 text-slate-600">{{ t.subject || '-' }}</td>
+            <td class="p-4 font-semibold text-slate-700">{{ t.subject || '-' }}</td>
             <td class="p-4">
-              <span :class="t.session === 'afternoon' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'" class="px-3 py-1 rounded-full text-xs font-bold">
+              <span :class="t.session === 'afternoon' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'" class="px-2.5 py-1 rounded-full text-xs font-bold">
                 {{ t.session === 'afternoon' ? 'SESI PETANG' : 'SESI PAGI' }}
               </span>
             </td>
-            <td class="p-4 text-slate-600">{{ t.max_substitute_per_week }} SLOT</td>
+            <td class="p-4 font-bold text-slate-700">{{ t.max_substitute_per_week }} SLOT</td>
             <td class="p-4">
-              <span :class="t.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'" class="px-2.5 py-1 rounded-md text-xs font-semibold">
+              <span :class="t.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">
                 {{ t.is_active ? 'BERKHIDMAT' : 'BERHENTI' }}
               </span>
             </td>
             <td class="p-4">
-              <button @click="deleteTeacher(t.id)" class="text-red-600 hover:text-red-800 text-sm font-medium transition cursor-pointer">PADAM</button>
+              <button @click="deleteTeacher(t.id)" class="text-xs text-red-600 hover:text-red-800 font-bold px-2.5 py-1.5 bg-red-50 hover:bg-red-100 rounded-lg cursor-pointer transition">PADAM</button>
             </td>
           </tr>
         </tbody>
@@ -118,34 +130,34 @@
 
     <!-- 新增模态框 -->
     <div v-if="showModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div class="bg-white p-6 rounded-3xl w-full max-w-sm shadow-2xl ring-1 ring-slate-900/10 max-h-[90vh] overflow-y-auto">
-        <h2 class="text-lg font-bold text-slate-900 mb-4">TAMBAH GURU BAHARU</h2>
+      <div class="bg-white p-6 rounded-3xl w-full max-w-sm shadow-2xl ring-1 ring-slate-900/10 max-h-[90vh] overflow-y-auto space-y-4">
+        <h2 class="text-base font-bold text-slate-900 mb-2">TAMBAH GURU BAHARU</h2>
         
         <div class="space-y-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">NAMA</label>
-            <input v-model="form.name" placeholder="CONTOH: AHMAD" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+            <label class="block text-xs font-bold text-slate-500 mb-1">NAMA</label>
+            <input v-model="form.name" placeholder="CONTOH: AHMAD" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">SUBJEK</label>
-            <input v-model="form.subject" placeholder="CONTOH: BAHASA CINA" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+            <label class="block text-xs font-bold text-slate-500 mb-1">SUBJEK</label>
+            <input v-model="form.subject" placeholder="CONTOH: BAHASA CINA" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">AGIHAN SESI</label>
-            <select v-model="form.session" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer">
+            <label class="block text-xs font-bold text-slate-500 mb-1">AGIHAN SESI</label>
+            <select v-model="form.session" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer">
               <option value="morning">SESI PAGI (MORNING)</option>
               <option value="afternoon">SESI PETANG (AFTERNOON)</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1">HAD MAKSIMUM GURU GANTI (SLOT)</label>
-            <input v-model.number="form.max_substitute_per_week" type="number" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+            <label class="block text-xs font-bold text-slate-500 mb-1">HAD MAKSIMUM GURU GANTI (SLOT)</label>
+            <input v-model.number="form.max_substitute_per_week" type="number" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
           </div>
 
           <!-- 行政人员开关 -->
           <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl mt-2">
             <div>
-              <label class="block text-sm font-semibold text-slate-700">TETAPKAN SEBAGAI PENTADBIR</label>
+              <label class="block text-xs font-bold text-slate-700">TETAPKAN SEBAGAI PENTADBIR</label>
               <p class="text-[10px] text-slate-500 mt-0.5">RENDAHKAN KEUTAMAAN KETIKA JADUAL (KE BAWAH)</p>
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
@@ -157,7 +169,7 @@
           <!-- 新增：辅导老师开关 -->
           <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl mt-2">
             <div>
-              <label class="block text-sm font-semibold text-slate-700">TETAPKAN SEBAGAI KAUNSELOR</label>
+              <label class="block text-xs font-bold text-slate-700">TETAPKAN SEBAGAI KAUNSELOR</label>
               <p class="text-[10px] text-slate-500 mt-0.5">HAD GANTI PINTAR HARIAN DILUASKAN KEPADA 4 SLOT</p>
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
@@ -169,8 +181,8 @@
         </div>
 
         <div class="mt-6 flex gap-3">
-          <button @click="showModal = false" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer">BATAL</button>
-          <button @click="saveTeacher" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-xl text-sm font-semibold shadow-md transition cursor-pointer">SIMPAN</button>
+          <button @click="showModal = false" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">BATAL</button>
+          <button @click="saveTeacher" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition cursor-pointer">SIMPAN</button>
         </div>
       </div>
     </div>
