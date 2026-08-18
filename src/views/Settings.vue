@@ -1,7 +1,6 @@
 <template>
   <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
-    <!-- 头部区域：统一的卡片风格、排版规范与渐变大标题 -->
     <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
       <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
         TETAPAN & PENYENGGARAN SISTEM KESELURUHAN
@@ -11,7 +10,69 @@
       </p>
     </div>
 
-    <!-- 卡片：学校 Logo 与外观设置 -->
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
+      <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">👤</span>
+        PENGURUSAN AKAUN PENTADBIR
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">TAMBAH PENTADBIR BAHARU</h3>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">E-MEL PENGGUNA BAHARU</label>
+            <input 
+              v-model="newUserEmail" 
+              type="email" 
+              placeholder="teacher@school.edu.my" 
+              class="w-full px-4 h-11 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">KATA LALUAN</label>
+            <input 
+              v-model="newUserPassword" 
+              type="password" 
+              placeholder="Sekurang-kurangnya 6 aksara" 
+              class="w-full px-4 h-11 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            />
+          </div>
+
+          <button 
+            @click="handleCreateUser" 
+            :disabled="creatingUser"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white h-11 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer disabled:opacity-50"
+          >
+            {{ creatingUser ? 'SEDANG DICIPTA...' : 'SAHKAN & CIPTA PENGGUNA' }}
+          </button>
+        </div>
+
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">📋 SENARAI PENGGUNA SEMASA</h3>
+            <button @click="fetchUsers" class="text-xs text-indigo-600 font-bold hover:underline cursor-pointer">SEGAR SEMULA</button>
+          </div>
+
+          <div class="flex-1 overflow-y-auto max-h-56 space-y-2 border border-slate-200 bg-white rounded-xl p-3">
+            <div v-if="userList.length === 0" class="text-center text-xs text-slate-400 py-8">TIADA PENGGUNA ATAU SEDANG DIMUAT...</div>
+            <div v-for="u in userList" :key="u.id" class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+              <div class="truncate pr-2">
+                <div class="font-bold text-slate-800 truncate">{{ u.email }}</div>
+                <div class="text-[10px] text-slate-400">Dicipta: {{ new Date(u.created_at).toLocaleDateString() }}</div>
+              </div>
+              <button 
+                @click="handleDeleteUser(u.id, u.email)" 
+                class="text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg font-bold transition shrink-0 cursor-pointer"
+              >
+                PADAM
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">🖼️</span>
@@ -34,12 +95,10 @@
           <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TUKAR LOGO SEKOLAH (SOKONG MUAT NAIK TEMPATAN)</label>
           
           <div class="flex items-center gap-6">
-            <!-- 预览图 -->
             <div class="w-20 h-20 rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-center p-2 overflow-hidden shadow-inner shrink-0">
               <img :src="schoolLogoSetting || '/logo.png'" alt="Logo Preview" class="w-full h-full object-contain" />
             </div>
 
-            <!-- 上传按钮与说明 -->
             <div class="flex-1 space-y-2">
               <label class="relative inline-flex cursor-pointer bg-slate-900 hover:bg-slate-800 text-white px-5 h-11 rounded-2xl text-xs font-bold transition shadow-sm items-center gap-2">
                 <span>📂 PILIH IMEJ LOGO BAHARU</span>
@@ -61,7 +120,6 @@
       </div>
     </div>
 
-    <!-- 卡片一：学校作息配置 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">🏫</span>
@@ -104,7 +162,6 @@
       </div>
     </div>
 
-    <!-- 卡片二：学年上课周历与假期维护 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs">📅</span>
@@ -180,7 +237,6 @@
       </div>
     </div>
 
-    <!-- 卡片三：学校班级基础管理 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center font-bold text-xs">📚</span>
@@ -264,7 +320,6 @@
       </div>
     </div>
 
-    <!-- 卡片四：MMI 科目目标模板管理与批量导入 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">📊</span>
@@ -290,7 +345,6 @@
       </div>
     </div>
 
-    <!-- 卡片五：本地数据备份与恢复 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">💾</span>
@@ -299,7 +353,6 @@
       <p class="text-slate-500 text-xs font-medium mb-6">Buat sandaran berkala bagi semua data teras sekolah dan simpan dalam komputer tempatan untuk memastikan data sentiasa selamat.</p>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- 导出备份 -->
         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">EKSPORT SANDARAN DATA PENUH</h3>
@@ -310,7 +363,6 @@
           </button>
         </div>
 
-        <!-- 恢复备份 -->
         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">PULIH DATA SISTEM</h3>
@@ -324,7 +376,6 @@
       </div>
     </div>
 
-    <!-- 卡片六：正式上线数据清理、备份与维护面板 -->
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
         <span class="w-8 h-8 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center font-bold text-xs">🛠️</span>
@@ -338,7 +389,6 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">KOSONGKAN SEMUA REKOD CUTI & GURU GANTI</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">PADAM HANYA DATA UJIAN CUTI & GURU GANTI, KEKALKAN PROFIL GURU & JADUAL.</p>
           </div>
-          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
           <button @click="clearOnlyRecords" :disabled="loading" class="w-full sm:w-80 h-11 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-xs rounded-2xl transition shadow-sm border border-amber-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             KOSONGKAN REKOD CUTI
           </button>
@@ -349,7 +399,6 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">TETAP SEMULA JADUAL WAKTU SEKOLAH</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">KOSONGKAN SEMUA DATA JADUAL WAKTU, MEMUDAHKAN IMPORT JADUAL BAHARU.</p>
           </div>
-          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
           <button @click="clearOnlyTimetable" :disabled="loading" class="w-full sm:w-80 h-11 bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold text-xs rounded-2xl transition shadow-sm border border-orange-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             KOSONGKAN JADUAL WAKTU SEKOLAH
           </button>
@@ -360,7 +409,6 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900">SANDARAN & KOSONGKAN DATA SEJARAH GANGGUAN MMI</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">MUAT TURUN SANDARAN JSON, KEMUDIAN PADAM SEMUA LOG GANGGUAN MMI DENGAN SELAMAT.</p>
           </div>
-          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
           <button @click="backupAndClearMmi" :disabled="loading" class="w-full sm:w-80 h-11 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-2xl transition shadow-sm border border-indigo-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             📥 SANDARAN & KOSONGKAN DATA MMI
           </button>
@@ -371,7 +419,6 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-red-600">OPERASI BERBAHAYA: INISIALISASI SISTEM</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">KOSONGKAN CUTI, GURU GANTI, JADUAL, SENARAI GURU, PULIH KEPADA KEADAAN ASAL.</p>
           </div>
-          <!-- ⭐️ 统一加上 w-full sm:w-80 和 justify-center -->
           <button @click="clearEverything" :disabled="loading" class="w-full sm:w-80 h-11 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-2xl transition shadow-md disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
             TETAP SEMULA SISTEM SEPENUHNYA
           </button>
@@ -379,7 +426,6 @@
       </div>
     </div>
 
-    <!-- 📊 动态数字百分比进度条弹窗 -->
     <Transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -437,6 +483,74 @@ const config = ref({ daysPerWeek: 5, periodsPerDay: 8 })
 const loading = ref(false)
 const fileInput = ref(null)
 const weekFileInput = ref(null)
+
+// --- 用户管理状态 ---
+const newUserEmail = ref('')
+const newUserPassword = ref('')
+const creatingUser = ref(false)
+const userList = ref([])
+
+const fetchUsers = async () => {
+  try {
+    const { data, error } = await supabase.functions.invoke('create-user?action=list', {
+      method: 'GET'
+    })
+    if (error || data?.error) throw new Error(error?.message || data?.error)
+    if (data?.users) {
+      userList.value = data.users
+    }
+  } catch (err) {
+    console.error("Gagal memuatkan senarai pengguna:", err.message)
+  }
+}
+
+const handleCreateUser = async () => {
+  if (!newUserEmail.value.trim() || !newUserPassword.value) {
+    return toast.error("Sila isi e-mel dan kata laluan dengan lengkap!")
+  }
+
+  creatingUser.value = true
+  try {
+    const { data, error } = await supabase.functions.invoke('create-user?action=create', {
+      body: { 
+        email: newUserEmail.value.trim(), 
+        password: newUserPassword.value 
+      }
+    })
+
+    if (error || data?.error) {
+      throw new Error(error?.message || data?.error)
+    }
+
+    toast.success("Berjaya cipta pengguna baharu!")
+    newUserEmail.value = ''
+    newUserPassword.value = ''
+    fetchUsers()
+  } catch (err) {
+    toast.error("Gagal mencipta pengguna: " + err.message)
+  } finally {
+    creatingUser.value = false
+  }
+}
+
+const handleDeleteUser = async (userId, email) => {
+  if (!confirm(`⚠️ Adakah anda pasti mahu memadam akaun pentadbir ${email}? Selepas dipadam, pengguna ini tidak boleh log masuk lagi.`)) return
+
+  try {
+    const { data, error } = await supabase.functions.invoke('create-user?action=delete', {
+      body: { userId }
+    })
+
+    if (error || data?.error) {
+      throw new Error(error?.message || data?.error)
+    }
+
+    toast.success("Pengguna berjaya dipadam")
+    fetchUsers()
+  } catch (err) {
+    toast.error("Gagal memadam pengguna: " + err.message)
+  }
+}
 
 // 📊 上传百分比进度条状态
 const uploadProgress = ref({
@@ -512,6 +626,7 @@ onMounted(() => {
   fetchClasses()
   fetchSchoolWeeks()
   fetchSchoolIdentity()
+  fetchUsers() // 自动加载用户列表
 })
 
 const saveConfig = () => {
