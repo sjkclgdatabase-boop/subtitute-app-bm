@@ -149,7 +149,8 @@ const navItems = [
   { name: 'GAMBARAN KESELURUHAN', path: '/', icon: '📊' },
   { name: 'PENDAFTARAN CUTI GURU', path: '/leave-entry', icon: '📝' },
   { name: 'PROFIL GURU', path: '/teachers', icon: '👩‍🏫' },
-  { name: 'JADUAL WAKTU', path: '/timetable', icon: '📅' },
+  { name: 'JADUAL WAKTU GURU', path: '/timetable', icon: '📅' },
+  { name: 'JADUAL WAKTU KELAS', path: '/class-timetable', icon: '🏫' }, // 🟢 马来文版新增的班级课表选单
   { name: 'JADUAL GURU GANTI', path: '/records', icon: '🔄' },
   { name: 'PUSAT LAPORAN MMI', path: '/statistics', icon: '📈' },
   { name: 'REKOD GANGGUAN MMI', path: '/mmi-interruption', icon: '⚠️' }, 
