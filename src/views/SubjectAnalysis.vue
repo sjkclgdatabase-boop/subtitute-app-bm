@@ -6,7 +6,8 @@
       
       <!-- 第一部分：大标题与副标题 -->
       <div class="space-y-2 max-w-4xl">
-        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 flex items-center gap-3">
+          <GraduationCap class="w-8 h-8 text-indigo-700 shrink-0" />
           PUSAT ANALISIS SASARAN & KADAR PENCAPAIAN SUBJEK
         </h1>
         <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
@@ -24,28 +25,29 @@
             class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
             :class="activeTab === 'table' ? 'bg-slate-900 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'"
           >
-            <span>📊 LAPORAN DATA TERPERINCI</span>
+            <BarChart3 class="w-4 h-4" /> LAPORAN DATA TERPERINCI
           </button>
           <button 
             @click="activeTab = 'chart'" 
             class="px-5 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
             :class="activeTab === 'chart' ? 'bg-slate-900 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'"
           >
-            <span>📈 PAPAN PEMUKA CARTA VISUAL</span>
+            <PieChart class="w-4 h-4" /> PAPAN PEMUKA CARTA VISUAL
           </button>
         </div>
 
         <!-- 右侧：三个操作按钮 -->
         <div class="flex flex-wrap items-center gap-3">
           <button @click="exportPdfReport" class="no-print bg-emerald-600 hover:bg-emerald-700 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
-            <span>📥 CETAK / PDF</span>
+            <Printer class="w-4 h-4" /> CETAK / PDF
           </button>
-          <button @click="showManageModal = true" class="no-print bg-slate-900 hover:bg-slate-800 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm cursor-pointer">
-            ⚙️ URUS SASARAN
+          <button @click="showManageModal = true" class="no-print bg-slate-900 hover:bg-slate-800 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm cursor-pointer flex items-center gap-2">
+            <Settings class="w-4 h-4" /> URUS SASARAN
           </button>
           <button @click="loadAnalyticsData" :disabled="loading" class="no-print bg-indigo-600 hover:bg-indigo-700 text-white px-5 h-11 rounded-2xl text-xs font-bold transition shadow-sm cursor-pointer flex items-center gap-2">
             <span v-if="loading" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-            <span>{{ loading ? 'MENGIRA...' : '🔄 SEGAR SEMULA' }}</span>
+            <RotateCw v-else class="w-4 h-4" />
+            <span>{{ loading ? 'MENGIRA...' : 'SEGAR SEMULA' }}</span>
           </button>
         </div>
 
@@ -80,7 +82,9 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-indigo-600 mb-2 uppercase tracking-wider">👨‍🏫 PENAPIS MENGIKUT GURU SUBJEK</label>
+        <label class="block text-xs font-bold text-indigo-600 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <Users class="w-4 h-4 text-indigo-600" /> PENAPIS MENGIKUT GURU SUBJEK
+        </label>
         <select v-model="filterTeacher" class="w-full bg-indigo-50/50 border border-indigo-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
           <option value="all">SEMUA GURU SEKOLAH</option>
           <option v-for="tch in allTeachers" :key="tch.id" :value="tch.name">{{ tch.name }}</option>
@@ -108,9 +112,12 @@
           <div class="text-xs font-bold text-emerald-600 uppercase tracking-wider">SASARAN DICAPAI (MELEPASI)</div>
           <div class="text-3xl font-black text-emerald-700 mt-2">{{ analysisSummary.met }}</div>
         </div>
-        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
-          <div class="text-xs font-bold text-red-600 uppercase tracking-wider">⚠️ BELUM DICAPAI (AMARAN)</div>
-          <div class="text-3xl font-black text-red-700 mt-2">{{ analysisSummary.unmet }}</div>
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-red-600 uppercase tracking-wider">BELUM DICAPAI (AMARAN)</div>
+            <div class="text-3xl font-black text-red-700 mt-2">{{ analysisSummary.unmet }}</div>
+          </div>
+          <AlertTriangle class="w-8 h-8 text-red-500/80 shrink-0" />
         </div>
       </div>
 
@@ -196,7 +203,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex justify-between items-center">
-              <h3 class="text-sm font-bold text-slate-800">🎯 KADAR KESIHATAN PENCAPAIAN KESELURUHAN SUBJEK</h3>
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <Target class="w-4 h-4 text-indigo-600" /> KADAR KESIHATAN PENCAPAIAN KESELURUHAN SUBJEK
+              </h3>
               <span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2.5 py-1 rounded-lg">PENGIRAAN MASA NYATA</span>
             </div>
             
@@ -214,7 +223,9 @@
 
           <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex justify-between items-center">
-              <h3 class="text-sm font-bold text-slate-800">📊 TABURAN PENCAPAIAN MENGIKUT TAHUN</h3>
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <BarChart3 class="w-4 h-4 text-indigo-600" /> TABURAN PENCAPAIAN MENGIKUT TAHUN
+              </h3>
               <span class="text-xs text-slate-400 font-semibold">DICAPAI VS BELUM DICAPAI</span>
             </div>
 
@@ -236,7 +247,9 @@
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
           <div class="flex justify-between items-center">
             <div>
-              <h3 class="text-sm font-bold text-slate-800">⚠️ KEDUDUKAN SUBJEK KEHILANGAN SLOT TERBANYAK AKIBAT GANGGUAN MMI</h3>
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <AlertTriangle class="w-4 h-4 text-amber-500" /> KEDUDUKAN SUBJEK KEHILANGAN SLOT TERBANYAK AKIBAT GANGGUAN MMI
+              </h3>
               <p class="text-xs text-slate-400 mt-0.5 font-medium">MENUNJUKKAN KEHILANGAN SLOT PENGAJARAN MENGIKUT SUBJEK AKIBAT CUTI ATAU URUSAN RASMI</p>
             </div>
             <span class="text-xs bg-amber-50 text-amber-700 px-3 py-1 rounded-full font-bold">AMARAN GANGGUAN</span>
@@ -269,8 +282,12 @@
     <div v-if="showManageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
       <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
         <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-          <h3 class="text-base font-bold text-slate-800">⚙️ PENYENGGARAN SASARAN SUBJEK DALAM TALIAN</h3>
-          <button @click="showManageModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-sm cursor-pointer">✕ TUTUP</button>
+          <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+            <Settings class="w-4 h-4 text-indigo-600" /> PENYENGGARAN SASARAN SUBJEK DALAM TALIAN
+          </h3>
+          <button @click="showManageModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-sm cursor-pointer flex items-center gap-1">
+            <X class="w-4 h-4" /> TUTUP
+          </button>
         </div>
 
         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
@@ -288,8 +305,8 @@
             <label class="block text-[11px] font-bold text-slate-600 mb-1">JUMLAH SLOT RANCANGAN</label>
             <input type="number" v-model.number="newTarget.planned_periods" placeholder="CONTOH: 215" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold" />
           </div>
-          <button @click="addTarget" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer">
-            ➕ TAMBAH SASARAN BAHARU
+          <button @click="addTarget" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer flex items-center justify-center gap-1.5">
+            <Plus class="w-3.5 h-3.5" /> TAMBAH SASARAN BAHARU
           </button>
         </div>
 
@@ -302,8 +319,8 @@
                 <span class="text-slate-900 font-bold">{{ t.subject_name }}</span>
                 <span class="text-slate-500">SASARAN: <strong>{{ t.planned_periods }}</strong> SLOT</span>
               </div>
-              <button @click="deleteTarget(t.id)" class="text-slate-400 hover:text-red-600 text-xs font-bold px-2 py-1 transition cursor-pointer">
-                🗑️ PADAM
+              <button @click="deleteTarget(t.id)" class="text-slate-400 hover:text-red-600 text-xs font-bold px-2 py-1 transition cursor-pointer flex items-center gap-1">
+                <Trash2 class="w-3.5 h-3.5" /> PADAM
               </button>
             </div>
           </div>
@@ -324,6 +341,20 @@
 import { ref, computed, onMounted, onActivated } from 'vue'
 import { supabase } from '../services/supabase'
 import { useToast } from '../utils/toast'
+import { 
+  GraduationCap, 
+  BarChart3, 
+  PieChart, 
+  Printer, 
+  Settings, 
+  RotateCw, 
+  Users, 
+  AlertTriangle, 
+  Target, 
+  X, 
+  Plus, 
+  Trash2 
+} from 'lucide-vue-next'
 
 const toast = useToast()
 const loading = ref(false)
@@ -513,15 +544,13 @@ const loadAnalyticsData = async () => {
         const uniquePeriods = new Set(matchedEntries.map(e => `${e.weekday}-${e.period}`))
         const weeklyPeriods = uniquePeriods.size
 
-       // 🌟 核心升级：引入时间槽去重 Set，防止同一节课同时被“请假”和“MMI干扰”重复计算两次
         const lostSlotSet = new Set()
 
-        // 1. 请假干扰损失收集
         if (leaveRequests && leaveRequests.length > 0) {
           leaveRequests.forEach(req => {
             const reqClass = cleanString(req.class_name)
             const clsName = cleanString(cls.class_name)
-            const isClassMatched = reqClass === clsName || reqClass.includes(clsName) || clsName.includes(reqClass)
+            const isClassMatched = reqClass === clsName || reqClass.includes(clsName) || reqClass.includes(reqClass)
             const isSubjMatched = isSubjectMatch(req.subject, standardizedTargetSubject)
 
             const reqTeacherNameClean = cleanString(req.teacher_name)
@@ -544,19 +573,16 @@ const loadAnalyticsData = async () => {
                   const matchWd = itemWeekday === leaveWeekday || itemWeekday === (leaveWeekday === 0 ? 7 : leaveWeekday)
                   
                   if (matchCls && matchSubj && matchWd) {
-                    // ⭐️ 以“日期-节次”作为唯一凭证存入 Set
                     lostSlotSet.add(`${req.leave_date}-P${item.period}`)
                   }
                 })
               } else {
-                // 如果没有具体日期，作为保底直接计入一个标记
                 lostSlotSet.add(`NODATE-${Math.random()}`)
               }
             }
           })
         }
 
-        // 2. MMI 活动干扰损失收集
         if (interruptions && interruptions.length > 0) {
           interruptions.forEach(int => {
             if (int.type === 'class') {
@@ -592,7 +618,6 @@ const loadAnalyticsData = async () => {
                   const matchWeekday = itemWeekday === intWeekday || itemWeekday === (intWeekday === 0 ? 7 : intWeekday)
 
                   if (matchClass && matchPeriod && matchSubject && matchWeekday) {
-                    // ⭐️ 同样以“日期-节次”存入 Set，自动过滤掉和前面“请假”重叠的同一节课
                     lostSlotSet.add(`${int.interruption_date}-P${item.period}`)
                   }
                 })
@@ -601,7 +626,6 @@ const loadAnalyticsData = async () => {
           })
         }
 
-        // 3. 最终该科目的总受干扰损失节数 = 去重后的时间槽总大小
         let lostCount = lostSlotSet.size
 
         const plannedAccumulated = currentWeek * weeklyPeriods

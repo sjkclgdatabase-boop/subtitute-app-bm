@@ -6,7 +6,8 @@
       
       <!-- 第一/二行：大标题与副标题 -->
       <div class="space-y-2 max-w-4xl">
-        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 flex items-center gap-3">
+          <UsersRound class="w-8 h-8 text-indigo-700 shrink-0" />
           PENGURUSAN GURU GANTI HARIAN
         </h1>
         <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
@@ -17,25 +18,36 @@
       <!-- 第三行：所有功能按钮横向平铺排列 -->
       <div class="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-100">
         
-        <!-- 1. 班次切换标签 (SESI PAGI / SESI PETANG) -->
+        <!-- 1. 智能排课按钮 -->
+        <button 
+          @click="handleAutoAssignAll"
+          :disabled="isAutoAssigning"
+          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+        >
+          <span v-if="isAutoAssigning" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+          <Zap v-else class="w-4 h-4" />
+          <span>⚡ TETAPAN GURU GANTI PINTAR</span>
+        </button>
+
+        <!-- 2. 班次切换标签 (SESI PAGI / SESI PETANG) -->
         <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner">
           <button 
             @click="currentSession = 'morning'" 
             :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
           >
-            <span>☀️ SESI PAGI</span>
+            <Sun class="w-4 h-4 text-amber-500" /> SESI PAGI
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
             :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
           >
-            <span>🌙 SESI PETANG</span>
+            <Moon class="w-4 h-4 text-indigo-400" /> SESI PETANG
           </button>
         </div>
 
-        <!-- 2. 选择日期 (PILIH TARIKH) -->
+        <!-- 3. 选择日期 (PILIH TARIKH) -->
         <div class="flex items-center gap-2 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0">
           <span class="text-xs font-bold text-slate-500 whitespace-nowrap">PILIH TARIKH:</span>
           <input 
@@ -45,22 +57,12 @@
           />
         </div>
 
-        <!-- 3. 智能排课 (TETAPAN GURU GANTI PINTAR) -->
-        <button 
-          @click="handleAutoAssignAll"
-          :disabled="isAutoAssigning"
-          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
-        >
-          <span v-if="isAutoAssigning" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <span>⚡ TETAPAN GURU GANTI PINTAR</span>
-        </button>
-
         <!-- 4. 打印按钮 (CETAK JADUAL) -->
         <button 
           @click="handlePrint"
-          class="bg-slate-900 hover:bg-slate-800 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+          class="bg-slate-900 hover:bg-slate-800 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          <Printer class="w-4 h-4" />
           <span>CETAK JADUAL</span>
         </button>
 
@@ -192,57 +194,57 @@
           
           <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur-md shrink-0">
             <div>
-              <h2 class="text-xl font-bold text-slate-900">PUSAT PENETAPAN GURU GANTI</h2>
-              <p class="text-sm text-slate-500 mt-1">SOKONGAN CADANGAN PINTAR, ATAU PILIH MANA-MANA GURU SESI YANG SAMA SECARA MANUAL DI BAWAH</p>
+              <h2 class="text-xl font-bold text-slate-900">PUSAT PENETAPAN GURU GANTI[cite: 19]</h2>
+              <p class="text-sm text-slate-500 mt-1">SOKONGAN CADANGAN PINTAR, ATAU PILIH MANA-MANA GURU SESI YANG SAMA SECARA MANUAL DI BAWAH[cite: 19]</p>
             </div>
             <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition cursor-pointer">×</button>
           </div>
           
           <div class="p-8 bg-slate-50/50 space-y-6 overflow-y-auto">
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <h3 class="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">🏷️ JENIS TUGASAN:</h3>
+              <h3 class="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">🏷️ JENIS TUGASAN:[cite: 19]</h3>
               <div class="flex flex-col sm:flex-row gap-4">
                 <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition">
                   <input type="radio" v-model="assignmentType" value="substitute" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
-                  <span class="text-sm font-semibold text-slate-800">GURU GANTI RASMI <span class="text-xs text-slate-400 font-normal ml-1">(DIKIRA DALAM STATISTIK BEBAN)</span></span>
+                  <span class="text-sm font-semibold text-slate-800">GURU GANTI RASMI <span class="text-xs text-slate-400 font-normal ml-1">(DIKIRA DALAM STATISTIK BEBAN)</span>[cite: 19]</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition">
                   <input type="radio" v-model="assignmentType" value="swap" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
-                  <span class="text-sm font-semibold text-slate-800">PERTUKARAN JADUAL <span class="text-xs text-slate-400 font-normal ml-1">(TIDAK DIKIRA DALAM STATISTIK)</span></span>
+                  <span class="text-sm font-semibold text-slate-800">PERTUKARAN JADUAL <span class="text-xs text-slate-400 font-normal ml-1">(TIDAK DIKIRA DALAM STATISTIK)</span>[cite: 19]</span>
                 </label>
               </div>
             </div>
             
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">📍 LOKASI / CATATAN:</span>
+              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">📍 LOKASI / CATATAN:[cite: 19]</span>
               <input 
                 v-model="assignmentRemark" 
                 type="text" 
-                placeholder="CONTOH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)" 
-                class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                placeholder="CONTOH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)[cite: 19]" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
               />
             </div>
 
             <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100 shadow-sm">
               <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center gap-2">
-                <span>🛠️ TETAPAN MANUAL (TANPA CADANGAN PINTAR)</span>
+                <span>🛠️ TETAPAN MANUAL (TANPA CADANGAN PINTAR)[cite: 19]</span>
               </h3>
               <div class="flex flex-col sm:flex-row items-center gap-3">
                 <select 
                   v-model="manualSelectedTeacherId" 
-                  class="w-full px-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                  class="w-full px-3.5 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
                 >
-                  <option value="" disabled>-- SILA PILIH GURU SESI SAMA SECARA MANUAL --</option>
+                  <option value="" disabled>-- SILA PILIH GURU SESI SAMA SECARA MANUAL --[cite: 19]</option>
                   <option v-for="t in allSameSessionTeachers" :key="t.id" :value="t.id">
-                    {{ t.name }} <span v-if="t.subject">(SUBJEK: {{ t.subject }})</span>
+                    {{ t.name }} <span v-if="t.subject">(SUBJEK: {{ t.subject }})[cite: 19]</span>
                   </option>
                 </select>
                 <button 
                   @click="assignSubstitute(manualSelectedTeacherId)" 
                   :disabled="!manualSelectedTeacherId"
-                  class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer"
+                  class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer"
                 >
-                  SAHKAN TETAPAN MANUAL
+                  SAHKAN TETAPAN MANUAL[cite: 19]
                 </button>
               </div>
             </div>
@@ -250,21 +252,27 @@
             <hr class="border-slate-200" />
 
             <div>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">✨ SENARAI CALON CADANGAN PINTAR (TOP 6)</h3>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2">
+                <Sparkles class="w-4 h-4 text-indigo-600" />
+                SENARAI CALON CADANGAN PINTAR (TOP 6)[cite: 19]
+              </h3>
               
               <div v-if="loadingRecs" class="flex flex-col items-center justify-center py-6 space-y-3">
                 <div class="w-6 h-6 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">ALGORITMA PINTAR SEDANG DIKIRA...</p>
+                <p class="text-xs text-slate-500 font-medium">ALGORITMA PINTAR SEDANG DIKIRA...[cite: 19]</p>
               </div>
               
               <div v-else-if="recommendations.length === 0" class="bg-white p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 text-center">
-                TIADA CADANGAN AUTOMATIK, SILA GUNAKAN TETAPAN MANUAL DI ATAS.
+                TIADA CADANGAN AUTOMATIK, SILA GUNAKAN TETAPAN MANUAL DI ATAS.[cite: 19]
               </div>
 
               <div v-else class="space-y-3">
                 <div v-for="(teacher, index) in recommendations" 
                     :key="teacher.id" 
-                    class="group flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-300 hover:shadow-sm transition-all">
+                    :class="[
+                      'group flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-300 hover:shadow-sm transition-all',
+                      { 'force-page-break': (index + 1) % 5 === 0 }
+                    ]">
                   <div class="flex items-center gap-3 mb-3 sm:mb-0">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 text-indigo-700 font-extrabold flex items-center justify-center text-xs">
                       #{{ index + 1 }}
@@ -274,25 +282,25 @@
                         {{ teacher.name }} 
                       </div>
                       <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2 flex-wrap">
-                        <span>JUMLAH PDPc HARIAN ASAL: <span class="font-bold text-slate-700">{{ teacher.originalClasses }} KELAS</span></span>
+                        <span>JUMLAH PDPc HARIAN ASAL: <span class="font-bold text-slate-700">{{ teacher.originalClasses }} KELAS</span>[cite: 19]</span>
                         <span>·</span>
-                        <span>JUMLAH GANTIAN HARI INI: <span class="font-bold text-orange-600">{{ teacher.todaySubCount }} KELAS</span></span>
+                        <span>JUMLAH GANTIAN HARI INI: <span class="font-bold text-orange-600">{{ teacher.todaySubCount }} KELAS</span>[cite: 19]</span>
                         <span>·</span>
-                        <span>JUMLAH GANTIAN MINGGU INI: <span class="font-bold text-slate-700">{{ teacher.currentSubCount }}/{{ teacher.max_substitute_per_week }}</span></span>
+                        <span>JUMLAH GANTIAN MINGGU INI: <span class="font-bold text-slate-700">{{ teacher.currentSubCount }}/{{ teacher.max_substitute_per_week }}</span>[cite: 19]</span>
                       </div>
                     </div>
                   </div>
                   <button @click="assignSubstitute(teacher.id)" class="bg-slate-900 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer">
-                    TETAPAN PINTAR
+                    TETAPAN PINTAR[cite: 19]
                   </button>
                 </div>
               </div>
             </div>
 
             <div v-if="currentLeaveItem && substituteAssignmentsMap[currentLeaveItem.id]" class="pt-2 border-t border-slate-100 flex justify-between items-center">
-              <span class="text-xs text-red-500 font-medium">SLOT INI TELAH MEMPUNYAI JADUAL GANTI / TUKAR</span>
+              <span class="text-xs text-red-500 font-medium">SLOT INI TELAH MEMPUNYAI JADUAL GANTI / TUKAR[cite: 19]</span>
               <button @click="removeAssignment" class="text-xs text-red-600 hover:text-red-800 font-bold px-3 py-1 bg-red-50 rounded-lg cursor-pointer">
-                BATALKAN PENETAPAN SEMASA
+                BATALKAN PENETAPAN SEMASA[cite: 19]
               </button>
             </div>
 
@@ -305,9 +313,9 @@
     <div v-for="(sheet, sIndex) in extraCustomSheets" :key="sheet.id" class="print-custom-sheet mt-12 print:mt-0 pt-8 print:pt-0 border-t-4 print:border-none border-dashed border-slate-300">
       
       <div class="print:hidden flex justify-between items-center mb-4 bg-amber-50 p-3 rounded-2xl border border-amber-200">
-        <span class="text-xs font-bold text-amber-900">📄 JADUAL TAMBAHAN / MANUAL #{{ sIndex + 1 }}</span>
+        <span class="text-xs font-bold text-amber-900">📄 JADUAL TAMBAHAN / MANUAL #{{ sIndex + 1 }}[cite: 19]</span>
         <button @click="removeCustomSheet(sheet.id)" class="text-xs text-red-600 bg-white hover:bg-red-50 px-3 py-1.5 rounded-xl font-bold shadow-sm transition cursor-pointer">
-          PADAM JADUAL INI
+          PADAM JADUAL INI[cite: 19]
         </button>
       </div>
 
@@ -316,18 +324,18 @@
         <div class="text-center mb-6 print:mb-2">
           <h2 class="text-xl font-black tracking-wider text-black font-serif">SJK (C) LADANG GRISEK</h2>
           <h3 class="text-lg font-bold tracking-widest text-black mt-1 font-serif underline">
-            JADUAL GURU GANTI ({{ currentSession === 'morning' ? 'SESI PAGI' : 'SESI PETANG' }})
+            JADUAL GURU GANTI ({{ currentSession === 'morning' ? 'SESI PAGI' : 'SESI PETANG' }})[cite: 19]
           </h3>
         </div>
 
         <div class="flex justify-between items-center mb-4 print:mb-2 font-bold text-sm font-serif border-b-2 border-black pb-2 print:pb-1">
           <div>
-            <span class="underline underline-offset-4">TARIKH :</span> 
-            <input v-model="sheet.date" @blur="saveCustomSheetsToCloud" type="text" placeholder="TARIKH" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-32 focus:outline-none" />
+            <span class="underline underline-offset-4">TARIKH :</span>[cite: 19]
+            <input v-model="sheet.date" @blur="saveCustomSheetsToCloud" type="text" placeholder="TARIKH" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-32 focus:outline-none" />[cite: 19]
           </div>
           <div>
-            <span class="underline underline-offset-4">HARI :</span> 
-            <input v-model="sheet.day" @blur="saveCustomSheetsToCloud" type="text" placeholder="HARI" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-28 uppercase focus:outline-none" />
+            <span class="underline underline-offset-4">HARI :</span>[cite: 19]
+            <input v-model="sheet.day" @blur="saveCustomSheetsToCloud" type="text" placeholder="HARI" class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-28 uppercase focus:outline-none" />[cite: 19]
           </div>
         </div>
 
@@ -366,7 +374,7 @@
                           @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p, $event)"
                           v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p)"
                           class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors text-[10px] font-bold text-indigo-900 overflow-hidden whitespace-pre-wrap break-words leading-tight flex items-center justify-center"></div>
-                      <button contenteditable="false" @click.stop="openBlankModal(slotIndex, p, sheet.id)" class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold">TETAP</button>
+                      <button contenteditable="false" @click.stop="openBlankModal(slotIndex, p, sheet.id)" class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold">TETAP[cite: 19]</button>
                     </div>
                   </td>
                 </tr>
@@ -387,7 +395,7 @@
     <!-- 放置在最底部的增加按钮 -->
     <div class="print:hidden mt-8 mb-12 flex justify-center">
       <button @click="addBlankSheet" class="flex items-center gap-2 bg-slate-900 hover:bg-indigo-600 text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer">
-        <span class="text-base font-extrabold">+</span> TAMBAH SATU JADUAL KOSONG RASMI
+        <span class="text-base font-extrabold">+</span> TAMBAH SATU JADUAL KOSONG RASMI[cite: 19]
       </button>
     </div>
 
@@ -399,16 +407,16 @@
           
           <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
             <div>
-              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2"><span>📝 TETAPAN PANTAS</span><span class="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">TUGASAN KHAS/SEMENTARA</span></h2>
+              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2"><span>📝 TETAPAN PANTAS</span><span class="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">TUGASAN KHAS/SEMENTARA</span>[cite: 19]</h2>
             </div>
             <button @click="showBlankModal = false" class="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer font-bold">✕</button>
           </div>
           
           <div class="p-6 space-y-5">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-2">🧑‍🏫 PILIH GURU GANTI (SESI SAMA):</label>
+              <label class="block text-xs font-bold text-slate-700 mb-2">🧑‍🏫 PILIH GURU GANTI (SESI SAMA):[cite: 19]</label>
               <select v-model="blankForm.teacherId" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-                <option value="">-- TIDAK DIPILIH (KOSONG / TEKS SAHAJA) --</option>
+                <option value="">-- TIDAK DIPILIH (KOSONG / TEKS SAHAJA) --[cite: 19]</option>
                 <option v-for="t in allSameSessionTeachers" :key="t.id" :value="t.id">
                   {{ t.name }} <span v-if="t.subject">({{ t.subject }})</span>
                 </option>
@@ -416,28 +424,28 @@
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-2">📍 CATATAN (LOKASI/TUGASAN CTH: JAGA PERTANDINGAN):</label>
-              <input v-model="blankForm.remark" type="text" placeholder="CONTOH: PERPUSTAKAAN / LATIHAN SUKAN" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
+              <label class="block text-xs font-bold text-slate-700 mb-2">📍 CATATAN (LOKASI/TUGASAN CTH: JAGA PERTANDINGAN):[cite: 19]</label>
+              <input v-model="blankForm.remark" type="text" placeholder="CONTOH: PERPUSTAKAAN / LATIHAN SUKAN[cite: 19]" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50" />
             </div>
 
             <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 flex items-start gap-3">
               <input type="checkbox" v-model="blankForm.kiraBeban" id="kiraBebanCb" class="mt-0.5 w-4 h-4 text-indigo-600 rounded cursor-pointer" />
               <div class="flex-1">
-                <label for="kiraBebanCb" class="text-sm font-bold text-slate-800 cursor-pointer block mb-1">DIKIRA DALAM STATISTIK BEBAN (KIRA BEBAN)</label>
-                <p class="text-[10px] text-slate-500 font-medium leading-relaxed">Jika ditandai, sistem akan mencipta rekod maya (tidak menjejaskan MMI) dan menambah jumlah kelas guru ini sebanyak +1 secara latar belakang.</p>
+                <label for="kiraBebanCb" class="text-sm font-bold text-slate-800 cursor-pointer block mb-1">DIKIRA DALAM STATISTIK BEBAN (KIRA BEBAN)[cite: 19]</label>
+                <p class="text-[10px] text-slate-500 font-medium leading-relaxed">Jika ditandai, sistem akan mencipta rekod maya (tidak menjejaskan MMI) dan menambah jumlah kelas guru ini sebanyak +1 secara latar belakang.[cite: 19]</p>
               </div>
             </div>
           </div>
 
           <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
             <button v-if="hasExistingVirtual" @click="removeBlankAssignment" class="text-xs text-red-600 hover:text-red-800 font-bold px-4 py-2 bg-red-50 hover:bg-red-100 rounded-xl cursor-pointer transition">
-              KOSONGKAN SEL INI
+              KOSONGKAN SEL INI[cite: 19]
             </button>
             <div v-else></div>
             <div class="flex gap-3">
-              <button @click="showBlankModal = false" class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer">BATAL</button>
+              <button @click="showBlankModal = false" class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer">BATAL[cite: 19]</button>
               <button @click="confirmBlankAssignment" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
-                SAHKAN
+                SAHKAN[cite: 19]
               </button>
             </div>
           </div>
@@ -454,6 +462,14 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { supabase } from '../services/supabase'
 import { recommendSubstitute } from '../utils/algorithm'
 import { useToast } from '../utils/toast'
+import { 
+  UsersRound, 
+  Sun, 
+  Moon, 
+  Zap, 
+  Printer, 
+  Sparkles 
+} from 'lucide-vue-next'
 
 const toast = useToast()
 const targetDate = ref(new Date().toISOString().split('T')[0])
@@ -507,12 +523,20 @@ const formattedDayName = computed(() => {
 const displayTeachersList = computed(() => {
   const map = {}
   leaveRequests.value.forEach(req => {
-    // ⭐️ 核心过滤：彻底屏蔽我们在后台偷偷建的“虚拟请假(VIRTUAL_CLASS)”记录
+    // ⭐️ 核心过滤：彻底屏蔽我们在后台偷偷建的“虚拟请假(VIRTUAL_CLASS)”记录，不让它们显示在原本的缺席名单中
     if (req.class_name === 'VIRTUAL_CLASS') return;
 
     const teacher = teachersMap.value[req.teacher_id]
     if (teacher && (teacher.session || 'morning') === currentSession.value) {
-      map[req.teacher_id] = { id: req.teacher_id, name: teacher.name, reason: req.reason }
+      
+      // 🌟 核心修改点：在这里把原因里的 [个人请假] 等前缀过滤掉，只保留实际原因
+      let cleanReason = (req.reason || '').replace(/\[.*?\]\s*/, '');
+      
+      map[req.teacher_id] = { 
+        id: req.teacher_id, 
+        name: teacher.name, 
+        reason: cleanReason // 这里使用清理干净的原因
+      }
     }
   })
   return Object.values(map)
@@ -996,7 +1020,6 @@ const removeCustomSheet = async (id) => {
 </script>
 
 <style scoped>
-/* 组件内部私有样式保留在这里 */
 </style>
 
 <style>

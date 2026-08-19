@@ -1,141 +1,167 @@
 <template>
-  <!-- ⭐️ 将 max-w-5xl 改为 max-w-7xl，与 Overview 宽度完全一致 -->
-  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
+  <div class="p-4 sm:p-8 mx-auto min-h-screen space-y-8 min-w-[1024px]">
     
-    <!-- 头部区域：统一的大标题与副标题 -->
-    <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
-      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
-        PENDAFTARAN CUTI GURU
+    <!-- Header -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
+      <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 flex items-center gap-3">
+        <CalendarCheck2 class="w-8 h-8 text-indigo-700 shrink-0" />
+        PENDAFTARAN KETIDAKHADIRAN & TUGASAN GURU
       </h1>
       <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
-        DISESUAIKAN DENGAN MOD OPERASI DUA SESI. SELEPAS MEMILIH SESI DAN GURU, PILIH SLOT MASA YANG PERLU DIGANTI UNTUK MENGHASILKAN TUGASAN.
+        Sesuai untuk mod operasi dua sesi. Pilih sesi, guru, dan kategori ketidakhadiran, kemudian tandakan slot masa untuk menjana tugasan guru ganti.
       </p>
     </div>
 
-    <!-- 步骤一：基础信息选择 -->
-    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8">
+    <!-- Step 1: Maklumat Asas -->
+    <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-6 sm:p-8">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">1</span>
-        MAKLUMAT ASAS CUTI
+        <span class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0">1</span>
+        MAKLUMAT ASAS KETIDAKHADIRAN
       </h2>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <!-- 🌟 升级：改为 lg:grid-cols-3 防堆积，并统一使用 h-14 锁定高度 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
         
-        <!-- 左侧：班次选择 -->
+        <!-- 1. Pemilihan Sesi -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">PEMILIHAN SESI</label>
-          <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner">
+          <!-- 锁定高度 h-14 -->
+          <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner h-14">
             <button 
               @click="currentSession = 'morning'; selectedTeacherId = ''; dailyClasses = []" 
-              class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+              class="flex-1 h-full rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
               :class="currentSession === 'morning' 
                 ? 'bg-white text-indigo-600 shadow-sm ring-2 ring-indigo-600' 
                 : 'text-slate-500 hover:text-slate-900'"
             >
-              <span>☀️</span> SESI PAGI
+              <Sun class="w-4 h-4 shrink-0 text-amber-500" /> <span class="truncate">SESI PAGI</span>
             </button>
             <button 
               @click="currentSession = 'afternoon'; selectedTeacherId = ''; dailyClasses = []" 
-              class="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+              class="flex-1 h-full rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
               :class="currentSession === 'afternoon' 
                 ? 'bg-white text-orange-600 shadow-sm ring-2 ring-orange-500' 
                 : 'text-slate-500 hover:text-slate-900'"
             >
-              <span>🌙</span> SESI PETANG
+              <Moon class="w-4 h-4 shrink-0 text-indigo-400" /> <span class="truncate">SESI PETANG</span>
             </button>
           </div>
         </div>
 
-        <!-- 右侧：教师选择器 -->
+        <!-- 2. Pemilihan Guru -->
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">GURU YANG CUTI</label>
-          <div class="relative flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 shadow-sm hover:border-slate-300 transition">
-            <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center text-base mr-3 shrink-0 shadow-xs">
-              👩‍🏫
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">GURU YANG TERLIBAT</label>
+          <!-- 锁定高度 h-14，移除原有的 py-3 -->
+          <div class="relative flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 h-14 shadow-sm hover:border-slate-300 transition w-full">
+            <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center mr-3 shrink-0 shadow-xs text-indigo-600">
+              <GraduationCap class="w-4 h-4" />
             </div>
+            <!-- 下拉菜单占满 h-full -->
             <select 
               v-model="selectedTeacherId" 
               @change="fetchDailyTimetable"
-              class="w-full bg-transparent border-none text-slate-800 font-semibold focus:ring-0 cursor-pointer text-xs appearance-none outline-none pr-8"
+              class="w-full h-full bg-transparent border-none text-slate-800 font-semibold focus:ring-0 cursor-pointer text-xs appearance-none outline-none pr-8 truncate"
             >
-              <option value="" disabled>-- SILA PILIH GURU {{ currentSession === 'morning' ? 'SESI PAGI' : 'SESI PETANG' }} --</option>
+              <option value="" disabled>-- PILIH GURU {{ currentSession === 'morning' ? 'PAGI' : 'PETANG' }} --</option>
               <option v-for="teacher in filteredTeachersList" :key="teacher.id" :value="teacher.id">
                 {{ teacher.name }}{{ teacher.subject ? ` (${teacher.subject})` : '' }}
               </option>
             </select>
-            <div class="absolute right-4 pointer-events-none text-slate-400">
+            <div class="absolute right-4 pointer-events-none text-slate-400 shrink-0">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
           </div>
         </div>
 
+        <!-- 3. Pemilihan Tarikh -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TARIKH (HARI AUTOMATIK)</label>
+          <!-- 锁定高度 h-14，移除原有的 py-3 -->
+          <div class="relative flex items-center">
+            <input 
+              type="date" 
+              v-model="leaveDate"
+              @change="fetchDailyTimetable"
+              class="w-full px-4 h-14 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-semibold text-slate-800 cursor-pointer"
+            />
+          </div>
+        </div>
+
       </div>
 
-      <!-- 第二行：选择日期与请假原因 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TARIKH CUTI</label>
-          <input 
-            type="date" 
-            v-model="leaveDate"
-            @change="fetchDailyTimetable"
-            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-semibold text-slate-800"
-          />
+      <!-- 🌟 Kategori Ketidakhadiran (大分类) -->
+      <div class="mt-8">
+        <label class="block text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">KATEGORI / SIFAT TUGASAN (WAJIB)</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <label v-for="cat in leaveCategories" :key="cat.value" class="cursor-pointer relative">
+            <input type="radio" v-model="leaveCategory" :value="cat.value" class="peer sr-only" />
+            <div class="p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 hover:bg-slate-100 transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 flex flex-col gap-1.5 shadow-sm">
+              <div class="flex items-center gap-2.5">
+                <component :is="cat.iconComponent" class="w-5 h-5 text-indigo-600 shrink-0" />
+                <span class="text-sm font-bold text-slate-800">{{ cat.label }}</span>
+              </div>
+              <span class="text-[11px] text-slate-500 font-medium ml-7">{{ cat.desc }}</span>
+            </div>
+          </label>
         </div>
+      </div>
 
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">SEBAB CUTI (PILIHAN)</label>
-          <input 
-            type="text" 
-            v-model="leaveReason"
-            placeholder="CONTOH: CUTI SAKIT, CUTI PERIBADI, URUSAN RASMI"
-            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-semibold text-slate-800"
-          />
-        </div>
+      <!-- 🌟 Sebab Spesifik (具体原因 + 自动大写) -->
+      <div class="mt-6">
+        <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">SEBAB SPESIFIK (PILIHAN, HURUF BESAR AUTOMATIK)</label>
+        <input 
+          type="text" 
+          v-model="leaveReason"
+          :placeholder="currentPlaceholder"
+          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-semibold text-slate-800 uppercase"
+        />
+        <p class="text-[10px] text-slate-400 mt-2 ml-1">Selepas dihantar, laporan MMI akan dikategorikan secara automatik sebagai: <strong class="text-indigo-600">[{{ leaveCategory }}] {{ leaveReason ? leaveReason.toUpperCase() : 'TIDAK DINYATAKAN' }}</strong></p>
       </div>
 
     </div>
 
-    <!-- 步骤二：勾选代课节次预览 -->
+    <!-- Step 2: Pilih Slot Masa -->
     <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 translate-y-4" enter-to-class="opacity-100 translate-y-0">
-      <div v-if="selectedTeacherId && leaveDate" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8">
+      <div v-if="selectedTeacherId && leaveDate" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-6 sm:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 border-b border-slate-100 pb-4">
           <div>
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">2</span>
+              <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">2</span>
               PILIH SLOT MASA GURU GANTI
             </h2>
             <p class="text-xs text-slate-500 mt-1 font-medium">TANDAKAN KAD UNTUK MENGHASILKAN TUGASAN GURU GANTI. SLOT YANG TIDAK DITANDAKAN TIDAK AKAN DIURUSKAN.</p>
           </div>
 
-          <div class="flex items-center gap-3">
-            <!-- 全选 / 反选快捷按键 -->
-            <button @click="selectAll(true)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer transition">
+          <div class="flex flex-wrap items-center gap-3 shrink-0">
+            <button @click="selectAll(true)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer transition shrink-0">
               PILIH SEMUA
             </button>
-            <button @click="selectAll(false)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer transition">
+            <button @click="selectAll(false)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer transition shrink-0">
               NYAHPILIH SEMUA
             </button>
-            <span class="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold">
+            <span class="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold shrink-0 flex items-center gap-1">
+              <CalendarDays class="w-3.5 h-3.5" />
               HARI {{ computedWeekdayName }}
             </span>
           </div>
         </div>
 
-        <!-- 课表展示区 -->
+        <!-- Jadual Waktu Area -->
         <div v-if="loading" class="py-12 text-center">
           <div class="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin mx-auto"></div>
           <p class="text-slate-500 text-xs font-bold mt-4">SEDANG MENGAMBIL JADUAL WAKTU DARI PANGKALAN DATA...</p>
         </div>
 
-        <div v-else-if="dailyClasses.length === 0" class="bg-slate-50 rounded-2xl p-8 text-center border border-slate-100">
-          <div class="text-4xl mb-3">🎉</div>
+        <div v-else-if="dailyClasses.length === 0" class="bg-slate-50 rounded-2xl p-8 text-center border border-slate-100 space-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+            <CheckCircle2 class="w-6 h-6" />
+          </div>
           <p class="text-slate-900 font-bold text-sm">GURU INI TIADA SEBARANG JADUAL WAKTU PADA HARI INI</p>
-          <p class="text-slate-500 text-xs mt-1 font-medium">TIDAK PERLU GURU GANTI, PIHAK PENTADBIR BOLEH TERUS MELULUSKAN CUTI.</p>
+          <p class="text-slate-500 text-xs font-medium">TIDAK PERLU GURU GANTI, PIHAK PENTADBIR BOLEH TERUS MELULUSKAN.</p>
         </div>
 
         <div v-else class="space-y-3">
-          <!-- 点选卡片区 -->
+          <!-- Kad Slot Masa -->
           <div 
             v-for="cls in dailyClasses" 
             :key="cls.period"
@@ -143,58 +169,54 @@
             :class="cls.selected 
               ? 'border-indigo-600 bg-indigo-50/40 shadow-sm' 
               : 'border-slate-200 bg-slate-50/50 opacity-60 hover:opacity-100'"
-            class="p-4 border-2 rounded-2xl transition-all cursor-pointer flex items-center justify-between select-none"
+            class="p-4 border-2 rounded-2xl transition-all cursor-pointer flex items-center justify-between select-none gap-4"
           >
             <div class="flex items-center gap-4">
-              <!-- 复选框 -->
               <input 
                 type="checkbox" 
                 :checked="cls.selected"
                 @click.stop="toggleClassSelection(cls)"
-                class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer"
+                class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer shrink-0"
               />
 
-              <!-- 节次数字 -->
-              <div class="w-12 h-12 rounded-2xl bg-white text-indigo-700 flex flex-col items-center justify-center font-bold shadow-sm ring-1 ring-slate-900/5 shrink-0">
-                <span class="text-[9px] text-slate-400 font-bold uppercase">SESI KE-</span>
+              <div class="w-16 h-14 rounded-2xl bg-white text-indigo-700 flex flex-col items-center justify-center font-bold shadow-sm ring-1 ring-slate-900/5 shrink-0 px-1">
+                <span class="text-[9px] text-slate-400 font-bold uppercase">SESI</span>
                 <span class="text-base leading-none">{{ cls.period }}</span>
               </div>
 
-              <!-- 班级与科目 -->
               <div>
                 <div class="flex items-center gap-2">
-                  <p class="font-bold text-slate-900 text-sm">{{ cls.class_name }}</p>
-                  <span v-if="cls.is_combined" class="px-2 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold">KELAS GABUNGAN</span>
+                  <p class="font-bold text-slate-900 text-sm truncate">{{ cls.class_name }}</p>
+                  <span v-if="cls.is_combined" class="px-2 py-0.5 bg-violet-100 text-violet-700 rounded text-[10px] font-bold shrink-0">KELAS GABUNGAN</span>
                 </div>
-                <p class="text-xs text-indigo-600 font-semibold mt-0.5">{{ cls.subject }}</p>
+                <p class="text-xs text-indigo-600 font-semibold mt-0.5 truncate">{{ cls.subject }}</p>
               </div>
             </div>
 
-            <!-- 选择状态标签 -->
-            <div>
+            <div class="shrink-0">
               <span 
                 :class="cls.selected ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600'" 
-                class="text-xs font-bold px-3 py-1.5 rounded-full transition"
+                class="text-xs font-bold px-3 py-1.5 rounded-full transition whitespace-nowrap block"
               >
                 {{ cls.selected ? 'DIPILIH UNTUK GANTI' : 'TIADA GURU GANTI' }}
               </span>
             </div>
           </div>
 
-          <!-- 提交按钮与统计 -->
-          <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-            <div class="text-xs text-slate-500 font-bold">
+          <!-- Submit Button -->
+          <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="text-xs text-slate-500 font-bold truncate">
               DIPILIH <strong class="text-indigo-600 text-sm font-black">{{ selectedClassesCount }}</strong> TUGASAN GURU GANTI
             </div>
 
             <button 
               @click="submitLeaveRequests" 
               :disabled="isSubmitting || selectedClassesCount === 0"
-              class="group flex items-center justify-center px-6 py-3 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              class="group flex items-center justify-center px-6 py-3 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shrink-0 w-full sm:w-auto"
             >
-              <span v-if="!isSubmitting">JANA TUGASAN GURU GANTI ({{ selectedClassesCount }})</span>
+              <span v-if="!isSubmitting" class="truncate">JANA TUGASAN GURU GANTI ({{ selectedClassesCount }})</span>
               <span v-else>SEDANG DIJANA...</span>
-              <svg v-if="!isSubmitting" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              <ArrowRight v-if="!isSubmitting" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
           </div>
         </div>
@@ -209,6 +231,18 @@ import { ref, onMounted, computed } from 'vue'
 import { supabase } from '../services/supabase'
 import { useRouter } from 'vue-router'
 import { useToast } from '../utils/toast'
+import { 
+  CalendarCheck2, 
+  Sun, 
+  Moon, 
+  GraduationCap, 
+  CalendarDays, 
+  UserCheck, 
+  BriefcaseBusiness, 
+  Building2, 
+  CheckCircle2, 
+  ArrowRight 
+} from 'lucide-vue-next'
 
 const router = useRouter()
 const toast = useToast()
@@ -218,6 +252,19 @@ const currentSession = ref('morning')
 const selectedTeacherId = ref('')
 const leaveDate = ref('')
 const leaveReason = ref('')
+
+// 🌟 Kategori Data (Versi Bahasa Melayu - Lucide Icons Configured)
+const leaveCategory = ref('CUTI PERIBADI')
+const leaveCategories = [
+  { value: 'CUTI PERIBADI', iconComponent: UserCheck, label: 'CUTI PERIBADI', desc: 'MC, CRK, CUTI BERSALIN,dll ', placeholder: 'CONTOH: MC, CRK, CUTI BERSALIN' },
+  { value: 'TUGAS RASMI', iconComponent: BriefcaseBusiness, label: 'TUGAS RASMI LUAR', desc: 'MESYUARAT, KURSUS, BENGKEL,dll', placeholder: 'CONTOH: MESYUARAT PPD, KURSUS, PKL' },
+  { value: 'TUGAS DALAMAN', iconComponent: Building2, label: 'TUGAS DALAMAN', desc: 'CERAMAH, PROGRAM SEKOLAH,dll', placeholder: 'CONTOH: MESYUARAT DALAMAN, KAWALAN MURID' }
+]
+
+const currentPlaceholder = computed(() => {
+  const cat = leaveCategories.find(c => c.value === leaveCategory.value)
+  return cat ? cat.placeholder : 'SILA MASUKKAN SEBAB SPESIFIK...'
+})
 
 const dailyClasses = ref([])
 const loading = ref(false)
@@ -247,24 +294,20 @@ const computedWeekdayName = computed(() => {
   return dayNames[dateObj.getDay()]
 })
 
-// 计算已勾选的节数
 const selectedClassesCount = computed(() => {
   return dailyClasses.value.filter(cls => cls.selected).length
 })
 
-// 切换选择状态
 const toggleClassSelection = (cls) => {
   cls.selected = !cls.selected
 }
 
-// 快速全选 / 取消全选
 const selectAll = (status) => {
   dailyClasses.value.forEach(cls => {
     cls.selected = status
   })
 }
 
-// 抓取课表并为每一节初始化 selected: true 状态
 const fetchDailyTimetable = async () => {
   if (!selectedTeacherId.value || !leaveDate.value) {
     dailyClasses.value = []
@@ -295,7 +338,7 @@ const fetchDailyTimetable = async () => {
         const existing = periodMap.get(cls.period)
         if (!existing.class_name.includes(cls.class_name)) {
           existing.class_name = `${existing.class_name}/${cls.class_name}`
-          existing.is_combined = true
+          existing.is_combined = true 
         }
       }
     })
@@ -308,7 +351,7 @@ const fetchDailyTimetable = async () => {
   }
 }
 
-// 🚀 核心优化：防冲突版提交逻辑
+// 🚀 Core Submit Logic with Categories & Auto-Uppercase
 const submitLeaveRequests = async () => {
   const selectedList = dailyClasses.value.filter(cls => cls.selected)
   if (selectedList.length === 0) {
@@ -320,7 +363,12 @@ const submitLeaveRequests = async () => {
     const currentTeacher = teachersList.value.find(t => t.id === selectedTeacherId.value)
     const teacherName = currentTeacher ? currentTeacher.name : 'GURU TIDAK DIKENALI'
 
-    // 1. 查询该教师当天数据库里已经存在的请假记录（防止 409 冲突）
+    // 🌟 Format the reason: [Category] UPPERCASE_REASON
+    const rawReason = leaveReason.value.trim()
+    const formattedReason = rawReason 
+      ? `[${leaveCategory.value}] ${rawReason.toUpperCase()}`
+      : `[${leaveCategory.value}] TIDAK DINYATAKAN`
+
     const { data: existingLeaves } = await supabase
       .from('leave_requests')
       .select('period, status')
@@ -334,7 +382,6 @@ const submitLeaveRequests = async () => {
       })
     }
 
-    // 2. 只有 pending 状态的记录才允许被删除覆盖
     await supabase
       .from('leave_requests')
       .delete()
@@ -342,7 +389,6 @@ const submitLeaveRequests = async () => {
       .eq('leave_date', leaveDate.value)
       .eq('status', 'pending')
 
-    // 3. 构建需要插入的数据
     const requests = []
     const periodsForMMI = []
 
@@ -358,9 +404,9 @@ const submitLeaveRequests = async () => {
         leave_date: leaveDate.value,
         weekday: cls.weekday,
         period: cls.period,
-        class_name: cls.class_name,
+        class_name: cls.class_name, 
         subject: cls.subject,
-        reason: leaveReason.value || 'TIDAK DINYATAKAN',
+        reason: formattedReason, // 🌟 Save formatted reason
         status: 'pending'
       })
       periodsForMMI.push(p)
@@ -372,11 +418,9 @@ const submitLeaveRequests = async () => {
       return
     }
 
-    // 4. 插入全新过滤后的防冲突任务
     const { error: leaveError } = await supabase.from('leave_requests').insert(requests)
     if (leaveError) throw leaveError
 
-    // 5. 提取选中节次的区间写入 MMI
     if (periodsForMMI.length > 0) {
       periodsForMMI.sort((a, b) => a - b)
       const minPeriod = periodsForMMI[0]
@@ -387,7 +431,7 @@ const submitLeaveRequests = async () => {
         type: 'teacher',
         start_period: minPeriod,
         end_period: maxPeriod,
-        reason: `CUTI GURU: ${leaveReason.value || 'TIDAK DINYATAKAN'}`,
+        reason: formattedReason, // 🌟 Save formatted reason to MMI
         target_display: `GURU: ${teacherName}`,
         remarks: `(MELIBATKAN SLOT: KE-${periodsForMMI.join(', ')} | SUBJEK: ${requests.map(c => `${c.class_name}(${c.subject})`).join(', ')})`
       }
@@ -398,7 +442,7 @@ const submitLeaveRequests = async () => {
       }
     }
 
-    toast.success(`BERJAYA MENJANA TUGASAN GURU GANTI DAN DIREKODKAN KE SEJARAH PENGURUSAN MMI!`)
+    toast.success(`BERJAYA MENJANA ${requests.length} TUGASAN GURU GANTI!`)
     router.push('/')
   } catch (error) {
     toast.error("PENJANAAN GAGAL: " + error.message)

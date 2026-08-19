@@ -2,7 +2,8 @@
   <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
     
     <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 space-y-2">
-      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 flex items-center gap-3">
+        <Wrench class="w-8 h-8 text-indigo-700 shrink-0" />
         TETAPAN & PENYENGGARAN SISTEM KESELURUHAN
       </h1>
       <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
@@ -12,7 +13,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">👤</span>
+        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs"><UserCog class="w-4 h-4" /></span>
         PENGURUSAN AKAUN PENTADBIR
       </h2>
 
@@ -50,7 +51,9 @@
 
         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 flex flex-col">
           <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">📋 SENARAI PENGGUNA SEMASA</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+              <ClipboardList class="w-4 h-4 text-indigo-600" /> SENARAI PENGGUNA SEMASA
+            </h3>
             <button @click="fetchUsers" class="text-xs text-indigo-600 font-bold hover:underline cursor-pointer">SEGAR SEMULA</button>
           </div>
 
@@ -75,7 +78,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">🖼️</span>
+        <span class="w-8 h-8 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs"><Image class="w-4 h-4" /></span>
         TETAPAN LOGO & PAPARAN SEKOLAH
       </h2>
       <p class="text-slate-500 text-xs font-medium">KEMASKINI LOGO & NAMA SEKOLAH. SELEPAS DISIMPAN, BAR MENU DAN LAMAN LOG MASUK AKAN DIKEMASKINI SECARA MASA NYATA.</p>
@@ -122,7 +125,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">🏫</span>
+        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs"><Clock class="w-4 h-4" /></span>
         KONFIGURASI WAKTU PERSEKOLAHAN
       </h2>
       
@@ -164,7 +167,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs">📅</span>
+        <span class="w-8 h-8 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs"><Calendar class="w-4 h-4" /></span>
         KONFIGURASI KALENDAR & CUTI PERSEKOLAHAN
       </h2>
       <p class="text-slate-500 text-xs font-medium mb-6">Masukkan minggu persekolahan dan cuti sepanjang tahun. Sistem akan menolak tempoh cuti secara automatik untuk mengira sasaran tahunan dengan tepat.</p>
@@ -176,7 +179,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button @click="downloadWeekTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
-            📥 MUAT TURUN TEMPLAT KALENDAR
+            <Download class="w-4 h-4 text-indigo-600" /> MUAT TURUN TEMPLAT KALENDAR
           </button>
           
           <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2">
@@ -239,7 +242,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center font-bold text-xs">📚</span>
+        <span class="w-8 h-8 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center font-bold text-xs"><School class="w-4 h-4" /></span>
         PENGURUSAN KELAS ASAS SEKOLAH
       </h2>
       <p class="text-slate-500 text-xs font-medium mb-6">SELENGGARA KELAS PIAWAI SEKOLAH, UNTUK KEGUNAAN JADUAL, CUTI & REKOD GANGGUAN MMI.</p>
@@ -322,7 +325,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">📊</span>
+        <span class="w-8 h-8 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs"><BarChart3 class="w-4 h-4" /></span>
         KONFIGURASI BERKELOMPOK SASARAN SUBJEK MMI
       </h2>
       <p class="text-slate-500 text-xs font-medium mb-6">MUAT TURUN TEMPLAT PIAWAI, ISI SASARAN SLOT DAN ASAS UNTUK SETIAP TAHUN DAN SUBJEK, IMPORT BERKELOMPOK.</p>
@@ -334,7 +337,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button @click="downloadTemplate" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer">
-            📥 MUAT TURUN TEMPLAT
+            <Download class="w-4 h-4 text-indigo-600" /> MUAT TURUN TEMPLAT
           </button>
           
           <label class="relative cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center gap-2">
@@ -347,7 +350,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">💾</span>
+        <span class="w-8 h-8 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs"><Database class="w-4 h-4" /></span>
         SANDARAN & PEMULIHAN DATA TEMPATAN
       </h2>
       <p class="text-slate-500 text-xs font-medium mb-6">Buat sandaran berkala bagi semua data teras sekolah dan simpan dalam komputer tempatan untuk memastikan data sentiasa selamat.</p>
@@ -358,8 +361,8 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">EKSPORT SANDARAN DATA PENUH</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">MUAT TURUN FAIL SANDARAN JSON YANG MENGANDUNGI DATA UTAMA SEKOLAH.</p>
           </div>
-          <button @click="exportFullBackup" class="w-full bg-slate-900 hover:bg-slate-800 text-white h-11 rounded-2xl text-xs font-bold transition shadow-sm cursor-pointer">
-            📤 EKSPORT SANDARAN PENUH SISTEM
+          <button @click="exportFullBackup" class="w-full bg-slate-900 hover:bg-slate-800 text-white h-11 rounded-2xl text-xs font-bold transition shadow-sm cursor-pointer flex items-center justify-center gap-2">
+            <UploadCloud class="w-4 h-4 text-slate-300" /> EKSPORT SANDARAN PENUH SISTEM
           </button>
         </div>
 
@@ -368,8 +371,8 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-950">PULIH DATA SISTEM</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">PULIH DATA SEKOLAH MELALUI FAIL SANDARAN JSON TERDAHULU.</p>
           </div>
-          <label class="relative block w-full text-center cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center justify-center">
-            <span>📥 PILIH FAIL SANDARAN & PULIH</span>
+          <label class="relative block w-full text-center cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white h-11 rounded-2xl text-xs font-bold transition shadow-sm flex items-center justify-center gap-2">
+            <DownloadCloud class="w-4 h-4 text-indigo-200" /> <span>PILIH FAIL SANDARAN & PULIH</span>
             <input type="file" accept=".json" @change="importFullBackup" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           </label>
         </div>
@@ -378,7 +381,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 transition-all duration-300 hover:shadow-md space-y-6">
       <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center font-bold text-xs">🛠️</span>
+        <span class="w-8 h-8 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center font-bold text-xs"><Wrench class="w-4 h-4" /></span>
         PEMBERSIHAN & PENYENGGARAN DATA PELANCARAN RASMI
       </h2>
       <p class="text-slate-500 text-xs font-medium mb-6">UNTUK MEMBERSIHKAN DATA UJIAN SEBELUM PELANCARAN RASMI, SOKONG SANDARAN SATU KLIK.</p>
@@ -409,8 +412,8 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900">SANDARAN & KOSONGKAN DATA SEJARAH GANGGUAN MMI</h3>
             <p class="text-slate-500 text-xs mt-1 font-medium">MUAT TURUN SANDARAN JSON, KEMUDIAN PADAM SEMUA LOG GANGGUAN MMI DENGAN SELAMAT.</p>
           </div>
-          <button @click="backupAndClearMmi" :disabled="loading" class="w-full sm:w-80 h-11 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-2xl transition shadow-sm border border-indigo-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center">
-            📥 SANDARAN & KOSONGKAN DATA MMI
+          <button @click="backupAndClearMmi" :disabled="loading" class="w-full sm:w-80 h-11 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-2xl transition shadow-sm border border-indigo-200 disabled:opacity-50 shrink-0 cursor-pointer flex items-center justify-center gap-2">
+            <UploadCloud class="w-4 h-4 text-indigo-500" /> SANDARAN & KOSONGKAN DATA MMI
           </button>
         </div>
 
@@ -477,6 +480,20 @@
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '../services/supabase'
 import { useToast } from '../utils/toast'
+import { 
+  Wrench, 
+  UserCog, 
+  Image, 
+  Clock, 
+  Calendar, 
+  School, 
+  BarChart3, 
+  Database,
+  ClipboardList,
+  Download,
+  UploadCloud,
+  DownloadCloud
+} from 'lucide-vue-next'
 
 const toast = useToast()
 const config = ref({ daysPerWeek: 5, periodsPerDay: 8 })

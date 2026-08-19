@@ -1,10 +1,12 @@
 <template>
-  <div class="p-8 max-w-7xl mx-auto min-h-screen space-y-8">
+  <!-- 🌟 修复：使用最标准的 min-w-[1024px]，确保 Tailwind 能 100% 编译生效，卡片背景绝对能包裹所有内容 -->
+  <div class="p-4 sm:p-8 mx-auto min-h-screen space-y-8 min-w-[1024px]">
     
-    <!-- 头部区域：统一的卡片风格与渐变色标题 -->
-    <div class="bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <!-- Header Section -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
       <div class="space-y-2 max-w-3xl">
-        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 flex items-center gap-3">
+          <CalendarDays class="w-8 h-8 text-indigo-700 shrink-0" />
           PENGURUSAN JADUAL GURU
         </h1>
         <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed">
@@ -15,14 +17,14 @@
        <!-- 右侧操作区：上传下载 -->
       <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0">
         <!-- 下载模板按钮 -->
-        <button @click="downloadTemplate" class="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center px-4 h-11 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-2xl hover:bg-indigo-100 transition-all shadow-sm cursor-pointer">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        <button @click="downloadTemplate" class="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center px-4 h-11 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-2xl hover:bg-indigo-100 transition-all shadow-sm cursor-pointer gap-2">
+          <Download class="w-4 h-4" />
           MUAT TURUN TEMPLAT
         </button>
         
         <!-- 上传CSV按钮 -->
-        <label class="w-full sm:w-auto whitespace-nowrap cursor-pointer inline-flex items-center justify-center px-4 h-11 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-md transition-all shadow-sm">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+        <label class="w-full sm:w-auto whitespace-nowrap cursor-pointer inline-flex items-center justify-center px-4 h-11 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-md transition-all shadow-sm gap-2">
+          <Upload class="w-4 h-4" />
           IMPORT BERKELOMPOK
           <input type="file" accept=".csv" class="hidden" @change="handleCsvUpload" />
         </label>
@@ -32,44 +34,49 @@
     <!-- 班次切换标签栏 & 教师选择器 -->
     <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center bg-white p-6 rounded-3xl shadow-sm ring-1 ring-slate-900/5 gap-4">
       <!-- 切换标签 -->
-      <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner">
+      <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-inner shrink-0">
         <button 
           @click="currentSession = 'morning'; selectedTeacherId = ''; currentTimetable = []" 
           :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-          class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer"
+          class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2"
         >
-          ☀️ SESI PAGI
+          <Sun class="w-4 h-4 text-amber-500" /> SESI PAGI
         </button>
         <button 
           @click="currentSession = 'afternoon'; selectedTeacherId = ''; currentTimetable = []" 
           :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-          class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer"
+          class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2"
         >
-          🌙 SESI PETANG
+          <Moon class="w-4 h-4 text-indigo-400" /> SESI PETANG
         </button>
       </div>
 
       <!-- 教师选择器（文字已居中） -->
-      <div class="flex items-center gap-3 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200">
-        <div class="w-7 h-7 rounded-xl bg-white text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-          👩‍🏫
+      <div class="relative flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 h-11 shrink-0 w-[300px] sm:w-[320px] shadow-sm hover:border-slate-300 transition overflow-hidden">
+        <div class="w-7 h-7 rounded-xl bg-white flex items-center justify-center mr-3 shrink-0 shadow-xs text-indigo-600">
+          <GraduationCap class="w-4 h-4" />
         </div>
         <select 
           v-model="selectedTeacherId" 
           @change="fetchTeacherTimetable"
-          class="bg-transparent border-none text-slate-800 font-bold focus:ring-0 cursor-pointer pr-6 text-xs w-full sm:w-72 text-center outline-none"
+          class="w-full bg-transparent border-none text-slate-800 font-bold focus:ring-0 cursor-pointer text-xs appearance-none outline-none pr-8 truncate text-center"
         >
           <option value="" disabled>-- Sila Pilih Guru --</option>
           <option v-for="teacher in filteredTeachersList" :key="teacher.id" :value="teacher.id">
             {{ teacher.name }}{{ teacher.subject ? ` (${teacher.subject})` : '' }}
           </option>
         </select>
+        <div class="absolute right-3 pointer-events-none text-slate-500 bg-slate-50 pl-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
       </div>
     </div>
 
     <!-- 提示状态 -->
-    <div v-if="!selectedTeacherId" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-16 text-center flex flex-col items-center justify-center">
-      <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-3xl mb-4 ring-1 ring-slate-100 shadow-inner">👆</div>
+    <div v-if="!selectedTeacherId" class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-16 text-center flex flex-col items-center justify-center space-y-3">
+      <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-1 ring-1 ring-slate-100 shadow-inner">
+        <Clock3 class="w-8 h-8" />
+      </div>
       <h3 class="text-base font-bold text-slate-900">SILA PILIH SEORANG GURU DI ATAS</h3>
       <p class="text-slate-500 mt-1 text-xs font-medium">SELEPAS DIPILIH, LIHAT DAN EDIT JADUAL GURU TERSEBUT</p>
     </div>
@@ -122,8 +129,8 @@
 
               <!-- 休息时间插入行 (Rehat) -->
               <tr v-else-if="row.type === 'break'" class="bg-amber-50/75">
-                <td class="p-3 text-amber-800 font-bold border-r-2 border-slate-100 bg-amber-100/60 text-xs">
-                  ☕ REHAT
+                <td class="p-3 text-amber-800 font-bold border-r-2 border-slate-100 bg-amber-100/60 text-xs flex items-center justify-center gap-1.5">
+                  <Coffee class="w-4 h-4 text-amber-700" /> REHAT
                 </td>
                 <td :colspan="config.daysPerWeek" class="p-3 text-center text-amber-900 font-bold text-xs tracking-wider uppercase">
                   {{ row.title }} <span class="ml-2 font-semibold text-amber-700">({{ row.time }})</span>
@@ -184,10 +191,10 @@
         <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-100 text-center space-y-6">
           
           <!-- 顶部状态图标 -->
-          <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-3xl transition-all duration-300"
+          <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center transition-all duration-300"
                :class="uploadProgress.percent === 100 ? 'bg-emerald-100 text-emerald-600' : 'bg-indigo-50 text-indigo-600 animate-bounce'">
-            <span v-if="uploadProgress.percent < 100">📅</span>
-            <span v-else>🎉</span>
+            <CalendarDays v-if="uploadProgress.percent < 100" class="w-8 h-8" />
+            <Sparkles v-else class="w-8 h-8" />
           </div>
 
           <!-- 标题与当前状态文字 -->
@@ -229,6 +236,17 @@ import { ref, computed, onMounted } from 'vue'
 import { supabase } from '../services/supabase'
 import { useToast } from '../utils/toast'
 import { parseCSV } from '../utils/importCsv'
+import { 
+  CalendarDays, 
+  Download, 
+  Upload, 
+  Sun, 
+  Moon, 
+  GraduationCap, 
+  Clock3, 
+  Coffee, 
+  Sparkles 
+} from 'lucide-vue-next'
 
 const toast = useToast()
 const dayNames = ['ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT', 'SABTU', 'AHAD']
