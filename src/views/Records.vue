@@ -93,7 +93,7 @@
         <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed">
           <thead>
             <tr class="bg-slate-100 print:bg-white">
-              <th class="border border-black p-1 w-28 font-bold" colspan="2">MASA</th>
+              <th class="border border-black p-1 font-bold" colspan="2" style="width: 130px; min-width: 130px; max-width: 130px;">MASA</th>
               <th v-for="(time, index) in currentPeriodTimes" :key="index" class="border border-black p-1">
                 <div class="font-bold">{{ index + 1 }}</div>
                 <div class="text-[7px] font-normal mt-0.5 truncate">{{ time }}</div>
@@ -104,25 +104,26 @@
               
               <template v-if="displayTeachersList[slotIndex - 1]">
                 <tr>
-                  <!-- 🌟 智能排版核心：彻底移除 break-words / break-all，应用强力智能缩小 -->
-                  <td class="border border-black p-1 bg-slate-50 print:bg-white align-middle text-center" rowspan="3" style="width: 120px; max-width: 120px;">
+                  <!-- 🌟 第一列：完美保留您的多排自动缩小引擎 -->
+                  <td class="border border-black p-1 bg-slate-50 print:bg-white align-middle text-center" rowspan="3" style="width: 85px; max-width: 85px;">
                     <div class="flex flex-col items-center justify-center w-full px-0.5">
-                      <span class="uppercase leading-tight font-bold w-full text-center whitespace-normal"
-                            :style="getDynamicStyle(displayTeachersList[slotIndex - 1].name, 10, 10)">
+                      <span class="uppercase font-bold w-full text-center"
+                            :style="getDynamicStyle(displayTeachersList[slotIndex - 1].name, 10)">
                         {{ displayTeachersList[slotIndex - 1].name }}
                       </span>
                       <span v-if="displayTeachersList[slotIndex - 1].reason" 
-                            class="font-normal text-slate-600 w-full text-center tracking-tighter mt-0.5 uppercase whitespace-normal leading-tight"
-                            :style="getDynamicStyle(`(${displayTeachersList[slotIndex - 1].reason})`, 8.5, 9)">
+                            class="font-normal text-slate-600 w-full text-center tracking-tighter mt-0.5 uppercase"
+                            :style="getDynamicStyle(`(${displayTeachersList[slotIndex - 1].reason})`, 8.5)">
                         ({{ displayTeachersList[slotIndex - 1].reason }})
                       </span>
                     </div>
                   </td>
-                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 80px;">KELAS</td>
+                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 45px; max-width: 45px;">KELAS</td>
+                  
+                  <!-- 🌟 右侧格子：彻底移除缩小引擎，恢复正常的文本排版 -->
                   <td v-for="p in currentPeriodTimes.length" :key="p" class="border border-black p-0.5 font-semibold align-middle h-8" style="max-width: 0;">
-                    <div class="w-full h-full flex items-center justify-center px-0.5">
-                      <span class="block w-full text-center tracking-tighter leading-tight text-slate-800 whitespace-normal"
-                            :style="getDynamicStyle(getTeacherPeriodData(displayTeachersList[slotIndex - 1].id, p, 'class_subject'), 10, 6)">
+                    <div class="w-full h-full flex items-center justify-center px-0.5 overflow-hidden">
+                      <span class="block w-full text-center text-[10px] tracking-tighter leading-tight text-slate-800 whitespace-normal">
                         {{ getTeacherPeriodData(displayTeachersList[slotIndex - 1].id, p, 'class_subject') }}
                       </span>
                     </div>
@@ -135,9 +136,9 @@
                       :class="hasLeavePeriod(displayTeachersList[slotIndex - 1].id, p) ? 'cursor-pointer hover:bg-indigo-50 group' : ''"
                       class="print:hover:bg-transparent border border-black p-0.5 font-bold text-indigo-900 align-middle h-8 transition relative" 
                       style="max-width: 0;">
-                    <div class="w-full h-full flex items-center justify-center px-0.5">
-                      <span class="block w-full text-center tracking-tighter leading-tight whitespace-normal"
-                            :style="getDynamicStyle(getTeacherPeriodData(displayTeachersList[slotIndex - 1].id, p, 'substitute_name'), 9, 6)">
+                    <div class="w-full h-full flex items-center justify-center px-0.5 overflow-hidden">
+                      <!-- 🌟 恢复原本大小，去掉了 :style 缩小 -->
+                      <span class="block w-full text-center text-[9px] tracking-tighter leading-tight whitespace-normal">
                         {{ getTeacherPeriodData(displayTeachersList[slotIndex - 1].id, p, 'substitute_name') }}
                       </span>
                       <span v-if="hasLeavePeriod(displayTeachersList[slotIndex - 1].id, p)" class="print:hidden hidden group-hover:inline-block text-[9px] text-indigo-500 absolute right-1">✏️</span>
@@ -150,22 +151,23 @@
                 </tr>
               </template>
 
-              <!-- 手动填写格同样应用收紧的缩小底线 -->
+              <!-- 手动填写格同步 -->
               <template v-else>
                 <tr>
                   <td contenteditable="true" 
                       @blur="saveManualEntry(slotIndex, 'name', 0, $event)" 
                       v-text="getManualEntry(slotIndex, 'name', 0)" 
-                      class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase" 
-                      :style="[{ width: '120px', maxWidth: '120px' }, getDynamicStyle(getManualEntry(slotIndex, 'name', 0), 10, 10)]"
+                      class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors uppercase" 
+                      :style="[{ width: '85px', maxWidth: '85px' }, getDynamicStyle(getManualEntry(slotIndex, 'name', 0), 10)]"
                       rowspan="3"></td>
-                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 80px;">KELAS</td>
+                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 45px; max-width: 45px;">KELAS</td>
+                  <!-- 右侧不套用引擎 -->
                   <td v-for="p in currentPeriodTimes.length" :key="'kelas-'+p" 
                       contenteditable="true" 
                       @blur="saveManualEntry(slotIndex, 'kelas', p, $event)" 
                       v-text="getManualEntry(slotIndex, 'kelas', p)" 
-                      class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-semibold whitespace-pre-wrap leading-tight text-center"
-                      :style="[{ maxWidth: '0' }, getDynamicStyle(getManualEntry(slotIndex, 'kelas', p), 10, 6)]"></td>
+                      class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors text-[11px] font-semibold whitespace-pre-wrap leading-tight text-center"
+                      style="max-width: 0;"></td>
                 </tr>
                 <tr>
                   <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">GURU GANTI</td>
@@ -175,8 +177,7 @@
                       <div contenteditable="true" 
                           @blur="saveManualEntry(slotIndex, 'ganti', p, $event)" 
                           v-text="getManualEntry(slotIndex, 'ganti', p)" 
-                          class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center"
-                          :style="getDynamicStyle(getManualEntry(slotIndex, 'ganti', p), 9, 6)"></div>
+                          class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors text-[10px] font-bold text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center"></div>
                       <button contenteditable="false" @click.stop="openBlankModal(slotIndex, p, null)" class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold">TETAP</button>
                     </div>
                   </td>
@@ -352,7 +353,7 @@
           <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed">
             <thead>
               <tr class="bg-slate-100 print:bg-white">
-                <th class="border border-black p-1 w-28 font-bold" colspan="2">MASA</th>
+                <th class="border border-black p-1 font-bold" colspan="2" style="width: 130px; min-width: 130px; max-width: 130px;">MASA</th>
                 <th v-for="(time, index) in currentPeriodTimes" :key="index" class="border border-black p-1">
                   <div class="font-bold">{{ index + 1 }}</div>
                   <div class="text-[7px] font-normal mt-0.5 truncate">{{ time }}</div>
@@ -364,16 +365,16 @@
                   <td contenteditable="true" 
                       @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0, $event)"
                       v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0)"
-                      class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase" 
-                      :style="[{ width: '120px', maxWidth: '120px' }, getDynamicStyle(getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0), 10, 10)]"
+                      class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors uppercase" 
+                      :style="[{ width: '85px', maxWidth: '85px' }, getDynamicStyle(getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0), 10)]"
                       rowspan="3"></td>
-                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 80px;">KELAS</td>
+                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]" style="width: 45px; max-width: 45px;">KELAS</td>
                   <td v-for="p in currentPeriodTimes.length" :key="'kelas-'+p" 
                       contenteditable="true" 
                       @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'kelas', p, $event)"
                       v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'kelas', p)"
-                      class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-semibold whitespace-pre-wrap leading-tight text-center"
-                      :style="[{ maxWidth: '0' }, getDynamicStyle(getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'kelas', p), 10, 6)]"></td>
+                      class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors text-[11px] font-semibold whitespace-pre-wrap leading-tight text-center"
+                      style="max-width: 0;"></td>
                 </tr>
                 <tr>
                   <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">GURU GANTI</td>
@@ -383,8 +384,7 @@
                       <div contenteditable="true" 
                           @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p, $event)"
                           v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p)"
-                          class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center"
-                          :style="getDynamicStyle(getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p), 9, 6)"></div>
+                          class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors text-[10px] font-bold text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center"></div>
                       <button contenteditable="false" @click.stop="openBlankModal(slotIndex, p, sheet.id)" class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold">TETAP</button>
                     </div>
                   </td>
@@ -520,42 +520,41 @@ const blankForm = ref({ teacherId: '', remark: '', kiraBeban: true })
 const hasExistingVirtual = ref(false)
 
 // ⭐️ 终极重写：只通过“空格”来拆解文字！
-// 这样 (MESYUARAT) 就会被判定为长达 11 个字符的单体，从而强制触发强力缩小机制！
-const getDynamicStyle = (text, baseSize, maxChars) => {
+const getDynamicStyle = (text, baseSize) => {
   if (!text) return { fontSize: `${baseSize}px`, wordBreak: 'normal', overflowWrap: 'normal' }
   
-  // 这里去掉了原本错误匹配的括号和斜杠，只使用最单纯的空白符 \s+ 拆分单词。
+  const maxCharsAllowed = 10;
+  
   const words = String(text).split(/\s+/).filter(Boolean)
   let maxWordLen = 0
 
   words.forEach(w => {
     let charCount = 0
     for (let i = 0; i < w.length; i++) {
-      if (w.charCodeAt(i) > 255) charCount += 1.8 // 汉字稍宽
-      else charCount += 1 // 英文字母或符号
+      if (w.charCodeAt(i) > 255) charCount += 1.8 
+      else if (/[A-Z]/.test(w[i])) charCount += 1.2 
+      else charCount += 1 
     }
     if (charCount > maxWordLen) maxWordLen = charCount
   })
 
-  // 如果最长单词没有超过界限，原样输出
-  if (maxWordLen <= maxChars) {
+  if (maxWordLen <= maxCharsAllowed) {
     return {
       fontSize: `${baseSize}px`,
+      lineHeight: '1.15',
       wordBreak: 'normal',
       overflowWrap: 'normal'
     }
   }
 
-  // ⭐️ 如果超长了，按比例重手缩小！
-  // 系数 0.9 提供额外的缓冲空间，确保它哪怕缩得很小也一定要呆在框里！
-  const scaledSize = baseSize * (maxChars / maxWordLen) * 0.9
+  // ⭐️ 强力缩小机制
+  const scaledSize = baseSize * (maxCharsAllowed / maxWordLen) * 0.95
   
   return {
-    // 保底最低 4px，防止变成显微镜字
     fontSize: `${Math.max(4, scaledSize).toFixed(2)}px`,
     lineHeight: '1.1',
-    wordBreak: 'normal',      // 绝不乱砍词
-    overflowWrap: 'normal'    // 绝不乱砍词
+    wordBreak: 'normal',
+    overflowWrap: 'normal'
   }
 }
 
