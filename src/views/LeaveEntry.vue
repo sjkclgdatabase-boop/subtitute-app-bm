@@ -1,4 +1,5 @@
 <template>
+  <!-- 🌟 核心：给最外层一个定死的最小宽度 (min-w-[1024px]) -->
   <div class="p-4 sm:p-8 mx-auto min-h-screen space-y-8 min-w-[1024px]">
     
     <!-- Header -->
@@ -351,7 +352,7 @@ const fetchDailyTimetable = async () => {
   }
 }
 
-// 🚀 Core Submit Logic with Categories & Auto-Uppercase
+// 🚀 Core Submit Logic with Categories & Auto-Uppercase (Beserta Pembaikan Tepat MMI)
 const submitLeaveRequests = async () => {
   const selectedList = dailyClasses.value.filter(cls => cls.selected)
   if (selectedList.length === 0) {
@@ -421,16 +422,19 @@ const submitLeaveRequests = async () => {
     const { error: leaveError } = await supabase.from('leave_requests').insert(requests)
     if (leaveError) throw leaveError
 
+    // 5. 🌟 Kawalan Tepat MMI: Jika hanya 1 slot dipilih, start dan end adalah sama (menghalang pengiraan 2 slot)
     if (periodsForMMI.length > 0) {
       periodsForMMI.sort((a, b) => a - b)
-      const minPeriod = periodsForMMI[0]
-      const maxPeriod = periodsForMMI[periodsForMMI.length - 1]
+      
+      // Jika 1 slot sahaja (Cth: slot ke-4), startP = 4, endP = 4
+      const startP = periodsForMMI[0]
+      const endP = periodsForMMI.length === 1 ? periodsForMMI[0] : periodsForMMI[periodsForMMI.length - 1]
 
       const mmiLogPayload = {
         interruption_date: leaveDate.value,
         type: 'teacher',
-        start_period: minPeriod,
-        end_period: maxPeriod,
+        start_period: startP,
+        end_period: endP,
         reason: formattedReason, // 🌟 Save formatted reason to MMI
         target_display: `GURU: ${teacherName}`,
         remarks: `(MELIBATKAN SLOT: KE-${periodsForMMI.join(', ')} | SUBJEK: ${requests.map(c => `${c.class_name}(${c.subject})`).join(', ')})`

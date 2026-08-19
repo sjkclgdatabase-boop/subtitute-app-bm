@@ -546,11 +546,12 @@ const loadAnalyticsData = async () => {
 
         const lostSlotSet = new Set()
 
+        // 🌟 已修复：限制请假的匹配逻辑必须精准核对节次！
         if (leaveRequests && leaveRequests.length > 0) {
           leaveRequests.forEach(req => {
             const reqClass = cleanString(req.class_name)
             const clsName = cleanString(cls.class_name)
-            const isClassMatched = reqClass === clsName || reqClass.includes(clsName) || reqClass.includes(reqClass)
+            const isClassMatched = reqClass === clsName || reqClass.includes(clsName) || clsName.includes(reqClass)
             const isSubjMatched = isSubjectMatch(req.subject, standardizedTargetSubject)
 
             const reqTeacherNameClean = cleanString(req.teacher_name)
@@ -572,7 +573,10 @@ const loadAnalyticsData = async () => {
                   const matchSubj = isSubjectMatch(itemSubj, standardizedTargetSubject)
                   const matchWd = itemWeekday === leaveWeekday || itemWeekday === (leaveWeekday === 0 ? 7 : leaveWeekday)
                   
-                  if (matchCls && matchSubj && matchWd) {
+                  // 🌟 漏洞修复核心：强制比对课表节次与您实际勾选的节次，杜绝牵连！
+                  const matchPeriod = Number(item.period) === Number(req.period) 
+                  
+                  if (matchCls && matchSubj && matchWd && matchPeriod) {
                     lostSlotSet.add(`${req.leave_date}-P${item.period}`)
                   }
                 })
@@ -599,9 +603,9 @@ const loadAnalyticsData = async () => {
 
               const isClassAffected = 
                 intScope === 'all' || 
-                targetDisp.includes('SEMUA') || targetDisp.includes('全校') ||
+                targetDisp.includes('SEMUA') || targetDisp.includes('ALL') || targetDisp.includes('全校') ||
                 (intScope === 'grade' && intGrade === Number(cls.grade)) ||
-                targetDisp.includes(`TAHUN ${cls.grade}`) || targetDisp.includes(`Tahun ${cls.grade}`) ||
+                targetDisp.includes(`TAHUN ${cls.grade}`) || targetDisp.includes(`Tahun ${cls.grade}`) || targetDisp.includes(`YEAR ${cls.grade}`) ||
                 (intScope === 'class' && (intClass.includes(clsName) || clsName.includes(intClass || ''))) ||
                 targetDisp.includes(clsName)
 
