@@ -64,14 +64,25 @@
         <LayoutDashboard class="w-4 h-4" />
         KESELURUHAN & BEBAN
       </button>
+      
       <button 
         @click="currentTab = 'reason'" 
-        :class="currentTab === 'reason' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        :class="currentTab === 'reason' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100'"
         class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2"
       >
         <TriangleAlert class="w-4 h-4" />
-        ANALISIS PUNCA
+        ANALISIS KETIDAKHADIRAN GURU
       </button>
+
+      <button 
+        @click="currentTab = 'large-scale'" 
+        :class="currentTab === 'large-scale' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
+        class="px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2"
+      >
+        <Building2 class="w-4 h-4" />
+        ANALISIS GANGGUAN ACARA / KELAS
+      </button>
+
       <button 
         @click="currentTab = 'trend'" 
         :class="currentTab === 'trend' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'"
@@ -166,15 +177,15 @@
       </div>
     </div>
 
-    <!-- TAB 2: 项目分析 -->
+    <!-- TAB 2: 纯净版-教师缺课原因分析 -->
     <div v-if="currentTab === 'reason'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-6 animate-fadeIn">
       <div class="flex justify-between items-center">
         <div>
           <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
             <TriangleAlert class="w-5 h-5 text-orange-600" />
-            STATISTIK KATEGORI GANGGUAN
+            ANALISIS PUNCA KETIDAKHADIRAN GURU
           </h2>
-          <p class="text-xs text-slate-500 mt-1 font-medium">DIKATEGORIKAN MENGIKUT CUTI PERIBADI, TUGAS RASMI LUAR, TUGAS DALAMAN DAN DATA SEJARAH.</p>
+          <p class="text-xs text-slate-500 mt-1 font-medium">MENGANALISIS DATA KETIDAKHADIRAN GURU BERDASARKAN CUTI PERIBADI, URUSAN RASMI DAN TUGASAN DALAMAN.</p>
         </div>
         <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm">
           <Printer class="w-4 h-4" />
@@ -182,16 +193,16 @@
         </button>
       </div>
       
-      <div v-if="groupedReasonStats.length === 0" class="text-xs text-slate-400 py-12 text-center border border-dashed rounded-2xl font-medium">TIADA REKOD GANGGUAN DALAM TEMPOH INI.</div>
+      <div v-if="categorizedReasons.teacher.length === 0" class="text-xs text-slate-400 py-12 text-center border border-dashed rounded-2xl font-medium">TIADA REKOD KETIDAKHADIRAN GURU DALAM TEMPOH INI.</div>
       
       <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div v-for="group in groupedReasonStats" :key="group.id" class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col hover:shadow-sm transition-shadow">
+        <div v-for="group in categorizedReasons.teacher" :key="group.title" class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col hover:shadow-sm transition-shadow">
           <div class="flex justify-between items-center mb-5 pb-4 border-b border-slate-200/80">
             <h3 class="text-sm font-extrabold text-slate-800 flex items-center gap-2">
-              <component :is="group.iconComponent" class="w-4 h-4 text-slate-600" />
+              <component :is="group.icon" class="w-4 h-4 text-slate-600" />
               {{ group.title }}
             </h3>
-            <span class="text-[11px] font-bold px-3 py-1 rounded-full shadow-sm" :class="group.badgeClass">
+            <span class="text-[11px] font-bold px-3 py-1 rounded-full shadow-sm" :class="group.badge">
               TERKUMPUL {{ group.total }} SLOT
             </span>
           </div>
@@ -203,10 +214,95 @@
                 <span class="whitespace-nowrap">{{ item.count }} SLOT ({{ item.percentage }}%)</span>
               </div>
               <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div class="h-full rounded-full transition-all duration-500" :class="group.barClass" :style="{ width: item.percentage + '%' }"></div>
+                <div class="h-full rounded-full transition-all duration-500" :class="group.bar" :style="{ width: item.percentage + '%' }"></div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 全新 TAB: 班级/大型干扰事件分析 -->
+    <div v-if="currentTab === 'large-scale'" class="bg-white p-8 rounded-3xl shadow-sm ring-1 ring-slate-900/5 space-y-8 animate-fadeIn">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Building2 class="w-5 h-5 text-indigo-600" />
+            ANALISIS GANGGUAN ACARA / KELAS
+          </h2>
+          <p class="text-xs text-slate-500 mt-1 font-medium">MENGANALISIS KESAN ACARA AKADEMIK, KOKURIKULUM, CERAMAH DAN CUTI KHAS TERHADAP MASA PENGAJARAN KELAS.</p>
+        </div>
+        <button @click="exportSinglePdf" class="no-print px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm">
+          <Printer class="w-4 h-4" />
+          MUAT TURUN PDF
+        </button>
+      </div>
+
+      <!-- 上半部分：四大分类彩色数据卡片矩阵 -->
+      <div v-if="categorizedReasons.events.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div v-for="group in categorizedReasons.events" :key="group.title" class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col hover:shadow-sm transition-shadow">
+          <div class="flex justify-between items-center mb-5 pb-4 border-b border-slate-200/80">
+            <h3 class="text-sm font-extrabold text-slate-800 flex items-center gap-2">
+              <component :is="group.icon" class="w-4 h-4 text-slate-600" />
+              {{ group.title }}
+            </h3>
+            <span class="text-[11px] font-bold px-3 py-1 rounded-full shadow-sm" :class="group.badge">
+              RUGI {{ group.total }} SLOT
+            </span>
+          </div>
+          
+          <div class="space-y-4 flex-1">
+            <div v-for="item in group.items" :key="item.reason" class="space-y-1.5">
+              <div class="flex justify-between text-xs font-bold text-slate-700">
+                <span class="truncate pr-4" :title="item.reason">{{ item.reason }}</span>
+                <span class="whitespace-nowrap">{{ item.count }} SLOT ({{ item.percentage }}%)</span>
+              </div>
+              <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500" :class="group.bar" :style="{ width: item.percentage + '%' }"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="text-xs text-slate-400 py-12 text-center border border-dashed rounded-2xl font-medium">TIADA REKOD GANGGUAN ACARA KELAS DITEMUI.</div>
+
+      <!-- 下半部分：活动明细排行榜 -->
+      <div class="space-y-4">
+        <h3 class="text-sm font-bold text-slate-800">SENARAI TERPERINCI GANGGUAN ACARA (KEDUDUKAN)</h3>
+        <div class="overflow-x-auto rounded-2xl border border-slate-200/80 shadow-sm">
+          <table class="w-full text-left text-xs border-collapse print-table">
+            <thead>
+              <tr class="bg-indigo-50/60 text-indigo-900 uppercase tracking-wider select-none font-bold border-b border-indigo-100">
+                <th @click="sortLargeScaleTable('reason')" class="p-4 cursor-pointer hover:bg-indigo-100/50 transition">
+                  NAMA AKTIVITI / ACARA <span class="text-indigo-600">{{ largeScaleSortKey === 'reason' ? (largeScaleSortAsc ? '▲' : '▼') : '↕' }}</span>
+                </th>
+                <th @click="sortLargeScaleTable('scope')" class="p-4 cursor-pointer hover:bg-indigo-100/50 transition">
+                  SKOP IMPAK <span class="text-indigo-600">{{ largeScaleSortKey === 'scope' ? (largeScaleSortAsc ? '▲' : '▼') : '↕' }}</span>
+                </th>
+                <th @click="sortLargeScaleTable('frequency')" class="p-4 cursor-pointer hover:bg-indigo-100/50 transition">
+                  KEKERAPAN KALI <span class="text-indigo-600">{{ largeScaleSortKey === 'frequency' ? (largeScaleSortAsc ? '▲' : '▼') : '↕' }}</span>
+                </th>
+                <th @click="sortLargeScaleTable('totalPeriods')" class="p-4 cursor-pointer hover:bg-indigo-100/50 transition">
+                  JUMLAH SLOT RUGI (PURATA PER KELAS) <span class="text-indigo-600">{{ largeScaleSortKey === 'totalPeriods' ? (largeScaleSortAsc ? '▲' : '▼') : '↕' }}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
+              <tr v-if="sortedLargeScaleStats.length === 0">
+                <td colspan="4" class="p-8 text-center text-slate-400 font-medium">TIADA DATA TERPERINCI AKTIVITI BERSKALA BESAR</td>
+              </tr>
+              <tr v-for="(stat, index) in sortedLargeScaleStats" :key="index" class="hover:bg-slate-50/60">
+                <td class="p-4 font-bold text-slate-900">{{ stat.reason }}</td>
+                <td class="p-4">
+                  <span :class="stat.type === 'school' ? 'bg-rose-100 text-rose-700' : 'bg-blue-100 text-blue-700'" class="px-2 py-1 rounded-md text-[11px] font-bold">
+                    {{ stat.scope }}
+                  </span>
+                </td>
+                <td class="p-4 text-slate-600">{{ stat.frequency }} KALI</td>
+                <td class="p-4 font-bold text-amber-600">{{ stat.totalPeriods }} SLOT</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -448,7 +544,8 @@ import jsPDF from 'jspdf'
 import { 
   ChartNoAxesCombined, CalendarDays, RefreshCw, LayoutDashboard, TriangleAlert, 
   School, BookOpen, UsersRound, Clock3, ArrowLeftRight, FileText, Scale, Printer, 
-  Filter, CalendarCheck, BriefcaseBusiness, Building2, FolderOpen
+  Filter, CalendarCheck, BriefcaseBusiness, Building2, FolderOpen,
+  PartyPopper, Mic, Umbrella
 } from 'lucide-vue-next'
 
 const currentTab = ref('overview')
@@ -458,7 +555,6 @@ const startDate = ref('')
 const endDate = ref('')
 const stats = ref([])
 const interruptionLogs = ref([])
-const reasonStats = ref([])
 const dayOfWeekStats = ref([])
 const classStats = ref([])
 const subjectStats = ref([])
@@ -466,7 +562,7 @@ const selectedClassGradeFilter = ref('')
 const selectedGradeFilter = ref('')      
 const selectedClassFilter = ref('')      
 
-const gradeOrderMap = { 'TAHUN 1': 1, 'TAHUN 2': 2, 'TAHUN 3': 3, 'TAHUN 4': 4, 'TAHUN 5': 5, 'TAHUN 6': 6, '一年级': 1, '二年级': 2, '三年级': 3, '四年级': 4, '五年级': 5, '六年级': 6 };
+const gradeOrderMap = { 'YEAR 1': 1, 'YEAR 2': 2, 'YEAR 3': 3, 'YEAR 4': 4, 'YEAR 5': 5, 'YEAR 6': 6, 'TAHUN 1': 1, 'TAHUN 2': 2, 'TAHUN 3': 3, 'TAHUN 4': 4, 'TAHUN 5': 5, 'TAHUN 6': 6, '一年级': 1, '二年级': 2, '三年级': 3, '四年级': 4, '五年级': 5, '六年级': 6 };
 const sortGrgradesHelper = (setObj) => Array.from(setObj).sort((a, b) => {
   const wA = gradeOrderMap[a] !== undefined ? gradeOrderMap[a] : 99;
   const wB = gradeOrderMap[b] !== undefined ? gradeOrderMap[b] : 99;
@@ -525,40 +621,138 @@ const filteredSubjectStats = computed(() => {
   return [...list].sort((a, b) => smartSort(a[subjectSortKey.value], b[subjectSortKey.value], subjectSortAsc.value))
 })
 
-const groupedReasonStats = computed(() => {
-  if (!reasonStats.value.length) return [];
-  const groups = {
-    personal: { id: 'personal', title: 'CUTI PERIBADI', iconComponent: CalendarCheck, items: [], total: 0, badgeClass: 'bg-orange-100 text-orange-700', barClass: 'bg-orange-500' },
-    official: { id: 'official', title: 'URUSAN RASMI', iconComponent: BriefcaseBusiness, items: [], total: 0, badgeClass: 'bg-blue-100 text-blue-700', barClass: 'bg-blue-500' },
-    internal: { id: 'internal', title: 'TUGASAN DALAMAN', iconComponent: Building2, items: [], total: 0, badgeClass: 'bg-emerald-100 text-emerald-700', barClass: 'bg-emerald-500' },
-    others:   { id: 'others', title: 'LAIN-LAIN / SEJARAH', iconComponent: FolderOpen, items: [], total: 0, badgeClass: 'bg-slate-200 text-slate-700', barClass: 'bg-slate-400' }
-  };
-  const totalPAll = reasonStats.value.reduce((acc, cur) => acc + cur.count, 0);
-  reasonStats.value.forEach(item => {
-    let cleanReason = item.reason.replace(/\[.*?\]\s*/, '');
-    let targetGroup = 'others';
-    if (item.reason.includes('[个人请假]') || item.reason.includes('CUTI PERIBADI')) targetGroup = 'personal';
-    else if (item.reason.includes('[离校公干]') || item.reason.includes('URUSAN RASMI')) targetGroup = 'official';
-    else if (item.reason.includes('[校内任务]') || item.reason.includes('TUGASAN DALAMAN')) targetGroup = 'internal';
+// --- 🌟 三语兼容核心引擎 (Malay Version) ---
+const categorizedReasons = computed(() => {
+  const teacher = {
+    personal: { title: 'CUTI PERIBADI', icon: CalendarCheck, items: {}, total: 0, badge: 'bg-orange-100 text-orange-700', bar: 'bg-orange-500' },
+    official: { title: 'URUSAN RASMI', icon: BriefcaseBusiness, items: {}, total: 0, badge: 'bg-blue-100 text-blue-700', bar: 'bg-blue-500' },
+    internal: { title: 'TUGASAN DALAMAN', icon: Building2, items: {}, total: 0, badge: 'bg-emerald-100 text-emerald-700', bar: 'bg-emerald-500' },
+    others:   { title: 'LAIN-LAIN / GURU', icon: FolderOpen, items: {}, total: 0, badge: 'bg-slate-200 text-slate-700', bar: 'bg-slate-400' }
+  }
+  
+  const events = {
+    academic: { title: 'AKADEMIK & PEPERIKSAAN', icon: BookOpen, items: {}, total: 0, badge: 'bg-indigo-100 text-indigo-700', bar: 'bg-indigo-500' },
+    festival: { title: 'ACARA & KOKURIKULUM', icon: PartyPopper, items: {}, total: 0, badge: 'bg-pink-100 text-pink-700', bar: 'bg-pink-500' },
+    seminar:  { title: 'CERAMAH & PERHIMPUNAN', icon: Mic, items: {}, total: 0, badge: 'bg-purple-100 text-purple-700', bar: 'bg-purple-500' },
+    holiday:  { title: 'CUTI KHAS & KECEMASAN', icon: Umbrella, items: {}, total: 0, badge: 'bg-teal-100 text-teal-700', bar: 'bg-teal-500' },
+    others:   { title: 'LAIN-LAIN / AKTIVITI LAIN', icon: FolderOpen, items: {}, total: 0, badge: 'bg-slate-200 text-slate-700', bar: 'bg-slate-400' }
+  }
 
-    groups[targetGroup].items.push({
-      reason: cleanReason,
-      count: item.count,
-      percentage: totalPAll > 0 ? ((item.count / totalPAll) * 100).toFixed(1) : 0
-    });
-    groups[targetGroup].total += item.count;
-  });
-  Object.values(groups).forEach(g => {
-    if (g.items.length > 8) {
-      const top8 = g.items.slice(0, 8);
-      const remaining = g.items.slice(8);
-      const remainingCount = remaining.reduce((sum, r) => sum + r.count, 0);
-      top8.push({ reason: 'LAIN-LAIN DIGABUNGKAN', count: remainingCount, percentage: totalPAll > 0 ? ((remainingCount / totalPAll) * 100).toFixed(1) : 0 });
-      g.items = top8;
+  let teacherTotalAll = 0
+  let eventTotalAll = 0
+
+  interruptionLogs.value.forEach(log => {
+    const pCount = (log.end_period || 0) - (log.start_period || 0) + 1
+    const rawReason = (log.reason || 'TIADA DATA').trim().toUpperCase().replace(/^(教师请假:\s*|CUTI GURU:\s*|TEACHER LEAVE:\s*)/i, '')
+    const cleanReason = rawReason.replace(/\[.*?\]\s*/, '').trim() || rawReason
+
+    const intScope = log.scope ? log.scope.trim() : ''
+    const targetDisp = log.target_display ? log.target_display.trim() : ''
+    
+    const isSchoolLevel = intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL')
+    const isGradeLevel = intScope === 'grade' || /TAHUN/i.test(targetDisp) || /YEAR/i.test(targetDisp)
+    const hasEventTag = rawReason.includes('[AKADEMIK]') || rawReason.includes('[ACADEMIC]') || rawReason.includes('[学术]') ||
+                        rawReason.includes('[ACARA]') || rawReason.includes('[EVENT]') || rawReason.includes('[节庆]') ||
+                        rawReason.includes('[CERAMAH]') || rawReason.includes('[SEMINAR]') || rawReason.includes('[讲座]') ||
+                        rawReason.includes('[CUTI KHAS]') || rawReason.includes('[HOLIDAY]') || rawReason.includes('[假期]')
+    const isLikelyEvent = isSchoolLevel || isGradeLevel || hasEventTag || log.type === 'class'
+    
+    if (rawReason.includes('[CUTI PERIBADI]') || rawReason.includes('[PERSONAL LEAVE]') || rawReason.includes('[个人请假]')) {
+      teacher.personal.items[cleanReason] = (teacher.personal.items[cleanReason] || 0) + pCount
+      teacher.personal.total += pCount; teacherTotalAll += pCount
+    } else if (rawReason.includes('[URUSAN RASMI]') || rawReason.includes('[OFFICIAL DUTY]') || rawReason.includes('[离校公干]')) {
+      teacher.official.items[cleanReason] = (teacher.official.items[cleanReason] || 0) + pCount
+      teacher.official.total += pCount; teacherTotalAll += pCount
+    } else if (rawReason.includes('[TUGAS DALAMAN]') || rawReason.includes('[INTERNAL TASK]') || rawReason.includes('[校内任务]')) {
+      teacher.internal.items[cleanReason] = (teacher.internal.items[cleanReason] || 0) + pCount
+      teacher.internal.total += pCount; teacherTotalAll += pCount
+    } else if (rawReason.includes('[AKADEMIK]') || rawReason.includes('[ACADEMIC]') || rawReason.includes('[学术]')) {
+      events.academic.items[cleanReason] = (events.academic.items[cleanReason] || 0) + pCount
+      events.academic.total += pCount; eventTotalAll += pCount
+    } else if (rawReason.includes('[ACARA]') || rawReason.includes('[EVENT]') || rawReason.includes('[节庆]')) {
+      events.festival.items[cleanReason] = (events.festival.items[cleanReason] || 0) + pCount
+      events.festival.total += pCount; eventTotalAll += pCount
+    } else if (rawReason.includes('[CERAMAH]') || rawReason.includes('[SEMINAR]') || rawReason.includes('[讲座]')) {
+      events.seminar.items[cleanReason] = (events.seminar.items[cleanReason] || 0) + pCount
+      events.seminar.total += pCount; eventTotalAll += pCount
+    } else if (rawReason.includes('[CUTI KHAS]') || rawReason.includes('[HOLIDAY]') || rawReason.includes('[假期]')) {
+      events.holiday.items[cleanReason] = (events.holiday.items[cleanReason] || 0) + pCount
+      events.holiday.total += pCount; eventTotalAll += pCount
+    } else {
+      if (isLikelyEvent && !log.target_display?.includes('GURU:') && !log.target_display?.includes('教师:') && !log.target_display?.includes('TEACHER:')) {
+        events.others.items[cleanReason] = (events.others.items[cleanReason] || 0) + pCount
+        events.others.total += pCount; eventTotalAll += pCount
+      } else {
+        teacher.others.items[cleanReason] = (teacher.others.items[cleanReason] || 0) + pCount
+        teacher.others.total += pCount; teacherTotalAll += pCount
+      }
     }
-  });
-  return Object.values(groups).filter(g => g.total > 0).sort((a, b) => b.total - a.total);
-});
+  })
+
+  const formatGroup = (groupObj, totalAll) => {
+    return Object.values(groupObj).map(g => {
+      let sortedItems = Object.entries(g.items)
+        .map(([reason, count]) => ({ reason, count, percentage: totalAll > 0 ? ((count / totalAll) * 100).toFixed(1) : 0 }))
+        .sort((a, b) => b.count - a.count)
+      
+      if (sortedItems.length > 8) {
+        const top8 = sortedItems.slice(0, 8)
+        const remaining = sortedItems.slice(8)
+        const remainingCount = remaining.reduce((sum, r) => sum + r.count, 0)
+        top8.push({
+          reason: 'LAIN-LAIN DIGABUNGKAN',
+          count: remainingCount,
+          percentage: totalAll > 0 ? ((remainingCount / totalAll) * 100).toFixed(1) : 0
+        })
+        sortedItems = top8
+      }
+      return { ...g, items: sortedItems }
+    }).filter(g => g.total > 0).sort((a, b) => b.total - a.total)
+  }
+
+  return {
+    teacher: formatGroup(teacher, teacherTotalAll),
+    events: formatGroup(events, eventTotalAll)
+  }
+})
+
+// --- Analisis Terperinci Aktiviti Kelas / Skala Besar ---
+const largeScaleStats = computed(() => {
+  const statsMap = {}
+
+  interruptionLogs.value.forEach(log => {
+    const intScope = log.scope ? log.scope.trim() : ''
+    const targetDisp = log.target_display ? log.target_display.trim() : ''
+    const rawReason = (log.reason || 'TIADA NAMA').toUpperCase()
+
+    const isSchoolLevel = intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL')
+    const isGradeLevel = intScope === 'grade' || /TAHUN/i.test(targetDisp) || /YEAR/i.test(targetDisp)
+    const hasEventTag = rawReason.includes('[AKADEMIK]') || rawReason.includes('[ACADEMIC]') || rawReason.includes('[学术]') ||
+                        rawReason.includes('[ACARA]') || rawReason.includes('[EVENT]') || rawReason.includes('[节庆]') ||
+                        rawReason.includes('[CERAMAH]') || rawReason.includes('[SEMINAR]') || rawReason.includes('[讲座]') ||
+                        rawReason.includes('[CUTI KHAS]') || rawReason.includes('[HOLIDAY]') || rawReason.includes('[假期]')
+
+    if (isSchoolLevel || isGradeLevel || hasEventTag || log.type === 'class') {
+      const reasonClean = (log.reason || 'TIADA NAMA').replace(/\[.*?\]\s*/, '').trim() || (log.reason || 'TIADA NAMA')
+      const scopeText = isSchoolLevel ? 'SELURUH SEKOLAH' : (isGradeLevel ? (log.grade ? `TAHUN ${log.grade}` : 'KESELURUHAN TAHUN') : 'KELAS KHUSUS')
+      const key = `${reasonClean}_${scopeText}`
+      const pCount = (log.end_period || 0) - (log.start_period || 0) + 1
+
+      if (!statsMap[key]) {
+        statsMap[key] = {
+          reason: reasonClean,
+          scope: scopeText,
+          totalPeriods: 0,
+          frequency: 0,
+          type: isSchoolLevel ? 'school' : 'grade'
+        }
+      }
+      statsMap[key].totalPeriods += pCount
+      statsMap[key].frequency += 1
+    }
+  })
+  return Object.values(statsMap)
+})
 
 const smartSort = (valA, valB, asc) => {
   const a = valA ?? '';
@@ -567,19 +761,20 @@ const smartSort = (valA, valB, asc) => {
   return asc ? String(a).toLowerCase().localeCompare(String(b).toLowerCase()) : String(b).toLowerCase().localeCompare(String(a).toLowerCase())
 }
 
-const classSortKey = ref('totalPeriods')
-const classSortAsc = ref(false)
+const classSortKey = ref('totalPeriods'); const classSortAsc = ref(false)
 const sortClassTable = (key) => { if (classSortKey.value === key) classSortAsc.value = !classSortAsc.value; else { classSortKey.value = key; classSortAsc.value = true } }
 
-const subjectSortKey = ref('totalPeriods')
-const subjectSortAsc = ref(false)
+const subjectSortKey = ref('totalPeriods'); const subjectSortAsc = ref(false)
 const sortSubjectTable = (key) => { if (subjectSortKey.value === key) subjectSortAsc.value = !subjectSortAsc.value; else { subjectSortKey.value = key; subjectSortAsc.value = true } }
 
-const teacherSortKey = ref('count')
-const teacherSortAsc = ref(false)
+const teacherSortKey = ref('count'); const teacherSortAsc = ref(false)
 const sortTeacherTable = (key) => { if (teacherSortKey.value === key) teacherSortAsc.value = !teacherSortAsc.value; else { teacherSortKey.value = key; teacherSortAsc.value = true } }
 
+const largeScaleSortKey = ref('totalPeriods'); const largeScaleSortAsc = ref(false)
+const sortLargeScaleTable = (key) => { if (largeScaleSortKey.value === key) largeScaleSortAsc.value = !largeScaleSortAsc.value; else { largeScaleSortKey.value = key; largeScaleSortAsc.value = true } }
+
 const sortedTeacherStats = computed(() => [...stats.value].sort((a, b) => smartSort(a[teacherSortKey.value], b[teacherSortKey.value], teacherSortAsc.value)))
+const sortedLargeScaleStats = computed(() => [...largeScaleStats.value].sort((a, b) => smartSort(a[largeScaleSortKey.value], b[largeScaleSortKey.value], largeScaleSortAsc.value)))
 const totalSubstituteCount = computed(() => stats.value.reduce((acc, cur) => acc + (cur.count || 0), 0))
 const totalInterruptionPeriods = computed(() => interruptionLogs.value.reduce((acc, cur) => acc + ((cur.end_period || 0) - (cur.start_period || 0) + 1), 0))
 const sortedSubstituteStats = computed(() => [...stats.value].sort((a, b) => (b.count || 0) - (a.count || 0)))
@@ -590,15 +785,15 @@ const resetDateFilter = () => {
 
 const cleanClassName = (rawStr) => {
   if (!rawStr) return '';
-  let cleaned = rawStr.replace(/^(班级|班級|KELAS|CLASS)\s*[:：]\s*/i, '').trim();
-  cleaned = cleaned.replace(/^(班级|班級|KELAS|CLASS)\s*[:：]\s*/i, '').trim();
+  let cleaned = rawStr.replace(/^(KELAS|CLASS|班级|班級)\s*[:：]\s*/i, '').trim();
+  cleaned = cleaned.replace(/^(KELAS|CLASS|班级|班級)\s*[:：]\s*/i, '').trim();
   if (!cleaned || /VIRTUAL_CLASS/i.test(cleaned)) return '';
   return cleaned.toUpperCase();
 };
 
 const expandClassNames = (rawStr) => {
   if (!rawStr) return [];
-  let cleaned = rawStr.replace(/^(班级|班級|KELAS|CLASS)\s*[:：]\s*/i, '').trim();
+  let cleaned = rawStr.replace(/^(KELAS|CLASS|班级|班級)\s*[:：]\s*/i, '').trim();
   if (!cleaned || /VIRTUAL_CLASS/i.test(cleaned)) return [];
   const separators = /,|、|\//;
   if (separators.test(cleaned)) {
@@ -616,7 +811,7 @@ const expandClassNames = (rawStr) => {
 };
 
 // ========================================================================
-// 💡 1. 辅助函数区：确保定义在 loadAllData 之前
+// 💡 1. Pemuatan Data & Utiliti
 // ========================================================================
 const fetchAllRows = async (tableName, queryBuilder = null) => {
   let allData = []
@@ -669,7 +864,7 @@ const isSubjectMatch = (subjA, subjB) => {
 }
 
 // ========================================================================
-// 💡 2. 核心加载与计算函数
+// 💡 2. Pemuatan Semua Maklumat
 // ========================================================================
 const loadAllData = async () => {
   try {
@@ -751,18 +946,6 @@ const loadAllData = async () => {
 
   if (mmiData) {
     const totalPAll = mmiData.reduce((acc, cur) => acc + ((cur.end_period || 0) - (cur.start_period || 0) + 1), 0)
-    const reasons = {}
-    mmiData.forEach(l => { 
-      const pCount = (l.end_period || 0) - (l.start_period || 0) + 1; 
-      let rawReason = (l.reason || 'TIADA DATA').trim().toUpperCase();
-      rawReason = rawReason.replace(/^(教师请假:\s*|CUTI GURU:\s*|TEACHER LEAVE:\s*)/i, ''); 
-      reasons[rawReason] = (reasons[rawReason] || 0) + pCount;
-    })
-    
-    reasonStats.value = Object.entries(reasons)
-      .map(([reason, count]) => ({ reason, count, percentage: totalPAll > 0 ? ((count / totalPAll) * 100).toFixed(1) : 0 }))
-      .sort((a, b) => b.count - a.count)
-
     const dayNames = { 1: 'ISNIN', 2: 'SELASA', 3: 'RABU', 4: 'KHAMIS', 5: 'JUMAAT', 6: 'SABTU', 7: 'AHAD' }
     const daysCount = {}
     mmiData.forEach(l => { 
@@ -869,12 +1052,12 @@ const loadAllData = async () => {
           const intWeekday = intDate.getDay()
 
           let isClassAffected = false;
-          if (intScope === 'all' || targetDisp.includes('全校') || targetDisp.includes('SELURUH SEKOLAH') || targetDisp.includes('ALL CLASSES')) {
+          if (intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL') || targetDisp.includes('ALL CLASSES')) {
             isClassAffected = true;
           } else if (intScope === 'grade' && intGrade === Number(cls.grade)) {
             isClassAffected = true;
-          } else if (targetDisp.includes('全年级') || targetDisp.includes('Tahun') || targetDisp.includes('TAHUN') || targetDisp.includes('Year') || targetDisp.includes('YEAR')) {
-            const match = targetDisp.match(/Tahun\s*(\d)/i) || targetDisp.match(/(\d)\s*年级/) || targetDisp.match(/Year\s*(\d)/i);
+          } else if (targetDisp.includes('TAHUN') || targetDisp.includes('全年级') || targetDisp.includes('Tahun') || targetDisp.includes('Year') || targetDisp.includes('YEAR')) {
+            const match = targetDisp.match(/Tahun\s*(\d)/i) || targetDisp.match(/TAHUN\s*(\d)/i) || targetDisp.match(/(\d)\s*年级/) || targetDisp.match(/Year\s*(\d)/i);
             const gradeNum = match ? match[1] : null;
             if (gradeNum) {
               isClassAffected = clsName.startsWith(gradeNum);
@@ -938,12 +1121,13 @@ const loadAllData = async () => {
 }
 
 // ========================================================================
-// 💡 3. PDF 导出及页面生命周期钩子
+// 💡 3. Eksport PDF
 // ========================================================================
 const exportSinglePdf = async () => {
   const REPORT_TITLES = {
     overview: 'RINGKASAN OPERASI & BEBAN GURU GANTI',
-    reason: 'ANALISIS PUNCA KETIDAKHADIRAN & GANGGUAN PDPC',
+    reason: 'ANALISIS PUNCA KETIDAKHADIRAN GURU',
+    'large-scale': 'ANALISIS GANGGUAN ACARA & AKTIVITI KELAS',
     trend: 'STATISTIK TREND & PUNCAK GANGGUAN KELAS',
     class: 'ANALISIS GANGGUAN MENGIKUT KELAS',
     subject: 'ANALISIS GANGGUAN MENGIKUT SUBJEK & KELAS',
@@ -965,7 +1149,7 @@ const exportSinglePdf = async () => {
   canvas.width = PAGE_W
   canvas.height = PAGE_H
   const ctx = canvas.getContext('2d')
-  if (!ctx) throw new Error('Canvas 2D context is unavailable.')
+  if (!ctx) throw new Error('Konteks Canvas 2D tidak tersedia.')
 
   const loadLogo = async () => {
     if (!schoolLogoUrl.value) return null
@@ -1057,7 +1241,7 @@ const exportSinglePdf = async () => {
     setFont(14, 600)
     ctx.fillStyle = '#64748b'
     const period = startDate.value && endDate.value
-      ? `${startDate.value} - ${endDate.value}`
+      ? `${startDate.value} HINGGA ${endDate.value}`
       : 'KESELURUHAN TEMPOH DATA'
     ctx.fillText(`TEMPOH ANALISIS: ${period}`, PAGE_W / 2, currentY)
 
@@ -1204,9 +1388,9 @@ const exportSinglePdf = async () => {
     y += 14
   }
 
-  const drawReasonGroups = () => {
-    drawSectionTitle('ANALISIS PUNCA UTAMA GANGGUAN')
-    groupedReasonStats.value.forEach(group => {
+  const drawGroupBlocks = (groups, sectionTitle) => {
+    drawSectionTitle(sectionTitle)
+    groups.forEach(group => {
       ensureSpace(90)
       setFont(15, 800)
       ctx.fillStyle = '#1e1b4b'
@@ -1234,6 +1418,15 @@ const exportSinglePdf = async () => {
       })
       y += 10
     })
+  }
+
+  const drawTeacherReasons = () => drawGroupBlocks(categorizedReasons.value.teacher, 'ANALISIS PUNCA KETIDAKHADIRAN GURU (KATEGORI)')
+  
+  const drawLargeScale = () => {
+    drawGroupBlocks(categorizedReasons.value.events, 'ANALISIS PUNCA GANGGUAN ACARA (KATEGORI)')
+    drawSectionTitle('SENARAI AKTIVITI BERSKALA BESAR (SEKOLAH & TAHUN)')
+    const rows = sortedLargeScaleStats.value.map(s => [s.reason, s.scope, `${s.frequency}`, `${s.totalPeriods}`])
+    drawTable(['NAMA AKTIVITI', 'SKOP IMPAK', 'KEKERAPAN', 'JUMLAH GANGGUAN'], rows, [460, 240, 200, 240])
   }
 
   const drawOverview = () => {
@@ -1289,7 +1482,8 @@ const exportSinglePdf = async () => {
     y = MARGIN + HEADER_H + 10
 
     if (currentTab.value === 'overview') drawOverview()
-    else if (currentTab.value === 'reason') drawReasonGroups()
+    else if (currentTab.value === 'reason') drawTeacherReasons()
+    else if (currentTab.value === 'large-scale') drawLargeScale()
     else if (currentTab.value === 'trend') drawTrend()
     else if (currentTab.value === 'class') drawClass()
     else if (currentTab.value === 'subject') drawSubject()
