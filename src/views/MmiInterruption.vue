@@ -71,11 +71,12 @@
             </label>
           </div>
 
+          <!-- 🌟 加上了 uppercase 自动大写类名 -->
           <input 
             type="text" 
             v-model="classForm.eventName" 
             placeholder="NYATAKAN NAMA PROGRAM (Cth: Kempen Anti-Dadah, Peperiksaan Akhir Tahun)..." 
-            class="w-full bg-white border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+            class="w-full bg-white border border-slate-200 px-4 h-11 rounded-2xl text-xs font-bold text-slate-900 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
           />
         </div>
       </div>
@@ -187,7 +188,7 @@
           v-model="classForm.remarks" 
           type="text" 
           placeholder="CONTOH: CERAMAH DEMAM DENGGI DI DEWAN UTAMA." 
-          class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
 
@@ -251,11 +252,12 @@
           </label>
         </div>
 
+        <!-- 🌟 加上了 uppercase 自动大写类名 -->
         <input 
           v-model="teacherForm.eventName" 
           type="text" 
           placeholder="NYATAKAN BUTIRAN LANJUT (Cth: Mengiringi Pasukan Bola Keranjang, Mesyuarat Kurikulum)..." 
-          class="w-full bg-white border border-slate-200 px-4 h-11 rounded-2xl text-xs font-semibold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+          class="w-full bg-white border border-slate-200 px-4 h-11 rounded-2xl text-xs font-semibold text-slate-800 uppercase shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
         />
       </div>
 
