@@ -649,12 +649,9 @@ const categorizedReasons = computed(() => {
     const intScope = log.scope ? log.scope.trim() : ''
     const targetDisp = log.target_display ? log.target_display.trim() : ''
     
-    const isSchoolLevel = intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL')
-    const isGradeLevel = intScope === 'grade' || /TAHUN/i.test(targetDisp) || /YEAR/i.test(targetDisp)
-    const hasEventTag = rawReason.includes('[AKADEMIK]') || rawReason.includes('[ACADEMIC]') || rawReason.includes('[学术]') ||
-                        rawReason.includes('[ACARA]') || rawReason.includes('[EVENT]') || rawReason.includes('[节庆]') ||
-                        rawReason.includes('[CERAMAH]') || rawReason.includes('[SEMINAR]') || rawReason.includes('[讲座]') ||
-                        rawReason.includes('[CUTI KHAS]') || rawReason.includes('[HOLIDAY]') || rawReason.includes('[假期]')
+    const isSchoolLevel = intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL') || targetDisp.includes('ALL CLASSES')
+    const isGradeLevel = intScope === 'grade' || /(?:TAHUN|YEAR|GRADE)/i.test(targetDisp) || /年级/.test(targetDisp)
+    const hasEventTag = /\[(?:学术|AKADEMIK|ACADEMIC|节庆|ACARA|EVENT|讲座|CERAMAH|SEMINAR|假期|CUTI KHAS|HOLIDAY)\]/i.test(rawReason)
     const isLikelyEvent = isSchoolLevel || isGradeLevel || hasEventTag || log.type === 'class'
     
     if (rawReason.includes('[CUTI PERIBADI]') || rawReason.includes('[PERSONAL LEAVE]') || rawReason.includes('[个人请假]')) {
@@ -725,12 +722,9 @@ const largeScaleStats = computed(() => {
     const targetDisp = log.target_display ? log.target_display.trim() : ''
     const rawReason = (log.reason || 'TIADA NAMA').toUpperCase()
 
-    const isSchoolLevel = intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL')
-    const isGradeLevel = intScope === 'grade' || /TAHUN/i.test(targetDisp) || /YEAR/i.test(targetDisp)
-    const hasEventTag = rawReason.includes('[AKADEMIK]') || rawReason.includes('[ACADEMIC]') || rawReason.includes('[学术]') ||
-                        rawReason.includes('[ACARA]') || rawReason.includes('[EVENT]') || rawReason.includes('[节庆]') ||
-                        rawReason.includes('[CERAMAH]') || rawReason.includes('[SEMINAR]') || rawReason.includes('[讲座]') ||
-                        rawReason.includes('[CUTI KHAS]') || rawReason.includes('[HOLIDAY]') || rawReason.includes('[假期]')
+    const isSchoolLevel = intScope === 'all' || targetDisp.includes('SEMUA') || targetDisp.includes('全校') || targetDisp.includes('WHOLE SCHOOL') || targetDisp.includes('ALL CLASSES')
+    const isGradeLevel = intScope === 'grade' || /(?:TAHUN|YEAR|GRADE)/i.test(targetDisp) || /年级/.test(targetDisp)
+    const hasEventTag = /\[(?:学术|AKADEMIK|ACADEMIC|节庆|ACARA|EVENT|讲座|CERAMAH|SEMINAR|假期|CUTI KHAS|HOLIDAY)\]/i.test(rawReason)
 
     if (isSchoolLevel || isGradeLevel || hasEventTag || log.type === 'class') {
       const reasonClean = (log.reason || 'TIADA NAMA').replace(/\[.*?\]\s*/, '').trim() || (log.reason || 'TIADA NAMA')
@@ -928,10 +922,11 @@ const loadAllData = async () => {
   mmiData?.forEach(l => {
     let rawTarget = (l.target_display || '').trim()
     let tName = ''
-    if (rawTarget.includes('教师:')) tName = rawTarget.replace('教师:', '').trim()
-    else if (rawTarget.includes('GURU:')) tName = rawTarget.replace('GURU:', '').trim()
-    else if (rawTarget.includes('TEACHER:')) tName = rawTarget.replace('TEACHER:', '').trim()
-    else if (teacherNameSet.has(rawTarget.toUpperCase())) tName = rawTarget
+    if (/(?:GURU|TEACHER|教师)[:：]?\s*/i.test(rawTarget)) {
+      tName = rawTarget.replace(/(?:GURU|TEACHER|教师)[:：]?\s*/i, '').trim()
+    } else if (teacherNameSet.has(rawTarget.toUpperCase())) {
+      tName = rawTarget
+    }
 
     if (tName) {
       const pCount = (l.end_period || 0) - (l.start_period || 0) + 1
@@ -1056,8 +1051,8 @@ const loadAllData = async () => {
             isClassAffected = true;
           } else if (intScope === 'grade' && intGrade === Number(cls.grade)) {
             isClassAffected = true;
-          } else if (targetDisp.includes('TAHUN') || targetDisp.includes('全年级') || targetDisp.includes('Tahun') || targetDisp.includes('Year') || targetDisp.includes('YEAR')) {
-            const match = targetDisp.match(/Tahun\s*(\d)/i) || targetDisp.match(/TAHUN\s*(\d)/i) || targetDisp.match(/(\d)\s*年级/) || targetDisp.match(/Year\s*(\d)/i);
+          } else if (/(?:TAHUN|YEAR|GRADE)/i.test(targetDisp) || /年级/.test(targetDisp) || targetDisp.includes('全年级')) {
+            const match = targetDisp.match(/(?:TAHUN|YEAR|GRADE)\s*(\d)/i) || targetDisp.match(/(\d)\s*年级/);
             const gradeNum = match ? match[1] : null;
             if (gradeNum) {
               isClassAffected = clsName.startsWith(gradeNum);
