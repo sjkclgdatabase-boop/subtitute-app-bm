@@ -673,10 +673,41 @@ const formatTargetDisplay = (text) => {
   return text.replace(/^(KELAS|班级|CLASS)[:：]\s*/i, '').trim()
 }
 
-const deleteLog = async (log) => {
-  if (!confirm(`ADAKAH ANDA PASTI MAHU MEMADAM REKOD GANGGUAN MMI PADA ${log.interruption_date} INI?`)) return
+cconst deleteLog = async (log) => {
+  if (!confirm(`ADAKAH ANDA PASTI MAHU MEMADAM REKOD GANGGUAN MMI PADA ${log.interruption_date} INI? JADUAL GURU GANTI BERKAITAN JUGA AKAN DIKELUARKAN SECARA AUTOMATIK.`)) return
 
   try {
+    // 1. Cari rekod leave_requests yang dijana oleh gangguan MMI ini
+    const { data: relatedLeaves, error: fetchErr } = await supabase
+      .from('leave_requests')
+      .select('id')
+      .eq('leave_date', log.interruption_date)
+      .eq('reason', log.reason)
+      .gte('period', log.start_period)
+      .lte('period', log.end_period)
+
+    if (fetchErr) throw fetchErr
+
+    const leaveIds = (relatedLeaves || []).map(l => l.id)
+
+    // 2. Padam agihan guru ganti dan rekod kelas ganti jika wujud
+    if (leaveIds.length > 0) {
+      const { error: subErr } = await supabase
+        .from('substitute_assignments')
+        .delete()
+        .in('leave_request_id', leaveIds)
+
+      if (subErr) throw subErr
+
+      const { error: leaveErr } = await supabase
+        .from('leave_requests')
+        .delete()
+        .in('id', leaveIds)
+
+      if (leaveErr) throw leaveErr
+    }
+
+    // 3. Padam rekod gangguan MMI
     const { error: mmiErr } = await supabase
       .from('mmi_interruptions')
       .delete()
@@ -684,7 +715,7 @@ const deleteLog = async (log) => {
 
     if (mmiErr) throw mmiErr
 
-    toast.success("REKOD GANGGUAN BERJAYA DIPADAM!")
+    toast.success("REKOD GANGGUAN DAN JADUAL GURU GANTI BERJAYA DIPADAM!")
     fetchLogs()
   } catch (err) {
     toast.error("GAGAL MEMADAM: " + err.message)
