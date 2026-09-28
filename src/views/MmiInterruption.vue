@@ -445,21 +445,22 @@ const clearAllClasses = () => {
   classForm.value.selectedClasses = []
 }
 
-// ☀️ Pilih Semua Sesi Pagi (精准匹配具体班级的 session)
+// ☀️ Pilih Semua Sesi Pagi (精准匹配 Supabase 中的 'pagi')
 const selectAllMorningClasses = () => {
   const classesToSelect = []
   Object.values(groupedClasses.value).forEach(classes => {
     classes.forEach(cName => {
-      if (classSessionMap.value[cName] === 'morning') {
+      const session = classSessionMap.value[cName]
+      if (session === 'pagi' || !session) {
         classesToSelect.push(cName)
       }
     })
   })
   classForm.value.selectedClasses = [...new Set([...classForm.value.selectedClasses, ...classesToSelect])]
-  toast.success("Berjaya memilih semua kelas sesi pagi!")
+  toast.success(`Berjaya memilih semua kelas sesi pagi (${classesToSelect.length} kelas)!`)
 }
 
-// 🌙 Pilih Semua Sesi Petang (精准匹配具体班级的 session)
+// 🌙 Pilih Semua Sesi Petang (精准匹配 Supabase 中的 'petang')
 const selectAllAfternoonClasses = () => {
   const classesToSelect = []
   Object.values(groupedClasses.value).forEach(classes => {
@@ -469,8 +470,12 @@ const selectAllAfternoonClasses = () => {
       }
     })
   })
+  if (classesToSelect.length === 0) {
+    toast.error("Tiada kelas sesi petang (petang) dikesan dalam sistem!")
+    return
+  }
   classForm.value.selectedClasses = [...new Set([...classForm.value.selectedClasses, ...classesToSelect])]
-  toast.success("Berjaya memilih semua kelas sesi petang!")
+  toast.success(`Berjaya memilih semua kelas sesi petang (${classesToSelect.length} kelas)!`)
 }
 
 const fetchClasses = async () => {
