@@ -74,16 +74,22 @@
           </div>
         </div>
 
-        <!-- 3. Pemilihan Tarikh -->
+        <!-- 3. Pemilihan Tarikh (🌟 深度优化：整个区块全范围点击可触发日历，且包含 Calendar 图标美化) -->
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TARIKH (HARI AUTOMATIK)</label>
-          <!-- 锁定高度 h-14，移除原有的 py-3 -->
-          <div class="relative flex items-center">
+          <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">TARIKH</label>
+          <div 
+            class="relative flex items-center bg-slate-50 border border-slate-200 rounded-2xl px-4 h-14 shadow-sm hover:border-slate-300 transition w-full cursor-pointer group"
+            @click="openDatePicker"
+          >
+            <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center mr-3 shrink-0 shadow-xs text-indigo-600 group-hover:scale-105 transition">
+              <CalendarDays class="w-4 h-4" />
+            </div>
             <input 
+              ref="dateInputRef"
               type="date" 
               v-model="leaveDate"
               @change="fetchDailyTimetable"
-              class="w-full px-4 h-14 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-semibold text-slate-800 cursor-pointer"
+              class="w-full h-full bg-transparent border-none text-xs focus:outline-none focus:ring-0 font-semibold text-slate-800 cursor-pointer appearance-none outline-none"
             />
           </div>
         </div>
@@ -109,7 +115,7 @@
 
       <!-- 🌟 Sebab Spesifik (具体原因 + 自动大写) -->
       <div class="mt-6">
-        <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">SEBAB SPESIFIK (PILIHAN, HURUF BESAR AUTOMATIK)</label>
+        <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">SEBAB SPESIFIK (PILIHAN)</label>
         <input 
           type="text" 
           v-model="leaveReason"
@@ -253,6 +259,18 @@ const currentSession = ref('morning')
 const selectedTeacherId = ref('')
 const leaveDate = ref('')
 const leaveReason = ref('')
+const dateInputRef = ref(null)
+
+// 🌟 辅助函数：允许点击外框任意地方唤起日期组件
+const openDatePicker = () => {
+  if (dateInputRef.value) {
+    if (typeof dateInputRef.value.showPicker === 'function') {
+      dateInputRef.value.showPicker()
+    } else {
+      dateInputRef.value.focus()
+    }
+  }
+}
 
 // 🌟 Kategori Data (Versi Bahasa Melayu - Lucide Icons Configured)
 const leaveCategory = ref('CUTI PERIBADI')
@@ -275,11 +293,17 @@ const dayNames = ['AHAD', 'ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT', 'SABTU'
 
 onMounted(async () => {
   const { data } = await supabase.from('teachers').select('id, name, subject, session')
-  if (data) teachersList.value = data
+  if (data) {
+    // 🌟 1. 获取教师名单后按名字 (A-Z) 排序
+    teachersList.value = data.sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+  }
 })
 
 const filteredTeachersList = computed(() => {
-  return teachersList.value.filter(t => (t.session || 'morning') === currentSession.value)
+  // 🌟 确保过滤出来的名单也维持 A-Z 排序
+  return teachersList.value
+    .filter(t => (t.session || 'morning') === currentSession.value)
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
 })
 
 const computedWeekdayNumber = computed(() => {
