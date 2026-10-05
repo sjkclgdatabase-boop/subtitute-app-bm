@@ -6,7 +6,7 @@
     <div class="print:hidden bg-white rounded-3xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col gap-6">
       
       <!-- TITLE & SUBTITLE -->
-      <div class="space-y-2">
+      <div class="space-y-2 max-w-4xl">
         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 whitespace-nowrap flex items-center gap-3 uppercase">
           <UsersRound class="w-8 h-8 text-indigo-700 shrink-0" />
           PENGURUSAN GURU GANTI HARIAN
@@ -23,7 +23,7 @@
         <button 
           @click="handleAutoAssignAll"
           :disabled="isAutoAssigning"
-          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer uppercase"
+          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer uppercase"
         >
           <span v-if="isAutoAssigning" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
           <Zap v-else class="w-4 h-4" />
@@ -35,14 +35,14 @@
           <button 
             @click="currentSession = 'morning'" 
             :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
+            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
           >
             <Sun class="w-4 h-4 text-amber-500" /> SESI PAGI
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
             :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
+            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
           >
             <Moon class="w-4 h-4 text-indigo-400" /> SESI PETANG
           </button>
@@ -62,7 +62,7 @@
         <button 
           @click="handleExportPdf"
           :disabled="isExportingPdf"
-          class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
+          class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
         >
           <span v-if="isExportingPdf" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
           <Download v-else class="w-4 h-4" />
@@ -335,7 +335,7 @@
     <div class="print:hidden bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 space-y-4 uppercase">
       <div class="flex items-center justify-between uppercase">
         <label class="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2 uppercase">
-          <span>📝 PENGURUSAN CATATAN </span>
+          <span>📝 PENGURUSAN CATATAN</span>
         </label>
         <button
           @click="addRemarkBox"
@@ -581,7 +581,7 @@
                   </button>
                 </div>
 
-                <!-- Pagination controls -->
+                <!-- Kawalan pagination (Dipaparkan jika calon melebihi 10 orang) -->
                 <div v-if="recTotalPages > 1" class="flex items-center justify-between pt-2 px-1 uppercase">
                   <button 
                     @click="recCurrentPage = Math.max(1, recCurrentPage - 1)"
@@ -624,13 +624,13 @@
       </div>
     </transition>
 
-    <!-- ⭐️ ADDITIONAL MANUAL BLANK SHEETS -->
+    <!-- ⭐️ KAWASAN JADUAL TAMBAHAN KOSONG YANG BOLEH DIEDIT -->
     <div
       v-for="(sheet, sIndex) in extraCustomSheets"
       :key="sheet.id"
       class="uppercase"
     >
-      <!-- Page break for printing -->
+      <!-- Penanda page break untuk cetakan -->
       <div class="print-page-break" aria-hidden="true"></div>
 
       <div class="print-custom-sheet mt-12 print:mt-0 pt-8 print:pt-0 border-t-4 print:border-none border-dashed border-slate-300 uppercase">
@@ -820,7 +820,7 @@
       </div>
     </div>
 
-    <!-- Butang tambah di bahagian bawah -->
+    <!-- BUTANG TAMBAH DI BAHAGIAN BAWAH -->
     <div class="print:hidden mt-8 mb-12 flex justify-center w-full uppercase">
       <button
         @click="addBlankSheet"
@@ -831,7 +831,7 @@
       </button>
     </div>
 
-    <!-- ⭐️ Modal khas untuk ekstrak subjek kelas bagi baris keseluruhan -->
+    <!-- ⭐️ MODAL KHAS UNTUK EKSTRAK SUBJEK KELAS BAGI BARIS KESELURUHAN -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -879,7 +879,7 @@
       </div>
     </transition>
 
-    <!-- Modal tugasan guru ganti ringkas -->
+    <!-- MODAL TUGASAN GURU GANTI RINGKAS -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -948,7 +948,7 @@
               <input
                 v-model="blankForm.remark"
                 type="text"
-                placeholder="CTH: PERPUSTAKAAN / LATIHAN SUKAN"
+                placeholder="CONTOH: PERPUSTAKAAN / LATIHAN SUKAN"
                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 uppercase"
               />
             </div>
@@ -1142,7 +1142,7 @@ const remarksList = ref([''])
 
 // Sinkronisasi senarai array ke string global (huruf besar)
 const syncRemarksToGlobal = () => {
-  globalPageRemark.value = remarksList.value.map(r => r ? r.toUpperCase() : '').join('\n')
+  globalPageRemark.value = remarksList.value.map(r => r ? r.toUpperCase() : '').join('|||')
 }
 
 // Tambah satu kotak teks catatan baru
@@ -1239,6 +1239,7 @@ const getDynamicStyle = (text, baseSize) => {
     }
   }
 
+  // Mekanisme pengecilan tulisan
   const scaledSize =
     baseSize *
     (maxCharsAllowed / maxWordLen) *
@@ -1345,7 +1346,8 @@ const fetchManualDrafts = async () => {
       }
       if (upperDraft.__global_remark__) {
         globalPageRemark.value = upperDraft.__global_remark__.toUpperCase()
-        const parsed = globalPageRemark.value.split(/\r?\n/).map(s => s.toUpperCase())
+        // 关键修复：从数据库读取时，根据特殊分隔符 '|||' 来拆分还原成数组，不再使用 \n
+        const parsed = globalPageRemark.value.split('|||').map(s => s.toUpperCase())
         remarksList.value = parsed.length > 0 ? parsed : ['']
       }
     }
@@ -3058,6 +3060,7 @@ const handleExportPdf = async () => {
         doc.setFont('Georgia', 'bold')
         doc.setFontSize(8)
         doc.setTextColor(...BLACK)
+        // 关键修复：使用马来文 CATATAN 避免因中文字体缺失而只渲染出一个冒号 ":" 的问题
         doc.text('CATATAN:', M, y)
         
         y += 4
