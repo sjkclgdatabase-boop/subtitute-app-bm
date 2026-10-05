@@ -1,78 +1,78 @@
 <template>
-  <!-- Kekalkan min-w-[1024px] untuk mengelakkan jadual terlalu lebar -->
+  <!-- KEKALKAN MIN-W-[1024PX] UNTUK MENGELAKKAN JADUAL TERLALU LEBAR -->
   <div class="p-4 sm:p-8 mx-auto min-h-screen space-y-8 min-w-[1024px] print:p-0 print:min-w-0 print:w-auto print:m-0 print:space-y-0">
     
-    <!-- Screen Action Bar (Sembunyi secara automatik semasa mencetak) -->
+    <!-- SCREEN ACTION BAR (SEMBUNYI SECARA AUTOMATIK SEMASA MENCETAK) -->
     <div class="print:hidden bg-white rounded-3xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col gap-6">
       
-      <!-- Title & Subtitle -->
-      <div class="space-y-2 max-w-4xl">
-        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 whitespace-nowrap flex items-center gap-3">
-          <UsersRound class="w-8 h-8 text-indigo-700 shrink-0"/>
+      <!-- TITLE & SUBTITLE -->
+      <div class="space-y-2">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 whitespace-nowrap flex items-center gap-3 uppercase">
+          <UsersRound class="w-8 h-8 text-indigo-700 shrink-0" />
           PENGURUSAN GURU GANTI HARIAN
         </h1>
         <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed whitespace-nowrap uppercase">
-          KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, MENYOKONG PENJANAAN JADUAL AUTOMATIK DENGAN SATU KLIK
+          KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, MENYOKONG PENJANAAN JADUAL AUTOMATIK DENGAN SATU KLIK.
         </p>
       </div>
 
-      <!-- Action Buttons Bar -->
+      <!-- ACTION BUTTONS BAR -->
       <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-slate-100">
         
-        <!-- 1. Butang Penjanaan Automatik -->
+        <!-- 1. BUTANG PENJANAAN AUTOMATIK -->
         <button 
           @click="handleAutoAssignAll"
           :disabled="isAutoAssigning"
-          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
+          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer uppercase"
         >
           <span v-if="isAutoAssigning" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <Zap class="w-4 h-4" v-else/>
+          <Zap v-else class="w-4 h-4" />
           <span>⚡ TETAPAN PINTAR GURU GANTI</span>
         </button>
 
-        <!-- 2. Tab Pertukaran Sesi (Pagi / Petang) -->
-        <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner uppercase">
+        <!-- 2. SESSION SWITCHER TABS (PAGI / PETANG) -->
+        <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner">
           <button 
             @click="currentSession = 'morning'" 
             :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
           >
-            <Sun class="w-4 h-4 text-amber-500"/> SESI PAGI
+            <Sun class="w-4 h-4 text-amber-500" /> SESI PAGI
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
             :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
           >
-            <Moon class="w-4 h-4 text-indigo-400"/> SESI PETANG
+            <Moon class="w-4 h-4 text-indigo-400" /> SESI PETANG
           </button>
         </div>
 
-        <!-- 3. Date Picker -->
-        <div class="flex items-center gap-2 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0 uppercase">
-          <span class="text-xs font-bold text-slate-500 whitespace-nowrap">PILIH TARIKH:</span>
+        <!-- 3. DATE PICKER -->
+        <div class="flex items-center gap-2 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0">
+          <span class="text-xs font-bold text-slate-500 whitespace-nowrap uppercase">PILIH TARIKH:</span>
           <input 
             type="date" 
             v-model="targetDate" 
-            class="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
+            class="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer uppercase"
           />
         </div>
 
-        <!-- 4. Direct PDF Export -->
+        <!-- 4. DIRECT PDF EXPORT -->
         <button 
           @click="handleExportPdf"
           :disabled="isExportingPdf"
-          class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
+          class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
         >
           <span v-if="isExportingPdf" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <Download class="w-4 h-4" v-else/>
+          <Download v-else class="w-4 h-4" />
           <span>{{ isExportingPdf ? 'MENJANA PDF...' : 'MUAT TURUN PDF' }}</span>
         </button>
 
       </div>
     </div>
 
-    <!-- Jadual Utama: Pagination automatik 5 orang per muka surat -->
+    <!-- MAIN TABLES: AUTOMATICALLY PAGINATED TO 5 ROWS PER PAGE -->
     <div 
       v-for="(pageTeachers, pageIndex) in paginatedTeacherPages" 
       :key="pageIndex"
@@ -81,10 +81,10 @@
         pageIndex > 0 ? 'mt-12 print:mt-0' : ''
       ]"
     >
-      <!-- Page break semasa mencetak jika bukan muka surat pertama -->
+      <!-- AUTO PAGE-BREAK FOR PRINTING IF NOT THE FIRST PAGE -->
       <div v-if="pageIndex > 0" class="print-page-break" aria-hidden="true"></div>
 
-      <div class="text-center mb-6 print:mb-2 uppercase">
+      <div class="text-center mb-6 print:mb-2">
         <h2 class="text-xl font-black tracking-wider text-black font-serif uppercase">
           {{ schoolName || 'SJK (C) LADANG GRISEK' }}
         </h2>
@@ -96,17 +96,17 @@
 
       <div class="flex justify-between items-center mb-4 print:mb-2 font-bold text-sm font-serif border-b-2 border-black pb-2 print:pb-1 uppercase">
         <div>
-          <span class="underline underline-offset-4 uppercase">TARIKH :</span> <span class="ml-2 border-b border-black px-4 uppercase">{{ formattedDate }}</span>
+          <span class="underline underline-offset-4">TARIKH :</span> <span class="ml-2 border-b border-black px-4">{{ formattedDate }}</span>
         </div>
         <div>
-          <span class="underline underline-offset-4 uppercase">HARI :</span> <span class="ml-2 border-b border-black px-4 uppercase">{{ formattedDayName }}</span>
+          <span class="underline underline-offset-4">HARI :</span> <span class="ml-2 border-b border-black px-4 uppercase">{{ formattedDayName }}</span>
         </div>
       </div>
 
       <div class="overflow-x-auto print:overflow-visible">
         <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed uppercase">
           <thead>
-            <tr class="bg-slate-100 print:bg-white uppercase">
+            <tr class="bg-slate-100 print:bg-white">
               <th class="border border-black p-1 font-bold uppercase" colspan="2" style="width: 130px; min-width: 130px; max-width: 130px;">MASA</th>
 
               <th
@@ -114,8 +114,8 @@
                 :key="index"
                 class="border border-black p-1 uppercase"
               >
-                <div class="font-bold uppercase">{{ index + 1 }}</div>
-                <div class="text-[7px] font-normal mt-0.5 truncate uppercase">{{ time }}</div>
+                <div class="font-bold">{{ index + 1 }}</div>
+                <div class="text-[7px] font-normal mt-0.5 truncate">{{ time }}</div>
               </th>
             </tr>
           </thead>
@@ -214,10 +214,10 @@
               </tr>
             </template>
 
-            <!-- Sel isi manual (Dipaparkan jika guru kurang daripada 5 orang) -->
+            <!-- MANUAL ENTRY ROWS (SHOWN IF FEWER THAN 5 ABSENT TEACHERS) -->
             <template v-else>
               <tr>
-                <!-- ⭐️ Butang ekstrak kelas / butang padam -->
+                <!-- ⭐️ KLIK BUTANG EKSTRAK / PADAM -->
                 <td
                   class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group uppercase"
                   :style="{ width: '85px', maxWidth: '85px' }"
@@ -318,13 +318,12 @@
         </table>
       </div>
 
-      <!-- ⭐️ Bahagian Catatan (Disusun melintang ke kanan pada UI) -->
+      <!-- ⭐️ BAHAGIAN CATATAN (DISUSUN MELINTANG KE KANAN PADA UI TANPA NOMBOR) -->
       <div v-if="remarksList.length > 0 && remarksList.some(r => r.trim())" class="mt-4 pt-3 border-t border-dashed border-slate-300 uppercase">
         <h4 class="text-xs font-bold text-black font-serif uppercase underline mb-2">CATATAN:</h4>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 uppercase">
           <template v-for="(rmk, rIdx) in remarksList" :key="rIdx">
             <div v-if="rmk.trim()" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs font-serif leading-relaxed uppercase">
-              <span class="font-bold text-indigo-900 block mb-1 uppercase">CATATAN {{ rIdx + 1 }}:</span>
               <div class="whitespace-pre-wrap text-slate-700 uppercase">{{ rmk }}</div>
             </div>
           </template>
@@ -332,11 +331,11 @@
       </div>
     </div>
 
-    <!-- ⭐️ Kawasan Pengurusan Catatan Dinamik (Tambah Textbox) -->
+    <!-- ⭐️ KAWASAN PENGURUSAN CATATAN DINAMIK -->
     <div class="print:hidden bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 space-y-4 uppercase">
       <div class="flex items-center justify-between uppercase">
         <label class="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2 uppercase">
-          <span>📝 PENGURUSAN CATATAN DINAMIK (BOLEH TAMBAH & BAHARU BARIS TEXTBOX)</span>
+          <span>📝 PENGURUSAN CATATAN </span>
         </label>
         <button
           @click="addRemarkBox"
@@ -348,13 +347,12 @@
 
       <div class="space-y-3 uppercase">
         <div v-for="(rmk, index) in remarksList" :key="index" class="flex items-start gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200 uppercase">
-          <span class="text-xs font-bold text-indigo-900 whitespace-nowrap pt-2 uppercase">CATATAN {{ index + 1 }}:</span>
           <textarea
             v-model="remarksList[index]"
             @input="syncRemarksToGlobal"
             @blur="saveCustomSheetsToCloud"
-            rows="2"
-            placeholder="TAIP KANDUNGAN CATATAN DI SINI (BOLEH TEKAN ENTER UNTUK BUAT BARIS BARU)..."
+            rows="3"
+            placeholder="MASUKKAN KANDUNGAN CATATAN..."
             class="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-y uppercase"
           ></textarea>
           <button
@@ -370,7 +368,7 @@
       </div>
     </div>
 
-    <!-- Modal Utama: Pusat Penetapan Guru Ganti -->
+    <!-- MODAL UTAMA: PUSAT PENETAPAN GURU GANTI -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -453,7 +451,7 @@
               <input
                 v-model="assignmentRemark"
                 type="text"
-                placeholder="CONTOH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)"
+                placeholder="CTH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)"
                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 uppercase"
               />
             </div>
@@ -490,12 +488,12 @@
               </div>
             </div>
 
-            <hr class="border-slate-200"/>
+            <hr class="border-slate-200" />
 
             <div class="uppercase">
               <div class="flex justify-between items-center mb-3 uppercase">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 uppercase">
-                  <Sparkles class="w-4 h-4 text-indigo-600"/>
+                  <Sparkles class="w-4 h-4 text-indigo-600" />
                   ✨ SENARAI CALON CADANGAN PINTAR (JUMLAH {{ recommendations.length }})
                 </h3>
                 <span v-if="recommendations.length > 0" class="text-[11px] text-slate-400 font-semibold uppercase">
@@ -583,7 +581,7 @@
                   </button>
                 </div>
 
-                <!-- Kawalan pagination (Dipaparkan jika calon melebihi 10 orang) -->
+                <!-- Pagination controls -->
                 <div v-if="recTotalPages > 1" class="flex items-center justify-between pt-2 px-1 uppercase">
                   <button 
                     @click="recCurrentPage = Math.max(1, recCurrentPage - 1)"
@@ -626,13 +624,13 @@
       </div>
     </transition>
 
-    <!-- ⭐️ Kawasan jadual tambahan kosong yang boleh diedit -->
+    <!-- ⭐️ ADDITIONAL MANUAL BLANK SHEETS -->
     <div
       v-for="(sheet, sIndex) in extraCustomSheets"
       :key="sheet.id"
       class="uppercase"
     >
-      <!-- Penanda page break untuk cetakan -->
+      <!-- Page break for printing -->
       <div class="print-page-break" aria-hidden="true"></div>
 
       <div class="print-custom-sheet mt-12 print:mt-0 pt-8 print:pt-0 border-t-4 print:border-none border-dashed border-slate-300 uppercase">
@@ -787,7 +785,7 @@
                         contenteditable="true"
                         @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p, $event)"
                         v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p)"
-                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-[10px] text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center uppercase"
+                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-indigo-900 text-[10px] whitespace-pre-wrap leading-tight flex items-center justify-center text-center uppercase"
                       ></div>
 
                       <button
@@ -950,7 +948,7 @@
               <input
                 v-model="blankForm.remark"
                 type="text"
-                placeholder="CONTOH: PERPUSTAKAAN / LATIHAN SUKAN"
+                placeholder="CTH: PERPUSTAKAAN / LATIHAN SUKAN"
                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 uppercase"
               />
             </div>
@@ -972,7 +970,7 @@
                 </label>
 
                 <p class="text-[10px] text-slate-500 font-medium leading-relaxed uppercase">
-                  Jika ditandai, sistem akan mencipta rekod maya (tidak menjejaskan laporan MMI) dan menambah jumlah kelas guru ini sebanyak +1 secara latar belakang.
+                  JIKA DITANDAI, SISTEM AKAN MENCIPTA REKOD MAYA (TIDAK MENJEJASKAN LAPORAN MMI) DAN MENAMBAH JUMLAH KELAS GURU INI SEBANYAK +1 SECARA LATAR BELAKANG.
                 </p>
               </div>
             </div>
@@ -1187,7 +1185,7 @@ const fetchSchoolIdentity = async () => {
       'SJK (C) LADANG GRISEK').toUpperCase()
 
   } catch (err) {
-    console.error('Gagal memuatkan nama sekolah:', err)
+    console.error('GAGAL MEMUATKAN NAMA SEKOLAH:', err)
 
     schoolName.value =
       (localStorage.getItem('school_name')?.trim() ||
@@ -1352,7 +1350,7 @@ const fetchManualDrafts = async () => {
       }
     }
   } catch (err) {
-    console.error('Gagal memuatkan draf manual:', err)
+    console.error('GAGAL MEMUATKAN DRAF MANUAL:', err)
   }
 }
 
@@ -1387,7 +1385,7 @@ const saveCustomSheetsToCloud = async () => {
         }
       )
   } catch (err) {
-    console.error('Gagal menyimpan jadual tambahan:', err)
+    console.error('GAGAL MENYIMPAN JADUAL TAMBAHAN KE AWAN:', err)
   }
 }
 
@@ -1422,7 +1420,7 @@ const saveManualEntry = async (
         }
       )
   } catch (err) {
-    console.error('Gagal menyimpan draf sementara:', err)
+    console.error('GAGAL MENYIMPAN DRAF SEMENTARA:', err)
   }
 }
 
@@ -1610,14 +1608,14 @@ const loadClassSchedulesForTargetDate = async () => {
     classSchedulesMap.value = map
     allClassesList.value = Array.from(classSet).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
   } catch (err) {
-    console.error('Gagal memuatkan data jadual kelas:', err)
+    console.error('GAGAL MEMUATKAN DATA JADUAL KELAS:', err)
   }
 }
 
 // =================================================================
 // ⭐️ Logik untuk membersihkan seluruh baris manual
 const clearManualRow = async (pageIndex, slotIndex, sheetId) => {
-  if (!window.confirm('ADAKAH ANDA PASTI MAHU MEMADAMKAN SEMUA KANDUNGAN DALAM BARIS INI?')) {
+  if (!window.confirm('ADAKAH ANDA PASTI MAHU MEMADAMKAN SEMUA KANDUNGAN DALAM BARIS INI (TERMASUK REKOD GURU GANTI)?')) {
     return
   }
 
@@ -2102,7 +2100,7 @@ const confirmBlankAssignment = async () => {
           'VIRTUAL_CLASS'
         ) {
           return toast.error(
-            'GURU INI SUDAH MEMPUNYAI REKOD CUTI SEBENAR PADA WAKTU INI!'
+            'GURU INI SUDAH MEMPUNYAI REKOD CUTI SEBENAR PADA WAKTU INI, TIDAK BOLEH DITETAPKAN BERULANG KALI!'
           )
         }
 
@@ -2400,7 +2398,7 @@ const handleExportPdf = async () => {
 
       if (!response.ok) {
         throw new Error(
-          `Gagal memuat turun fail font PDF: ${url} (HTTP ${response.status})`
+          `GAGAL MEMUAT TURUN FAIL FONT PDF: ${url} (HTTP ${response.status})`
         )
       }
 
@@ -3052,7 +3050,8 @@ const handleExportPdf = async () => {
       }
 
       // ⭐️ PDF End: Render Catatan secara melintang ke sebelah kanan (UPPERCASE)
-      const remarksListPdf = remarksList.value.map(s => s.trim().toUpperCase()).filter(Boolean)
+      // Tukar \t kepada jarak untuk elak ralat jsPDF
+      const remarksListPdf = remarksList.value.map(s => s.replace(/\t/g, '    ').trim().toUpperCase()).filter(Boolean)
 
       if (remarksListPdf.length > 0) {
         y += 4
@@ -3067,24 +3066,35 @@ const handleExportPdf = async () => {
         
         let startX = M
         let maxBlockH = 0
+        let currentY = y
+
+        doc.setFont('Georgia', 'normal')
+        doc.setFontSize(6.5)
+        const lineHeight = 3.2 // mm
         
         remarksListPdf.forEach((rmkText, rIdx) => {
           const colIndex = rIdx % colCount
           if (colIndex === 0 && rIdx > 0) {
-            y += maxBlockH + 3
+            currentY += maxBlockH + 3
             startX = M
+            maxBlockH = 0
           }
           
-          doc.setFont('Georgia', 'bold')
-          doc.setFontSize(7)
-          doc.text(`Catatan ${rIdx + 1}:`.toUpperCase(), startX, y)
+          // Pisahkan baris untuk kekalkan format manual
+          const rawLines = rmkText.split(/\r?\n/)
+          let printLines = []
+          rawLines.forEach(line => {
+            const wrapped = doc.splitTextToSize(line, colWidth)
+            printLines.push(...wrapped)
+          })
           
-          doc.setFont('Georgia', 'normal')
-          doc.setFontSize(6.5)
-          const splitText = doc.splitTextToSize(rmkText, colWidth)
-          doc.text(splitText, startX, y + 3.5)
+          let lineY = currentY
+          printLines.forEach(line => {
+            doc.text(line, startX, lineY)
+            lineY += lineHeight
+          })
           
-          const blockH = 3.5 + splitText.length * 3
+          const blockH = printLines.length * lineHeight
           if (blockH > maxBlockH) maxBlockH = blockH
           
           startX += colWidth + 4
