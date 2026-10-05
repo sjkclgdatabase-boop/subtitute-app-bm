@@ -1,8 +1,8 @@
 <template>
-  <!-- 保持 min-w-[1024px] 确保表格不会无限变宽 -->
+  <!-- Kekalkan min-w-[1024px] untuk mengelakkan jadual terlalu lebar -->
   <div class="p-4 sm:p-8 mx-auto min-h-screen space-y-8 min-w-[1024px] print:p-0 print:min-w-0 print:w-auto print:m-0 print:space-y-0">
     
-    <!-- Screen Action Bar (Automatically hidden during printing) -->
+    <!-- Screen Action Bar (Sembunyi secara automatik semasa mencetak) -->
     <div class="print:hidden bg-white rounded-3xl p-6 sm:p-8 shadow-sm ring-1 ring-slate-900/5 flex flex-col gap-6">
       
       <!-- Title & Subtitle -->
@@ -19,7 +19,7 @@
       <!-- Action Buttons Bar -->
       <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-slate-100">
         
-        <!-- 1. 一键智能自动排课按钮 -->
+        <!-- 1. Butang Penjanaan Automatik -->
         <button 
           @click="handleAutoAssignAll"
           :disabled="isAutoAssigning"
@@ -30,7 +30,7 @@
           <span>⚡ TETAPAN PINTAR GURU GANTI</span>
         </button>
 
-        <!-- 2. Session Switcher Tabs (上午班 / 下午班) -->
+        <!-- 2. Tab Pertukaran Sesi (Pagi / Petang) -->
         <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner">
           <button 
             @click="currentSession = 'morning'" 
@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <!-- Main Tables: 超过 5 人时自动按每页 5 人分页渲染 -->
+    <!-- Jadual Utama: Pagination automatik 5 orang per muka surat -->
     <div 
       v-for="(pageTeachers, pageIndex) in paginatedTeacherPages" 
       :key="pageIndex"
@@ -81,7 +81,7 @@
         pageIndex > 0 ? 'mt-12 print:mt-0' : ''
       ]"
     >
-      <!-- 如果不是第一页，在打印时自动换页 -->
+      <!-- Page break semasa mencetak jika bukan muka surat pertama -->
       <div v-if="pageIndex > 0" class="print-page-break" aria-hidden="true"></div>
 
       <div class="text-center mb-6 print:mb-2">
@@ -214,17 +214,42 @@
               </tr>
             </template>
 
-            <!-- 手动填写格 (当该页老师不足 5 人时显示) -->
+            <!-- Sel isi manual (Dipaparkan jika guru kurang daripada 5 orang) -->
             <template v-else>
               <tr>
+                <!-- ⭐️ Butang ekstrak kelas / butang padam -->
                 <td
-                  contenteditable="true"
-                  @blur="saveManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0, $event)"
-                  v-text="getManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0)"
-                  class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase"
-                  :style="[{ width: '85px', maxWidth: '85px' }, getDynamicStyle(getManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0), 10)]"
+                  class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group"
+                  :style="{ width: '85px', maxWidth: '85px' }"
                   rowspan="3"
-                ></td>
+                >
+                  <div class="w-full h-full relative flex items-center justify-center min-h-[70px]">
+                    <div
+                      contenteditable="true"
+                      @blur="saveManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0, $event)"
+                      v-text="getManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0)"
+                      class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase flex items-center justify-center p-1"
+                      :style="getDynamicStyle(getManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0), 10)"
+                    ></div>
+
+                    <div class="print:hidden absolute right-0 top-0 hidden group-hover:flex flex-col z-10 gap-[1px]">
+                      <button
+                        contenteditable="false"
+                        @click.stop="openClassPicker(pageIndex, slotIndex, null)"
+                        class="bg-emerald-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-emerald-600 font-sans tracking-widest font-bold"
+                      >
+                        KELAS
+                      </button>
+                      <button
+                        contenteditable="false"
+                        @click.stop="clearManualRow(pageIndex, slotIndex, null)"
+                        class="bg-red-500 text-white rounded-l px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-red-600 font-sans tracking-widest font-bold"
+                      >
+                        PADAM
+                      </button>
+                    </div>
+                  </div>
+                </td>
 
                 <td
                   class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]"
@@ -294,7 +319,7 @@
       </div>
     </div>
 
-    <!-- 主弹窗：代课指派中心 -->
+    <!-- Modal Utama: Pusat Penetapan Guru Ganti -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -419,7 +444,7 @@
               <div class="flex justify-between items-center mb-3">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
                   <Sparkles class="w-4 h-4 text-indigo-600" />
-                  SENARAI CALON CADANGAN PINTAR (JUMLAH {{ recommendations.length }})
+                  ✨ SENARAI CALON CADANGAN PINTAR (JUMLAH {{ recommendations.length }})
                 </h3>
                 <span v-if="recommendations.length > 0" class="text-[11px] text-slate-400 font-semibold">
                   MUKA SURAT {{ recCurrentPage }} / {{ recTotalPages }}
@@ -506,7 +531,7 @@
                   </button>
                 </div>
 
-                <!-- 分页控制栏 (当候选人超过 10 人时显示) -->
+                <!-- Kawalan pagination (Dipaparkan jika calon melebihi 10 orang) -->
                 <div v-if="recTotalPages > 1" class="flex items-center justify-between pt-2 px-1">
                   <button 
                     @click="recCurrentPage = Math.max(1, recCurrentPage - 1)"
@@ -549,12 +574,12 @@
       </div>
     </transition>
 
-    <!-- ⭐️ 动态附加的空白可编辑附页区域 -->
+    <!-- ⭐️ Kawasan jadual tambahan kosong yang boleh diedit -->
     <div
       v-for="(sheet, sIndex) in extraCustomSheets"
       :key="sheet.id"
     >
-      <!-- 打印时明确制造“下一页”边界；屏幕上完全不占空间 -->
+      <!-- Penanda page break untuk cetakan -->
       <div class="print-page-break" aria-hidden="true"></div>
 
       <div class="print-custom-sheet mt-12 print:mt-0 pt-8 print:pt-0 border-t-4 print:border-none border-dashed border-slate-300">
@@ -640,20 +665,39 @@
                 :key="slotIndex"
               >
                 <tr>
+                  <!-- ⭐️️ Butang ekstrak kelas / butang padam (Kawasan tambahan) -->
                   <td
-                    contenteditable="true"
-                    @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0, $event)"
-                    v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0)"
-                    class="border border-black p-1 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase"
-                    :style="[
-                      { width: '85px', maxWidth: '85px' },
-                      getDynamicStyle(
-                        getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0),
-                        10
-                      )
-                    ]"
+                    class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group"
+                    :style="{ width: '85px', maxWidth: '85px' }"
                     rowspan="3"
-                  ></td>
+                  >
+                    <div class="w-full h-full relative flex items-center justify-center min-h-[70px]">
+                      <div
+                        contenteditable="true"
+                        @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0, $event)"
+                        v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0)"
+                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase flex items-center justify-center p-1"
+                        :style="getDynamicStyle(getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0), 10)"
+                      ></div>
+
+                      <div class="print:hidden absolute right-0 top-0 hidden group-hover:flex flex-col z-10 gap-[1px]">
+                        <button
+                          contenteditable="false"
+                          @click.stop="openClassPicker(null, slotIndex, sheet.id)"
+                          class="bg-emerald-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-emerald-600 font-sans tracking-widest font-bold"
+                        >
+                          KELAS
+                        </button>
+                        <button
+                          contenteditable="false"
+                          @click.stop="clearManualRow(null, slotIndex, sheet.id)"
+                          class="bg-red-500 text-white rounded-l px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-red-600 font-sans tracking-widest font-bold"
+                        >
+                          PADAM
+                        </button>
+                      </div>
+                    </div>
+                  </td>
 
                   <td
                     class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]"
@@ -724,7 +768,7 @@
       </div>
     </div>
 
-    <!-- 放置在最底部的增加按钮 -->
+    <!-- Butang tambah di bahagian bawah -->
     <div class="print:hidden mt-8 mb-12 flex justify-center w-full">
       <button
         @click="addBlankSheet"
@@ -735,7 +779,55 @@
       </button>
     </div>
 
-    <!-- ⭐️ 新增弹窗：简易空白行代课指派 -->
+    <!-- ⭐️ Modal khas untuk ekstrak subjek kelas bagi baris keseluruhan -->
+    <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
+    >
+      <div
+        v-if="showClassPickerModal"
+        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      >
+        <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" @click="showClassPickerModal = false"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden ring-1 ring-slate-900/10">
+          
+          <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span>📚 EKSTRAK SUBJEK KELAS SEHARIAN</span>
+            </h2>
+            <button @click="showClassPickerModal = false" class="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer font-bold">
+              ✕
+            </button>
+          </div>
+          
+          <div class="p-6 space-y-5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-2">PILIH KELAS UNTUK DIEKSTRAK:</label>
+              <select v-model="selectedClassToFill" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
+                <option value="">-- SILA PILIH KELAS --</option>
+                <option v-for="cls in allClassesList" :key="cls" :value="cls">{{ cls }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+            <button @click="showClassPickerModal = false" class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer">
+              BATAL
+            </button>
+            <button @click="confirmClassPicker" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+              SAHKAN EKSTRAK
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </transition>
+
+    <!-- Modal tugasan guru ganti ringkas (Dropdown ekstrak subjek dihapuskan) -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -776,7 +868,7 @@
           <div class="p-6 space-y-5">
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-2">
-                🧑‍🏫 PILIH GURU GANTI (SESI SAMA):
+                🧑‍‍🏫 PILIH GURU GANTI (SESI SAMA):
               </label>
 
               <select
@@ -887,9 +979,9 @@ const targetDate = ref(new Date().toISOString().split('T')[0])
 const currentSession = ref('morning')
 
 /*
- * 学校名称
- * 来源：Supabase -> school_settings -> id = 1
- * fallback：localStorage.school_name
+ * Nama Sekolah
+ * Sumber: Supabase -> school_settings -> id = 1
+ * fallback: localStorage.school_name
  */
 const schoolName = ref('')
 
@@ -941,7 +1033,7 @@ const substituteAssignmentsMap = ref({})
 const teachersMap = ref({})
 const allSameSessionTeachers = ref([])
 
-// 主弹窗状态
+// Status Modal Utama
 const showModal = ref(false)
 const loadingRecs = ref(false)
 const recommendations = ref([])
@@ -952,7 +1044,7 @@ const manualSelectedTeacherId = ref('')
 const isAutoAssigning = ref(false)
 const isExportingPdf = ref(false)
 
-// 🌟 智能推荐列表分页状态 (每页最多10个)
+// Status pagination senarai cadangan (maksimum 10 setiap halaman)
 const recCurrentPage = ref(1)
 const recPageSize = 10
 
@@ -965,7 +1057,7 @@ const paginatedRecommendations = computed(() => {
   return recommendations.value.slice(start, start + recPageSize)
 })
 
-// ⭐ 新增：简易空白行弹窗状态
+// Status modal baris kosong
 const showBlankModal = ref(false)
 const blankTarget = ref({
   slot: null,
@@ -979,8 +1071,21 @@ const blankForm = ref({
 })
 const hasExistingVirtual = ref(false)
 
+// Status pengekstrakan subjek kelas
+const classSchedulesMap = ref({})
+const allClassesList = ref([])
+
+// Status modal untuk pengekstrakan seluruh baris
+const showClassPickerModal = ref(false)
+const classPickerTarget = ref({
+  pageIndex: null,
+  slotIndex: null,
+  sheetId: null
+})
+const selectedClassToFill = ref('')
+
 // =====================================================
-// 学校身份资料
+// Identiti Sekolah
 // =====================================================
 
 const fetchSchoolIdentity = async () => {
@@ -999,7 +1104,7 @@ const fetchSchoolIdentity = async () => {
       'SJK (C) LADANG GRISEK'
 
   } catch (err) {
-    console.error('Failed to load school name:', err)
+    console.error('Gagal memuatkan nama sekolah:', err)
 
     schoolName.value =
       localStorage.getItem('school_name')?.trim() ||
@@ -1007,7 +1112,7 @@ const fetchSchoolIdentity = async () => {
   }
 }
 
-// ⭐️ 终极重写：只针对请假老师的名字和原因作缩小，不影响代课格子
+// Logik untuk mengecilkan saiz nama dan sebab ketiadaan secara dinamik
 const getDynamicStyle = (text, baseSize) => {
   if (!text) {
     return {
@@ -1052,7 +1157,7 @@ const getDynamicStyle = (text, baseSize) => {
     }
   }
 
-  // ⭐️ 强力缩小机制
+  // Mekanisme pengecilan tulisan
   const scaledSize =
     baseSize *
     (maxCharsAllowed / maxWordLen) *
@@ -1068,17 +1173,13 @@ const getDynamicStyle = (text, baseSize) => {
 
 const formattedDate = computed(() => {
   if (!targetDate.value) return ''
-
   const [y, m, d] = targetDate.value.split('-')
-
   return `${d}.${m}.${y}`
 })
 
 const formattedDayName = computed(() => {
   if (!targetDate.value) return ''
-
   const dateObj = new Date(targetDate.value)
-
   return dayNames[dateObj.getDay()]
 })
 
@@ -1108,7 +1209,6 @@ const displayTeachersList = computed(() => {
   return Object.values(map)
 })
 
-// ⭐️ 新增：将请假老师按每 5 人一组进行自动切片分页（确保不满 5 人时也有至少一页，且每页固定 5 行）
 const paginatedTeacherPages = computed(() => {
   const list = displayTeachersList.value
   const pages = []
@@ -1119,7 +1219,7 @@ const paginatedTeacherPages = computed(() => {
   return pages
 })
 
-// ================= 草稿本与附加表【云端同步】逻辑 =================
+// ================= Draf Manual & Jadual Tambahan (Penyimpanan Awan) =================
 
 const manualEntries = ref({})
 
@@ -1149,7 +1249,7 @@ const fetchManualDrafts = async () => {
       }
     }
   } catch (err) {
-    console.error('Failed to fetch drafts:', err)
+    console.error('Gagal memuatkan draf manual:', err)
   }
 }
 
@@ -1171,7 +1271,7 @@ const saveCustomSheetsToCloud = async () => {
         }
       )
   } catch (err) {
-    console.error('Failed to save custom sheets:', err)
+    console.error('Gagal menyimpan jadual tambahan:', err)
   }
 }
 
@@ -1205,13 +1305,12 @@ const saveManualEntry = async (
         }
       )
   } catch (err) {
-    console.error('Failed to save temporary draft:', err)
+    console.error('Gagal menyimpan draf sementara:', err)
   }
 }
 
 const getManualEntry = (slotIndex, type, period) => {
   const key = `${slotIndex}-${type}-${period}`
-
   return manualEntries.value[key] || ''
 }
 
@@ -1248,11 +1347,9 @@ const fetchData = async () => {
 
       if (sData) {
         const map = {}
-
         sData.forEach(s => {
           map[s.leave_request_id] = s
         })
-
         substituteAssignmentsMap.value = map
       } else {
         substituteAssignmentsMap.value = {}
@@ -1322,13 +1419,161 @@ const loadSameSessionTeachers = async () => {
     .eq('is_active', true)
     .eq('session', currentSession.value)
 
-  // 🌟 始终以 A-Z 字母顺序排序
   allSameSessionTeachers.value = (data || []).sort((a, b) => 
     a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
   )
 }
 
-// 🌟 核心修改：追加其余的 fallback 老师
+// ⭐️ Penyelesaian sempurna untuk pengekstrakan kelas gabung (PMPI) & pelbagai subjek
+const loadClassSchedulesForTargetDate = async () => {
+  try {
+    const dateObj = new Date(targetDate.value)
+    const dayNum = dateObj.getDay()
+    const weekdayCalc = dayNum === 0 ? 7 : dayNum // 1-7 (Isnin-Ahad)
+
+    const { data: ttData, error } = await supabase
+      .from('timetable')
+      .select('class_name, subject, period')
+      .eq('weekday', weekdayCalc)
+
+    if (error) throw error
+
+    const map = {}
+    const classSet = new Set()
+
+    if (ttData) {
+      ttData.forEach(row => {
+        if (!row.class_name || !row.subject) return;
+
+        // 1. Dapatkan nama kelas asal & buang nama subjek di dalamnya (cth: 3A PM, 3A PI)
+        const rawClassName = String(row.class_name).toUpperCase();
+        let cleanedClassName = rawClassName
+          .replace(/\b(PM|PI|MORAL|AGAMA|ISLAM|PENDIDIKAN)\b/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        
+        // 2. Buang pembahagi di awal/akhir
+        cleanedClassName = cleanedClassName.replace(/^[/-]+|[/-]+$/g, '').trim();
+
+        // 3. Ekstrak kelas yang digabungkan (cth: "3A/3B" dipisah kepada "3A" dan "3B")
+        const classTokens = cleanedClassName.split(/[/,&+,]|\bDAN\b/).map(c => c.trim()).filter(Boolean);
+
+        classTokens.forEach(cName => {
+          if (!map[cName]) {
+            map[cName] = {}
+          }
+          
+          const existingSubject = map[cName][row.period]
+          const currentSubject = String(row.subject).toUpperCase().trim()
+
+          if (existingSubject) {
+            const s1 = existingSubject
+            const s2 = currentSubject
+            
+            const hasPM = s1.includes('PM') || s1.includes('MORAL') || s2.includes('PM') || s2.includes('MORAL')
+            const hasPI = s1.includes('PI') || s1.includes('ISLAM') || s1.includes('AGAMA') || s2.includes('PI') || s2.includes('ISLAM') || s2.includes('AGAMA')
+            
+            if (hasPM && hasPI) {
+              map[cName][row.period] = 'PMPI'
+            } else {
+              // Jika bukan PMPI & tiada pertindihan, gabung subjek (cth: BM/BI)
+              if (!s1.includes(s2)) {
+                map[cName][row.period] = `${s1}/${s2}`
+              }
+            }
+          } else {
+            map[cName][row.period] = currentSubject
+          }
+          
+          classSet.add(cName)
+        })
+      })
+    }
+
+    classSchedulesMap.value = map
+    allClassesList.value = Array.from(classSet).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
+  } catch (err) {
+    console.error('Gagal memuatkan data jadual kelas:', err)
+  }
+}
+
+// =================================================================
+// ⭐️ Logik untuk membersihkan seluruh baris manual
+const clearManualRow = async (pageIndex, slotIndex, sheetId) => {
+  if (!window.confirm('Adakah anda pasti mahu memadamkan semua kandungan dalam baris ini (termasuk rekod guru ganti yang mungkin telah ditetapkan)?')) {
+    return
+  }
+
+  const prefix = sheetId ? `sheet_${sheetId}_${slotIndex}` : `page_${pageIndex}_${slotIndex}`
+  const periods = currentPeriodTimes.value.length
+
+  try {
+    for (let p = 1; p <= periods; p++) {
+      const virtualLeaveKey = `${prefix}_virtual_leave_${p}`
+      const existingVirtualLeaveId = manualEntries.value[virtualLeaveKey]
+
+      // Buang rekod penetapan dalam database
+      if (existingVirtualLeaveId) {
+        await supabase.from('substitute_assignments').delete().eq('leave_request_id', existingVirtualLeaveId)
+        await supabase.from('leave_requests').delete().eq('id', existingVirtualLeaveId)
+        delete manualEntries.value[virtualLeaveKey]
+      }
+
+      // Kosongkan kandungan teks
+      manualEntries.value[`${prefix}-kelas-${p}`] = ''
+      manualEntries.value[`${prefix}-ganti-${p}`] = ''
+      manualEntries.value[`${prefix}-ttangan-${p}`] = ''
+    }
+
+    manualEntries.value[`${prefix}-name-0`] = ''
+
+    await saveCustomSheetsToCloud()
+    toast.success('Kandungan baris telah dikosongkan!')
+    
+    // Refresh jadual tugasan ganti
+    fetchData()
+  } catch (err) {
+    toast.error('Gagal dikosongkan: ' + err.message)
+  }
+}
+
+// =================================================================
+// Buka modal untuk mengekstrak subjek kelas baris keseluruhan
+const openClassPicker = (pageIndex, slotIndex, sheetId) => {
+  classPickerTarget.value = { pageIndex, slotIndex, sheetId }
+  selectedClassToFill.value = ''
+  showClassPickerModal.value = true
+}
+
+// Pengesahan ekstrak kelas ke baris KELAS
+const confirmClassPicker = async () => {
+  if (!selectedClassToFill.value) {
+    toast.error('Sila pilih satu kelas!')
+    return
+  }
+
+  const { pageIndex, slotIndex, sheetId } = classPickerTarget.value
+  const prefix = sheetId ? `sheet_${sheetId}_${slotIndex}` : `page_${pageIndex}_${slotIndex}`
+  const className = selectedClassToFill.value
+
+  // 1. Masukkan nama kelas ke dalam sel nama
+  manualEntries.value[`${prefix}-name-0`] = className
+
+  // 2. Isi automatik subjek ke dalam baris KELAS
+  for (let p = 1; p <= currentPeriodTimes.value.length; p++) {
+    const subject = classSchedulesMap.value[className]?.[p] || ''
+    // Format output: Nama kelas + Subjek (cth: 3A PMPI)
+    const text = subject ? `${className} ${subject}` : '' 
+    manualEntries.value[`${prefix}-kelas-${p}`] = text
+  }
+
+  await saveCustomSheetsToCloud()
+  toast.success(`Semua subjek untuk kelas ${className} pada hari ini telah diekstrak!`)
+  showClassPickerModal.value = false
+}
+
+// =================================================================
+
 const handleCellClick = async (
   teacherId,
   periodNum
@@ -1341,7 +1586,7 @@ const handleCellClick = async (
   )
 
   if (!leaveItem) {
-    toast.error('Tiada rekod cuti untuk kelas ini!')
+    toast.error('Tiada rekod cuti untuk guru ini pada waktu ini!')
     return
   }
 
@@ -1366,23 +1611,18 @@ const handleCellClick = async (
 
   showModal.value = true
   loadingRecs.value = true
-  recCurrentPage.value = 1 // 每次打开弹窗重置到第一页
+  recCurrentPage.value = 1
 
   try {
-    // 1. 获取算法推荐出来的最优老师
     let results = await recommendSubstitute(leaveItem, 100)
     if (!results) results = []
 
-    // 2. 加载同班次全部老师
     await loadSameSessionTeachers()
     
     const absentTeacherId = leaveItem.teacher_id
     const recIds = new Set(results.map(t => t.id))
 
-    // 3. 算法如果过滤掉了冲突或达标的老师，我们在这里手动将剩余全部老师捞回来（追加到底部）
     if (results.length < allSameSessionTeachers.value.length - 1) {
-      
-      // 获取排课表以判断该节课谁有课（冲突），以及原有多少节课
       const weekday = new Date(targetDate.value).getDay() || 7
       const { data: ttData } = await supabase
         .from('timetable')
@@ -1400,7 +1640,6 @@ const handleCellClick = async (
         })
       }
 
-      // 获取当天本地已存在的代课情况，用于统计“当天已代”
       const todaySubMap = {}
       Object.values(substituteAssignmentsMap.value).forEach(sub => {
         if (sub.sub_teacher_id) {
@@ -1408,7 +1647,6 @@ const handleCellClick = async (
         }
       })
 
-      // 提取剩余未被算法推荐的老师
       const restTeachers = allSameSessionTeachers.value
         .filter(t => !recIds.has(t.id) && t.id !== absentTeacherId)
         .map(t => {
@@ -1418,13 +1656,12 @@ const handleCellClick = async (
             name: t.name,
             originalClasses: originalClassMap[t.id] || 0,
             todaySubCount: todaySubMap[t.id] || 0,
-            currentSubCount: '-', // 对于不满足算法上榜的，本周数据统一用 - 代替
+            currentSubCount: '-',
             max_substitute_per_week: t.max_substitute_per_week || 8,
             isBusy: isBusy
           }
         })
 
-      // 针对剩余名单降级排序：没课的放前面（并按原节数从小到大排），有课冲突的沉淀到最后面
       restTeachers.sort((a, b) => {
         if (a.isBusy !== b.isBusy) return a.isBusy ? 1 : -1
         if (a.originalClasses !== b.originalClasses) return a.originalClasses - b.originalClasses
@@ -1436,9 +1673,7 @@ const handleCellClick = async (
 
     recommendations.value = results
   } catch (err) {
-    toast.error(
-      'Gagal memuatkan data jadual: ' + err.message
-    )
+    toast.error('Gagal memuatkan data jadual: ' + err.message)
     recommendations.value = []
   } finally {
     loadingRecs.value = false
@@ -1490,7 +1725,7 @@ const assignSubstitute = async (teacherId) => {
 
     toast.success(
       assignmentType.value === 'swap'
-        ? 'Tukar jadual berjaya ditetapkan!'
+        ? 'Pertukaran jadual berjaya ditetapkan!'
         : 'Guru ganti berjaya ditetapkan!'
     )
 
@@ -1498,9 +1733,7 @@ const assignSubstitute = async (teacherId) => {
 
     fetchData()
   } catch (err) {
-    toast.error(
-      'Gagal menetapkan: ' + err.message
-    )
+    toast.error('Gagal menetapkan: ' + err.message)
   }
 }
 
@@ -1533,9 +1766,7 @@ const removeAssignment = async () => {
       fetchData()
     }
   } catch (err) {
-    toast.error(
-      'Operasi gagal: ' + err.message
-    )
+    toast.error('Operasi gagal: ' + err.message)
   }
 }
 
@@ -1566,10 +1797,7 @@ const handleAutoAssignAll = async () => {
     })
 
   if (pendingRequests.length === 0) {
-    toast.success(
-      'Tiada kelas yang perlu ditetapkan untuk sesi ini!'
-    )
-
+    toast.success('Tiada kelas yang perlu ditetapkan untuk sesi ini!')
     return
   }
 
@@ -1608,22 +1836,17 @@ const handleAutoAssignAll = async () => {
       }
     }
 
-    toast.success(
-      `Berjaya! Sebanyak ${successCount} kelas telah ditetapkan secara automatik.`
-    )
+    toast.success(`Berjaya! Sebanyak ${successCount} kelas telah ditetapkan secara automatik.`)
 
     fetchData()
   } catch (err) {
-    toast.error(
-      'Ralat semasa penetapan automatik: ' +
-        err.message
-    )
+    toast.error('Ralat semasa penetapan automatik: ' + err.message)
   } finally {
     isAutoAssigning.value = false
   }
 }
 
-// ================= ⭐️ 新增：空白行与虚拟负荷指派逻辑 =================
+// ================= Baris kosong & logik penetapan maya =================
 
 const openBlankModal = async (
   slot,
@@ -1697,9 +1920,7 @@ const confirmBlankAssignment = async () => {
     !blankForm.value.teacherId &&
     blankForm.value.kiraBeban
   ) {
-    return toast.error(
-      'Sila pilih guru jika ingin mengira beban!'
-    )
+    return toast.error('Sila pilih guru ganti jika ingin mengira beban!')
   }
 
   let teacherName = ''
@@ -1923,9 +2144,7 @@ const confirmBlankAssignment = async () => {
     fetchData()
 
   } catch (err) {
-    toast.error(
-      'Gagal disimpan: ' + err.message
-    )
+    toast.error('Gagal disimpan: ' + err.message)
   }
 }
 
@@ -1978,18 +2197,14 @@ const removeBlankAssignment = async () => {
 
     await saveCustomSheetsToCloud()
     
-    toast.success(
-      'Berjaya dikosongkan dan beban dibatalkan!'
-    )
+    toast.success('Berjaya dikosongkan dan beban dibatalkan!')
 
     showBlankModal.value = false
 
     fetchData()
 
   } catch (err) {
-    toast.error(
-      'Gagal dipadam: ' + err.message
-    )
+    toast.error('Gagal dipadam: ' + err.message)
   }
 }
 
@@ -1999,20 +2214,17 @@ watch(
   [targetDate, currentSession],
   () => {
     fetchData()
+    loadClassSchedulesForTargetDate() // Memuatkan semula jadual apabila tarikh/sesi bertukar
   }
 )
 
 onMounted(async () => {
-  // 先读取学校身份资料
   await fetchSchoolIdentity()
-
-  // 再读取当天代课数据
   await fetchData()
+  await loadClassSchedulesForTargetDate() // Memuatkan jadual waktu hari semasa pada permulaan
 })
 
-// ========================= Direct PDF Export =========================
-// This export does NOT use window.print() or the browser's HTML pagination.
-// Each timetable is drawn as a real A4 landscape PDF page.
+// ========================= Eksport PDF Langsung =========================
 
 const handleExportPdf = async () => {
   if (isExportingPdf.value) return
@@ -2020,8 +2232,6 @@ const handleExportPdf = async () => {
   isExportingPdf.value = true
 
   try {
-    // Install once in the project with:
-    // npm install jspdf
     const { jsPDF } = await import('jspdf')
 
     const doc = new jsPDF({
@@ -2039,13 +2249,6 @@ const handleExportPdf = async () => {
 
     const BLACK = [0, 0, 0]
     const BLUE = [20, 28, 115]
-
-    // -----------------------------------------------------------------
-    // PDF FONT: use the same Georgia font family rendered by the web UI.
-    // Put these files in:
-    // public/fonts/Georgia.ttf
-    // public/fonts/Georgia Bold.ttf
-    // -----------------------------------------------------------------
 
     const arrayBufferToBase64 = (
       buffer
@@ -2082,7 +2285,7 @@ const handleExportPdf = async () => {
 
       if (!response.ok) {
         throw new Error(
-          `无法读取 PDF 字体文件：${url}（HTTP ${response.status}）`
+          `Gagal memuat turun fail font PDF: ${url} (HTTP ${response.status})`
         )
       }
 
@@ -2106,7 +2309,6 @@ const handleExportPdf = async () => {
       )
     }
 
-    // Use the exact filenames supplied for this project.
     await loadPdfFont(
       '/fonts/Georgia.ttf',
       'Georgia.ttf',
@@ -2119,7 +2321,6 @@ const handleExportPdf = async () => {
       'bold'
     )
 
-    // Make Georgia the default PDF family.
     doc.setFont(
       'Georgia',
       'normal'
@@ -2153,8 +2354,6 @@ const handleExportPdf = async () => {
       if (!text) return
 
       text = text.replace(/•/g, '-')
-
-      // 【优化 1】：智能换行。如果手动输入的文本包含 " ("，自动把它变成换行，统一排版风格
       text = text.replace(/ \(/g, '\n(')
 
       const innerWidth = Math.max(width - 1.6, 1)
@@ -2166,13 +2365,11 @@ const handleExportPdf = async () => {
       let size = fontSize
       let lines = []
 
-      // 提取所有独立的单词，用于后面检测宽度
       const words = text.split(/[\s\n]+/)
 
       for (let attempt = 0; attempt < 20; attempt++) {
         doc.setFontSize(size)
         
-        // 【优化 2】：检测单行最长单词宽度。如果有任何一个单词比格子还宽，就标记为过宽。
         let isWordTooWide = false
         for (const word of words) {
           if (doc.getTextWidth(word) > innerWidth) {
@@ -2185,12 +2382,10 @@ const handleExportPdf = async () => {
         const lineHeight = Math.max(size * 0.38, 1.8)
         const totalHeight = lines.length * lineHeight
 
-        // 只有当总高度放得下，且【没有任何单个单词被暴力裁切】时，才停止缩小！
         if (totalHeight <= innerHeight && !isWordTooWide && size <= fontSize) {
           break
         }
 
-        // 如果高度超了，或者单词太宽，继续缩小字体
         if (totalHeight > innerHeight || isWordTooWide) {
           size -= 0.25
 
@@ -2299,10 +2494,6 @@ const handleExportPdf = async () => {
         'bold'
       )
 
-      // =============================================================
-      // 学校名称：改为读取 Supabase school_settings.school_name
-      // =============================================================
-
       doc.setFontSize(18)
 
       doc.text(
@@ -2315,7 +2506,6 @@ const handleExportPdf = async () => {
         }
       )
 
-      // 文件标题
       doc.setFontSize(14)
 
       doc.text(
@@ -2327,7 +2517,6 @@ const handleExportPdf = async () => {
         }
       )
 
-      // 日期 / 星期位置下移
       const infoY =
         y + 27
 
@@ -2466,9 +2655,7 @@ const handleExportPdf = async () => {
       const headerH = 11
       const rowH = 8.3
       const tableX = M
-      const tableW = CONTENT_W
 
-      // Header (Malay)
       let x = tableX
 
       drawCell(
@@ -2582,7 +2769,6 @@ const handleExportPdf = async () => {
               )
             : ''
 
-        // Teacher name spans the 3 rows.
         drawCell(
           tableX,
           y,
@@ -2602,7 +2788,6 @@ const handleExportPdf = async () => {
           }
         )
 
-        // Row 1: KELAS (Malay)
         drawCell(
           tableX + teacherW,
           y,
@@ -2653,7 +2838,6 @@ const handleExportPdf = async () => {
           }
         )
 
-        // Row 2: GURU GANTI (Malay)
         drawCell(
           tableX + teacherW,
           y + rowH,
@@ -2705,7 +2889,6 @@ const handleExportPdf = async () => {
           }
         )
 
-        // Row 3: T/TANGAN (Malay)
         drawCell(
           tableX + teacherW,
           y + rowH * 2,
@@ -2767,7 +2950,6 @@ const handleExportPdf = async () => {
         ? 'SESI PAGI'
         : 'SESI PETANG'
 
-    // ⭐️ 循环导出所有自动分页的主表页面
     const pages = paginatedTeacherPages.value
     pages.forEach((pageTeachers, pIndex) => {
       if (pIndex > 0) {
@@ -2782,7 +2964,6 @@ const handleExportPdf = async () => {
       })
     })
 
-    // Every additional timetable becomes a real PDF page.
     for (
       const sheet of
         extraCustomSheets.value
@@ -2828,25 +3009,11 @@ const handleExportPdf = async () => {
     )
 
   } catch (err) {
-    console.error(
-      'PDF export failed:',
-      err
-    )
-
-    toast.error(
-      `Gagal menjana PDF: ${
-        err?.message || err
-      }`
-    )
-
+    console.error('PDF export failed:', err)
+    toast.error(`Gagal menjana PDF: ${err?.message || err}`)
   } finally {
-    isExportingPdf.value =
-      false
+    isExportingPdf.value = false
   }
-}
-
-const handlePrint = () => {
-  window.print()
 }
 
 const extraCustomSheets = computed(() => {
@@ -2913,18 +3080,15 @@ const removeCustomSheet = async (
     print-color-adjust: exact !important;
   }
 
-  /* 页面最外层的屏幕间距，打印时不产生额外高度 */
   body > * {
     margin-top: 0 !important;
   }
 
-  /* 主表允许自然跨页 */
   .print-main-sheet {
     break-inside: auto !important;
     page-break-inside: auto !important;
   }
 
-  /* 主表每位老师的 3 行尽量保持完整 */
   .print-main-sheet tbody,
   .print-main-sheet tbody tr,
   .print-main-sheet tbody td {
@@ -2932,16 +3096,10 @@ const removeCustomSheet = async (
     page-break-inside: avoid !important;
   }
 
-  /* 主表跨页时重复表头 */
   .print-main-sheet thead {
     display: table-header-group !important;
   }
 
-  /*
-   * 关键：
-   * 不再只依赖 .print-custom-sheet 的 break-before。
-   * 在每张附页之前放置一个独立的“分页点”。
-   */
   .print-page-break {
     display: block !important;
     height: 0 !important;
@@ -2953,7 +3111,6 @@ const removeCustomSheet = async (
     page-break-before: always !important;
   }
 
-  /* 每张附页本身是一个完整打印块 */
   .print-custom-sheet {
     display: block !important;
     break-inside: avoid !important;
@@ -2981,7 +3138,6 @@ const removeCustomSheet = async (
     display: table-header-group !important;
   }
 
-  /* 不让推荐列表制造 timetable 的额外分页 */
   .force-page-break {
     break-after: auto !important;
     page-break-after: auto !important;
