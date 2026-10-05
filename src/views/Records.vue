@@ -8,10 +8,10 @@
       <!-- Title & Subtitle -->
       <div class="space-y-2 max-w-4xl">
         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 whitespace-nowrap flex items-center gap-3">
-          <UsersRound class="w-8 h-8 text-indigo-700 shrink-0" />
+          <UsersRound class="w-8 h-8 text-indigo-700 shrink-0"/>
           PENGURUSAN GURU GANTI HARIAN
         </h1>
-        <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed whitespace-nowrap">
+        <p class="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed whitespace-nowrap uppercase">
           KLIK SEL JADUAL UNTUK MENETAPKAN GURU GANTI, MENYOKONG PENJANAAN JADUAL AUTOMATIK DENGAN SATU KLIK
         </p>
       </div>
@@ -23,33 +23,33 @@
         <button 
           @click="handleAutoAssignAll"
           :disabled="isAutoAssigning"
-          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap"
+          class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
         >
           <span v-if="isAutoAssigning" class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <Zap v-else class="w-4 h-4" />
+          <Zap class="w-4 h-4" v-else/>
           <span>⚡ TETAPAN PINTAR GURU GANTI</span>
         </button>
 
         <!-- 2. Tab Pertukaran Sesi (Pagi / Petang) -->
-        <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner">
+        <div class="flex bg-slate-100 p-1.5 rounded-2xl ring-1 ring-slate-900/5 h-11 items-center shrink-0 shadow-inner uppercase">
           <button 
             @click="currentSession = 'morning'" 
             :class="currentSession === 'morning' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
+            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
           >
-            <Sun class="w-4 h-4 text-amber-500" /> SESI PAGI
+            <Sun class="w-4 h-4 text-amber-500"/> SESI PAGI
           </button>
           <button 
             @click="currentSession = 'afternoon'" 
             :class="currentSession === 'afternoon' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
+            class="px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap uppercase"
           >
-            <Moon class="w-4 h-4 text-indigo-400" /> SESI PETANG
+            <Moon class="w-4 h-4 text-indigo-400"/> SESI PETANG
           </button>
         </div>
 
         <!-- 3. Date Picker -->
-        <div class="flex items-center gap-2 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0">
+        <div class="flex items-center gap-2 bg-slate-50 px-4 h-11 rounded-2xl border border-slate-200/80 shadow-2xs shrink-0 uppercase">
           <span class="text-xs font-bold text-slate-500 whitespace-nowrap">PILIH TARIKH:</span>
           <input 
             type="date" 
@@ -62,10 +62,10 @@
         <button 
           @click="handleExportPdf"
           :disabled="isExportingPdf"
-          class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap"
+          class="bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white px-6 h-11 rounded-2xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer whitespace-nowrap uppercase"
         >
           <span v-if="isExportingPdf" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          <Download v-else class="w-4 h-4" />
+          <Download class="w-4 h-4" v-else/>
           <span>{{ isExportingPdf ? 'MENJANA PDF...' : 'MUAT TURUN PDF' }}</span>
         </button>
 
@@ -84,38 +84,38 @@
       <!-- Page break semasa mencetak jika bukan muka surat pertama -->
       <div v-if="pageIndex > 0" class="print-page-break" aria-hidden="true"></div>
 
-      <div class="text-center mb-6 print:mb-2">
-        <h2 class="text-xl font-black tracking-wider text-black font-serif">
+      <div class="text-center mb-6 print:mb-2 uppercase">
+        <h2 class="text-xl font-black tracking-wider text-black font-serif uppercase">
           {{ schoolName || 'SJK (C) LADANG GRISEK' }}
         </h2>
 
-        <h3 class="text-lg font-bold tracking-widest text-black mt-1 font-serif underline">
+        <h3 class="text-lg font-bold tracking-widest text-black mt-1 font-serif underline uppercase">
           JADUAL GURU GANTI ({{ currentSession === 'morning' ? 'SESI PAGI' : 'SESI PETANG' }})
         </h3>
       </div>
 
-      <div class="flex justify-between items-center mb-4 print:mb-2 font-bold text-sm font-serif border-b-2 border-black pb-2 print:pb-1">
+      <div class="flex justify-between items-center mb-4 print:mb-2 font-bold text-sm font-serif border-b-2 border-black pb-2 print:pb-1 uppercase">
         <div>
-          <span class="underline underline-offset-4">TARIKH :</span> <span class="ml-2 border-b border-black px-4">{{ formattedDate }}</span>
+          <span class="underline underline-offset-4 uppercase">TARIKH :</span> <span class="ml-2 border-b border-black px-4 uppercase">{{ formattedDate }}</span>
         </div>
         <div>
-          <span class="underline underline-offset-4">HARI :</span> <span class="ml-2 border-b border-black px-4 uppercase">{{ formattedDayName }}</span>
+          <span class="underline underline-offset-4 uppercase">HARI :</span> <span class="ml-2 border-b border-black px-4 uppercase">{{ formattedDayName }}</span>
         </div>
       </div>
 
       <div class="overflow-x-auto print:overflow-visible">
-        <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed">
+        <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed uppercase">
           <thead>
-            <tr class="bg-slate-100 print:bg-white">
-              <th class="border border-black p-1 font-bold" colspan="2" style="width: 130px; min-width: 130px; max-width: 130px;">MASA</th>
+            <tr class="bg-slate-100 print:bg-white uppercase">
+              <th class="border border-black p-1 font-bold uppercase" colspan="2" style="width: 130px; min-width: 130px; max-width: 130px;">MASA</th>
 
               <th
                 v-for="(time, index) in currentPeriodTimes"
                 :key="index"
-                class="border border-black p-1"
+                class="border border-black p-1 uppercase"
               >
-                <div class="font-bold">{{ index + 1 }}</div>
-                <div class="text-[7px] font-normal mt-0.5 truncate">{{ time }}</div>
+                <div class="font-bold uppercase">{{ index + 1 }}</div>
+                <div class="text-[7px] font-normal mt-0.5 truncate uppercase">{{ time }}</div>
               </th>
             </tr>
           </thead>
@@ -124,17 +124,17 @@
             v-for="slotIndex in 5"
             :key="slotIndex"
             style="page-break-inside: avoid; break-inside: avoid;"
-            class="print:break-inside-avoid"
+            class="print:break-inside-avoid uppercase"
           >
             
             <template v-if="pageTeachers[slotIndex - 1]">
               <tr>
                 <td
-                  class="border border-black p-1 bg-slate-50 print:bg-white align-middle text-center"
+                  class="border border-black p-1 bg-slate-50 print:bg-white align-middle text-center uppercase"
                   rowspan="3"
                   style="width: 85px; max-width: 85px;"
                 >
-                  <div class="flex flex-col items-center justify-center w-full px-0.5">
+                  <div class="flex flex-col items-center justify-center w-full px-0.5 uppercase">
                     <span
                       class="uppercase font-bold w-full text-center whitespace-normal"
                       :style="getDynamicStyle(pageTeachers[slotIndex - 1].name, 10)"
@@ -153,7 +153,7 @@
                 </td>
 
                 <td
-                  class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]"
+                  class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px] uppercase"
                   style="width: 45px; max-width: 45px;"
                 >
                   KELAS
@@ -162,11 +162,11 @@
                 <td
                   v-for="p in currentPeriodTimes.length"
                   :key="p"
-                  class="border border-black p-0.5 font-semibold align-middle h-8"
+                  class="border border-black p-0.5 font-semibold align-middle h-8 uppercase"
                   style="max-width: 0;"
                 >
-                  <div class="w-full h-full flex items-center justify-center px-0.5 overflow-hidden">
-                    <span class="block w-full text-center text-[10px] tracking-tighter leading-tight text-slate-800 whitespace-normal">
+                  <div class="w-full h-full flex items-center justify-center px-0.5 overflow-hidden uppercase">
+                    <span class="block w-full text-center text-[10px] tracking-tighter leading-tight text-slate-800 whitespace-normal uppercase">
                       {{ getTeacherPeriodData(pageTeachers[slotIndex - 1].id, p, 'class_subject') }}
                     </span>
                   </div>
@@ -174,7 +174,7 @@
               </tr>
 
               <tr>
-                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">
+                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px] uppercase">
                   GURU GANTI
                 </td>
 
@@ -182,18 +182,18 @@
                   v-for="p in currentPeriodTimes.length"
                   :key="p"
                   @click="hasLeavePeriod(pageTeachers[slotIndex - 1].id, p) ? handleCellClick(pageTeachers[slotIndex - 1].id, p) : null"
-                  :class="hasLeavePeriod(pageTeachers[slotIndex - 1].id, p) ? 'cursor-pointer hover:bg-indigo-50 group' : ''"
-                  class="print:hover:bg-transparent border border-black p-0.5 font-bold text-indigo-900 align-middle h-8 transition relative"
+                  :class="hasLeavePeriod(pageTeachers[slotIndex - 1].id, p) ? 'cursor-pointer hover:bg-indigo-50 group uppercase' : 'uppercase'"
+                  class="print:hover:bg-transparent border border-black p-0.5 font-bold text-indigo-900 align-middle h-8 transition relative uppercase"
                   style="max-width: 0;"
                 >
-                  <div class="w-full h-full flex items-center justify-center px-0.5 overflow-hidden">
-                    <span class="block w-full text-center text-[9px] tracking-tighter leading-tight whitespace-normal">
+                  <div class="w-full h-full flex items-center justify-center px-0.5 overflow-hidden uppercase">
+                    <span class="block w-full text-center text-[9px] tracking-tighter leading-tight whitespace-normal uppercase">
                       {{ getTeacherPeriodData(pageTeachers[slotIndex - 1].id, p, 'substitute_name') }}
                     </span>
 
                     <span
                       v-if="hasLeavePeriod(pageTeachers[slotIndex - 1].id, p)"
-                      class="print:hidden hidden group-hover:inline-block text-[9px] text-indigo-500 absolute right-1"
+                      class="print:hidden hidden group-hover:inline-block text-[9px] text-indigo-500 absolute right-1 uppercase"
                     >
                       ✏️
                     </span>
@@ -202,14 +202,14 @@
               </tr>
 
               <tr>
-                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[8px] whitespace-nowrap">
+                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[8px] whitespace-nowrap uppercase">
                   T/TANGAN
                 </td>
 
                 <td
                   v-for="p in currentPeriodTimes.length"
                   :key="p"
-                  class="border border-black p-1 align-middle h-8"
+                  class="border border-black p-1 align-middle h-8 uppercase"
                 ></td>
               </tr>
             </template>
@@ -219,31 +219,31 @@
               <tr>
                 <!-- ⭐️ Butang ekstrak kelas / butang padam -->
                 <td
-                  class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group"
+                  class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group uppercase"
                   :style="{ width: '85px', maxWidth: '85px' }"
                   rowspan="3"
                 >
-                  <div class="w-full h-full relative flex items-center justify-center min-h-[70px]">
+                  <div class="w-full h-full relative flex items-center justify-center min-h-[70px] uppercase">
                     <div
                       contenteditable="true"
                       @blur="saveManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0, $event)"
                       v-text="getManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0)"
-                      class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase flex items-center justify-center p-1"
+                      class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase flex items-center justify-center p-1 uppercase"
                       :style="getDynamicStyle(getManualEntry(`page_${pageIndex}_${slotIndex}`, 'name', 0), 10)"
                     ></div>
 
-                    <div class="print:hidden absolute right-0 top-0 hidden group-hover:flex flex-col z-10 gap-[1px]">
+                    <div class="print:hidden absolute right-0 top-0 hidden group-hover:flex flex-col z-10 gap-[1px] uppercase">
                       <button
                         contenteditable="false"
                         @click.stop="openClassPicker(pageIndex, slotIndex, null)"
-                        class="bg-emerald-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-emerald-600 font-sans tracking-widest font-bold"
+                        class="bg-emerald-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-emerald-600 font-sans tracking-widest font-bold uppercase"
                       >
                         KELAS
                       </button>
                       <button
                         contenteditable="false"
                         @click.stop="clearManualRow(pageIndex, slotIndex, null)"
-                        class="bg-red-500 text-white rounded-l px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-red-600 font-sans tracking-widest font-bold"
+                        class="bg-red-500 text-white rounded-l px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-red-600 font-sans tracking-widest font-bold uppercase"
                       >
                         PADAM
                       </button>
@@ -252,7 +252,7 @@
                 </td>
 
                 <td
-                  class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]"
+                  class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px] uppercase"
                   style="width: 45px; max-width: 45px;"
                 >
                   KELAS
@@ -264,34 +264,34 @@
                   contenteditable="true"
                   @blur="saveManualEntry(`page_${pageIndex}_${slotIndex}`, 'kelas', p, $event)"
                   v-text="getManualEntry(`page_${pageIndex}_${slotIndex}`, 'kelas', p)"
-                  class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-semibold text-[11px] whitespace-pre-wrap leading-tight text-center"
+                  class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-semibold text-[11px] whitespace-pre-wrap leading-tight text-center uppercase"
                   style="max-width: 0;"
                 ></td>
               </tr>
 
               <tr>
-                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">
+                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px] uppercase">
                   GURU GANTI
                 </td>
 
                 <td
                   v-for="p in currentPeriodTimes.length"
                   :key="'ganti-'+p"
-                  class="border border-black p-0.5 align-middle h-8 relative group"
+                  class="border border-black p-0.5 align-middle h-8 relative group uppercase"
                   style="max-width: 0;"
                 >
-                  <div class="w-full h-full relative flex items-center justify-center">
+                  <div class="w-full h-full relative flex items-center justify-center uppercase">
                     <div
                       contenteditable="true"
                       @blur="saveManualEntry(`page_${pageIndex}_${slotIndex}`, 'ganti', p, $event)"
                       v-text="getManualEntry(`page_${pageIndex}_${slotIndex}`, 'ganti', p)"
-                      class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-indigo-900 text-[10px] whitespace-pre-wrap leading-tight flex items-center justify-center text-center"
+                      class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-indigo-900 text-[10px] whitespace-pre-wrap leading-tight flex items-center justify-center text-center uppercase"
                     ></div>
 
                     <button
                       contenteditable="false"
                       @click.stop="openBlankModal(`page_${pageIndex}_${slotIndex}`, p, null)"
-                      class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold"
+                      class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold uppercase"
                     >
                       TETAP
                     </button>
@@ -300,7 +300,7 @@
               </tr>
 
               <tr>
-                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[8px] whitespace-nowrap">
+                <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[8px] whitespace-nowrap uppercase">
                   T/TANGAN
                 </td>
 
@@ -310,12 +310,63 @@
                   contenteditable="true"
                   @blur="saveManualEntry(`page_${pageIndex}_${slotIndex}`, 'ttangan', p, $event)"
                   v-text="getManualEntry(`page_${pageIndex}_${slotIndex}`, 'ttangan', p)"
-                  class="border border-black p-1 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors"
+                  class="border border-black p-1 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors uppercase"
                 ></td>
               </tr>
             </template>
           </tbody>
         </table>
+      </div>
+
+      <!-- ⭐️ Bahagian Catatan (Disusun melintang ke kanan pada UI) -->
+      <div v-if="remarksList.length > 0 && remarksList.some(r => r.trim())" class="mt-4 pt-3 border-t border-dashed border-slate-300 uppercase">
+        <h4 class="text-xs font-bold text-black font-serif uppercase underline mb-2">CATATAN:</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 uppercase">
+          <template v-for="(rmk, rIdx) in remarksList" :key="rIdx">
+            <div v-if="rmk.trim()" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs font-serif leading-relaxed uppercase">
+              <span class="font-bold text-indigo-900 block mb-1 uppercase">CATATAN {{ rIdx + 1 }}:</span>
+              <div class="whitespace-pre-wrap text-slate-700 uppercase">{{ rmk }}</div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⭐️ Kawasan Pengurusan Catatan Dinamik (Tambah Textbox) -->
+    <div class="print:hidden bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-900/5 space-y-4 uppercase">
+      <div class="flex items-center justify-between uppercase">
+        <label class="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2 uppercase">
+          <span>📝 PENGURUSAN CATATAN DINAMIK (BOLEH TAMBAH & BAHARU BARIS TEXTBOX)</span>
+        </label>
+        <button
+          @click="addRemarkBox"
+          class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer flex items-center gap-1.5 whitespace-nowrap uppercase"
+        >
+          <span>+ TAMBAH CATATAN</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 uppercase">
+        <div v-for="(rmk, index) in remarksList" :key="index" class="flex items-start gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200 uppercase">
+          <span class="text-xs font-bold text-indigo-900 whitespace-nowrap pt-2 uppercase">CATATAN {{ index + 1 }}:</span>
+          <textarea
+            v-model="remarksList[index]"
+            @input="syncRemarksToGlobal"
+            @blur="saveCustomSheetsToCloud"
+            rows="2"
+            placeholder="TAIP KANDUNGAN CATATAN DI SINI (BOLEH TEKAN ENTER UNTUK BUAT BARIS BARU)..."
+            class="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-y uppercase"
+          ></textarea>
+          <button
+            @click="removeRemarkBox(index)"
+            class="text-xs text-red-600 hover:text-red-800 font-bold px-3 py-2 bg-white hover:bg-red-50 border border-red-200 rounded-xl cursor-pointer transition whitespace-nowrap shadow-2xs mt-1 uppercase"
+          >
+            PADAM
+          </button>
+        </div>
+        <div v-if="remarksList.length === 0" class="text-center py-4 text-xs text-slate-400 font-medium uppercase">
+          KLIK BUTANG "+ TAMBAH CATATAN" DI ATAS UNTUK MENAMBAH KOTAK TEKS CATATAN PERTAMA.
+        </div>
       </div>
     </div>
 
@@ -330,63 +381,63 @@
     >
       <div
         v-if="showModal"
-        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 uppercase"
       >
         <div
-          class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
+          class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm uppercase"
           @click="showModal = false"
         ></div>
 
-        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden ring-1 ring-slate-900/10 max-h-[90vh] flex flex-col">
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden ring-1 ring-slate-900/10 max-h-[90vh] flex flex-col uppercase">
           
-          <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur-md shrink-0">
+          <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur-md shrink-0 uppercase">
             <div>
-              <h2 class="text-xl font-bold text-slate-900">PUSAT PENETAPAN GURU GANTI</h2>
-              <p class="text-sm text-slate-500 mt-1">
+              <h2 class="text-xl font-bold text-slate-900 uppercase">PUSAT PENETAPAN GURU GANTI</h2>
+              <p class="text-sm text-slate-500 mt-1 uppercase">
                 SOKONGAN CADANGAN PINTAR, ATAU PILIH MANA-MANA GURU SESI YANG SAMA SECARA MANUAL DI BAWAH
               </p>
             </div>
 
             <button
               @click="showModal = false"
-              class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition cursor-pointer"
+              class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition cursor-pointer uppercase"
             >
               ×
             </button>
           </div>
           
-          <div class="p-8 bg-slate-50/50 space-y-6 overflow-y-auto">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="p-8 bg-slate-50/50 space-y-6 overflow-y-auto uppercase">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm uppercase">
               <h3 class="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">
                 🏷️ JENIS TUGASAN:
               </h3>
 
-              <div class="flex flex-col sm:flex-row gap-4">
-                <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition">
+              <div class="flex flex-col sm:flex-row gap-4 uppercase">
+                <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition uppercase">
                   <input
                     type="radio"
                     v-model="assignmentType"
                     value="substitute"
                     class="text-indigo-600 focus:ring-indigo-500 w-4 h-4"
                   />
-                  <span class="text-sm font-semibold text-slate-800">
+                  <span class="text-sm font-semibold text-slate-800 uppercase">
                     GURU GANTI RASMI
-                    <span class="text-xs text-slate-400 font-normal ml-1">
+                    <span class="text-xs text-slate-400 font-normal ml-1 uppercase">
                       (DIKIRA DALAM STATISTIK BEBAN)
                     </span>
                   </span>
                 </label>
 
-                <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition">
+                <label class="flex items-center gap-2 cursor-pointer bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 hover:bg-indigo-50 transition uppercase">
                   <input
                     type="radio"
                     v-model="assignmentType"
                     value="swap"
                     class="text-indigo-600 focus:ring-indigo-500 w-4 h-4"
                   />
-                  <span class="text-sm font-semibold text-slate-800">
+                  <span class="text-sm font-semibold text-slate-800 uppercase">
                     PERTUKARAN JADUAL
-                    <span class="text-xs text-slate-400 font-normal ml-1">
+                    <span class="text-xs text-slate-400 font-normal ml-1 uppercase">
                       (TIDAK DIKIRA DALAM STATISTIK)
                     </span>
                   </span>
@@ -394,8 +445,8 @@
               </div>
             </div>
           
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-              <span class="text-xs font-bold text-slate-700 whitespace-nowrap">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3 uppercase">
+              <span class="text-xs font-bold text-slate-700 whitespace-nowrap uppercase">
                 📍 LOKASI / CATATAN:
               </span>
 
@@ -403,26 +454,27 @@
                 v-model="assignmentRemark"
                 type="text"
                 placeholder="CONTOH: PERPUSTAKAAN (JIKA PERLU BAWA KE PERPUSTAKAAN ATAU GABUNG KELAS)"
-                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 uppercase"
               />
             </div>
 
-            <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100 shadow-sm">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center gap-2">
+            <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100 shadow-sm uppercase">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center gap-2 uppercase">
                 <span>🛠️ TETAPAN MANUAL (TANPA CADANGAN PINTAR)</span>
               </h3>
 
-              <div class="flex flex-col sm:flex-row items-center gap-3">
+              <div class="flex flex-col sm:flex-row items-center gap-3 uppercase">
                 <select
                   v-model="manualSelectedTeacherId"
-                  class="w-full px-3.5 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                  class="w-full px-3.5 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer uppercase"
                 >
-                  <option value="" disabled>-- SILA PILIH GURU SESI SAMA SECARA MANUAL --</option>
+                  <option value="" disabled class="uppercase">-- SILA PILIH GURU SESI SAMA SECARA MANUAL --</option>
 
                   <option
                     v-for="t in allSameSessionTeachers"
                     :key="t.id"
                     :value="t.id"
+                    class="uppercase"
                   >
                     {{ t.name }} <span v-if="t.subject">(SUBJEK: {{ t.subject }})</span>
                   </option>
@@ -431,70 +483,70 @@
                 <button
                   @click="assignSubstitute(manualSelectedTeacherId)"
                   :disabled="!manualSelectedTeacherId"
-                  class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer whitespace-nowrap"
+                  class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer whitespace-nowrap uppercase"
                 >
                   SAHKAN TETAPAN MANUAL
                 </button>
               </div>
             </div>
 
-            <hr class="border-slate-200" />
+            <hr class="border-slate-200"/>
 
-            <div>
-              <div class="flex justify-between items-center mb-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
-                  <Sparkles class="w-4 h-4 text-indigo-600" />
+            <div class="uppercase">
+              <div class="flex justify-between items-center mb-3 uppercase">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 uppercase">
+                  <Sparkles class="w-4 h-4 text-indigo-600"/>
                   ✨ SENARAI CALON CADANGAN PINTAR (JUMLAH {{ recommendations.length }})
                 </h3>
-                <span v-if="recommendations.length > 0" class="text-[11px] text-slate-400 font-semibold">
+                <span v-if="recommendations.length > 0" class="text-[11px] text-slate-400 font-semibold uppercase">
                   MUKA SURAT {{ recCurrentPage }} / {{ recTotalPages }}
                 </span>
               </div>
               
               <div
                 v-if="loadingRecs"
-                class="flex flex-col items-center justify-center py-6 space-y-3"
+                class="flex flex-col items-center justify-center py-6 space-y-3 uppercase"
               >
-                <div class="w-6 h-6 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin"></div>
-                <p class="text-xs text-slate-500 font-medium">ALGORITMA PINTAR SEDANG DIKIRA...</p>
+                <div class="w-6 h-6 border-4 border-indigo-500/30 border-t-indigo-600 rounded-full animate-spin uppercase"></div>
+                <p class="text-xs text-slate-500 font-medium uppercase">ALGORITMA PINTAR SEDANG DIKIRA...</p>
               </div>
               
               <div
                 v-else-if="recommendations.length === 0"
-                class="bg-white p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 text-center"
+                class="bg-white p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 text-center uppercase"
               >
                 TIADA CADANGAN AUTOMATIK, SILA GUNAKAN TETAPAN MANUAL DI ATAS.
               </div>
 
-              <div v-else class="space-y-3">
+              <div v-else class="space-y-3 uppercase">
                 <div
                   v-for="(teacher, index) in paginatedRecommendations"
                   :key="teacher.id"
                   :class="[
-                    'group flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 border rounded-2xl transition-all',
-                    teacher.isBusy ? 'bg-red-50/30 border-red-100' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-sm'
+                    'group flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 border rounded-2xl transition-all uppercase',
+                    teacher.isBusy ? 'bg-red-50/30 border-red-100 uppercase' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-sm uppercase'
                   ]"
                 >
-                  <div class="flex items-center gap-3 mb-3 sm:mb-0">
+                  <div class="flex items-center gap-3 mb-3 sm:mb-0 uppercase">
                     <div :class="[
-                      'w-8 h-8 rounded-full font-extrabold flex items-center justify-center text-xs',
-                      teacher.isBusy ? 'bg-red-100 text-red-600' : 'bg-gradient-to-br from-indigo-100 to-violet-100 text-indigo-700'
+                      'w-8 h-8 rounded-full font-extrabold flex items-center justify-center text-xs uppercase',
+                      teacher.isBusy ? 'bg-red-100 text-red-600 uppercase' : 'bg-gradient-to-br from-indigo-100 to-violet-100 text-indigo-700 uppercase'
                     ]">
                       #{{ (recCurrentPage - 1) * recPageSize + index + 1 }}
                     </div>
 
-                    <div>
-                      <div class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <div class="uppercase">
+                      <div class="font-bold text-slate-900 text-sm flex items-center gap-2 uppercase">
                         {{ teacher.name }}
-                        <span v-if="teacher.isBusy" class="text-[10px] text-red-600 bg-red-100 px-2 py-0.5 rounded-full font-bold">
+                        <span v-if="teacher.isBusy" class="text-[10px] text-red-600 bg-red-100 px-2 py-0.5 rounded-full font-bold uppercase">
                           ADA KELAS
                         </span>
                       </div>
 
-                      <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2 flex-wrap">
+                      <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-2 flex-wrap uppercase">
                         <span>
                           JUMLAH PDPc HARIAN ASAL:
-                          <span class="font-bold text-slate-700">
+                          <span class="font-bold text-slate-700 uppercase">
                             {{ teacher.originalClasses }} KELAS
                           </span>
                         </span>
@@ -503,7 +555,7 @@
 
                         <span>
                           JUMLAH GANTIAN HARI INI:
-                          <span class="font-bold text-orange-600">
+                          <span class="font-bold text-orange-600 uppercase">
                             {{ teacher.todaySubCount }} KELAS
                           </span>
                         </span>
@@ -512,7 +564,7 @@
 
                         <span>
                           JUMLAH GANTIAN MINGGU INI:
-                          <span class="font-bold text-slate-700">
+                          <span class="font-bold text-slate-700 uppercase">
                             {{ teacher.currentSubCount }}{{ teacher.currentSubCount !== '-' ? '/' : '' }}{{ teacher.currentSubCount !== '-' ? teacher.max_substitute_per_week : '' }}
                           </span>
                         </span>
@@ -523,8 +575,8 @@
                   <button
                     @click="assignSubstitute(teacher.id)"
                     :class="[
-                      'px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer whitespace-nowrap',
-                      teacher.isBusy ? 'bg-red-100 text-red-700 hover:bg-red-200' : 'bg-slate-900 hover:bg-indigo-600 text-white'
+                      'px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer whitespace-nowrap uppercase',
+                      teacher.isBusy ? 'bg-red-100 text-red-700 hover:bg-red-200 uppercase' : 'bg-slate-900 hover:bg-indigo-600 text-white uppercase'
                     ]"
                   >
                     {{ teacher.isBusy ? 'TETAPAN PAKSA' : 'TETAPAN PINTAR' }}
@@ -532,21 +584,21 @@
                 </div>
 
                 <!-- Kawalan pagination (Dipaparkan jika calon melebihi 10 orang) -->
-                <div v-if="recTotalPages > 1" class="flex items-center justify-between pt-2 px-1">
+                <div v-if="recTotalPages > 1" class="flex items-center justify-between pt-2 px-1 uppercase">
                   <button 
                     @click="recCurrentPage = Math.max(1, recCurrentPage - 1)"
                     :disabled="recCurrentPage === 1"
-                    class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 transition cursor-pointer"
+                    class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 transition cursor-pointer uppercase"
                   >
                     SEBELUMNYA
                   </button>
-                  <span class="text-xs font-semibold text-slate-500">
+                  <span class="text-xs font-semibold text-slate-500 uppercase">
                     MUKA SURAT {{ recCurrentPage }} / {{ recTotalPages }}
                   </span>
                   <button 
                     @click="recCurrentPage = Math.min(recTotalPages, recCurrentPage + 1)"
                     :disabled="recCurrentPage === recTotalPages"
-                    class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 transition cursor-pointer"
+                    class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 transition cursor-pointer uppercase"
                   >
                     SETERUSNYA
                   </button>
@@ -556,15 +608,15 @@
 
             <div
               v-if="currentLeaveItem && substituteAssignmentsMap[currentLeaveItem.id]"
-              class="pt-2 border-t border-slate-100 flex justify-between items-center"
+              class="pt-2 border-t border-slate-100 flex justify-between items-center uppercase"
             >
-              <span class="text-xs text-red-500 font-medium">
+              <span class="text-xs text-red-500 font-medium uppercase">
                 SLOT INI TELAH MEMPUNYAI JADUAL GANTI / TUKAR
               </span>
 
               <button
                 @click="removeAssignment"
-                class="text-xs text-red-600 hover:text-red-800 font-bold px-3 py-1 bg-red-50 rounded-lg cursor-pointer whitespace-nowrap"
+                class="text-xs text-red-600 hover:text-red-800 font-bold px-3 py-1 bg-red-50 rounded-lg cursor-pointer whitespace-nowrap uppercase"
               >
                 BATALKAN PENETAPAN SEMASA
               </button>
@@ -578,69 +630,70 @@
     <div
       v-for="(sheet, sIndex) in extraCustomSheets"
       :key="sheet.id"
+      class="uppercase"
     >
       <!-- Penanda page break untuk cetakan -->
       <div class="print-page-break" aria-hidden="true"></div>
 
-      <div class="print-custom-sheet mt-12 print:mt-0 pt-8 print:pt-0 border-t-4 print:border-none border-dashed border-slate-300">
+      <div class="print-custom-sheet mt-12 print:mt-0 pt-8 print:pt-0 border-t-4 print:border-none border-dashed border-slate-300 uppercase">
       
-        <div class="print:hidden flex justify-between items-center mb-4 bg-amber-50 p-3 rounded-2xl border border-amber-200">
-          <span class="text-xs font-bold text-amber-900">
+        <div class="print:hidden flex justify-between items-center mb-4 bg-amber-50 p-3 rounded-2xl border border-amber-200 uppercase">
+          <span class="text-xs font-bold text-amber-900 uppercase">
             📄 JADUAL TAMBAHAN / MANUAL #{{ sIndex + 1 }}
           </span>
 
           <button
             @click="removeCustomSheet(sheet.id)"
-            class="text-xs text-red-600 bg-white hover:bg-red-50 px-3 py-1.5 rounded-xl font-bold shadow-sm transition cursor-pointer whitespace-nowrap"
+            class="text-xs text-red-600 bg-white hover:bg-red-50 px-3 py-1.5 rounded-xl font-bold shadow-sm transition cursor-pointer whitespace-nowrap uppercase"
           >
             PADAM JADUAL INI
           </button>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 print:shadow-none print:ring-0 print:p-0 print:rounded-none print:break-inside-avoid">
+        <div class="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-8 print:shadow-none print:ring-0 print:p-0 print:rounded-none print:break-inside-avoid uppercase">
           
-          <div class="text-center mb-6 print:mb-2">
-            <h2 class="text-xl font-black tracking-wider text-black font-serif">
+          <div class="text-center mb-6 print:mb-2 uppercase">
+            <h2 class="text-xl font-black tracking-wider text-black font-serif uppercase">
               {{ schoolName || 'SJK (C) LADANG GRISEK' }}
             </h2>
 
-            <h3 class="text-lg font-bold tracking-widest text-black mt-1 font-serif underline">
+            <h3 class="text-lg font-bold tracking-widest text-black mt-1 font-serif underline uppercase">
               JADUAL GURU GANTI ({{ currentSession === 'morning' ? 'SESI PAGI' : 'SESI PETANG' }})
             </h3>
           </div>
 
-          <div class="flex justify-between items-center mb-4 print:mb-2 font-bold text-sm font-serif border-b-2 border-black pb-2 print:pb-1">
+          <div class="flex justify-between items-center mb-4 print:mb-2 font-bold text-sm font-serif border-b-2 border-black pb-2 print:pb-1 uppercase">
             <div>
-              <span class="underline underline-offset-4">TARIKH :</span>
+              <span class="underline underline-offset-4 uppercase">TARIKH :</span>
 
               <input
                 v-model="sheet.date"
                 @blur="saveCustomSheetsToCloud"
                 type="text"
                 placeholder="TARIKH"
-                class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-32 focus:outline-none"
+                class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-32 focus:outline-none uppercase"
               />
             </div>
 
             <div>
-              <span class="underline underline-offset-4">HARI :</span>
+              <span class="underline underline-offset-4 uppercase">HARI :</span>
 
               <input
                 v-model="sheet.day"
                 @blur="saveCustomSheetsToCloud"
                 type="text"
                 placeholder="HARI"
-                class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-28 uppercase focus:outline-none"
+                class="ml-2 border-b border-black px-2 py-0.5 text-sm font-normal w-28 uppercase focus:outline-none uppercase"
               />
             </div>
           </div>
 
-          <div class="w-full overflow-x-auto print:overflow-visible">
-            <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed">
+          <div class="w-full overflow-x-auto print:overflow-visible uppercase">
+            <table class="w-full border-collapse border-2 border-black text-center text-xs font-serif table-fixed uppercase">
               <thead>
-                <tr class="bg-slate-100 print:bg-white">
+                <tr class="bg-slate-100 print:bg-white uppercase">
                   <th
-                    class="border border-black p-1 font-bold"
+                    class="border border-black p-1 font-bold uppercase"
                     colspan="2"
                     style="width: 130px; min-width: 130px; max-width: 130px;"
                   >
@@ -650,10 +703,10 @@
                   <th
                     v-for="(time, index) in currentPeriodTimes"
                     :key="index"
-                    class="border border-black p-1"
+                    class="border border-black p-1 uppercase"
                   >
-                    <div class="font-bold">{{ index + 1 }}</div>
-                    <div class="text-[7px] font-normal mt-0.5 truncate">
+                    <div class="font-bold uppercase">{{ index + 1 }}</div>
+                    <div class="text-[7px] font-normal mt-0.5 truncate uppercase">
                       {{ time }}
                     </div>
                   </th>
@@ -663,35 +716,36 @@
               <tbody
                 v-for="slotIndex in 5"
                 :key="slotIndex"
+                class="uppercase"
               >
                 <tr>
-                  <!-- ⭐️️ Butang ekstrak kelas / butang padam (Kawasan tambahan) -->
+                  <!-- ⭐ Butang ekstrak kelas / butang padam (Kawasan tambahan) -->
                   <td
-                    class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group"
+                    class="border border-black p-0 font-bold bg-slate-50 print:bg-white align-middle text-center h-8 relative group uppercase"
                     :style="{ width: '85px', maxWidth: '85px' }"
                     rowspan="3"
                   >
-                    <div class="w-full h-full relative flex items-center justify-center min-h-[70px]">
+                    <div class="w-full h-full relative flex items-center justify-center min-h-[70px] uppercase">
                       <div
                         contenteditable="true"
                         @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0, $event)"
                         v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0)"
-                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase flex items-center justify-center p-1"
+                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors whitespace-pre-wrap leading-tight uppercase flex items-center justify-center p-1 uppercase"
                         :style="getDynamicStyle(getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'name', 0), 10)"
                       ></div>
 
-                      <div class="print:hidden absolute right-0 top-0 hidden group-hover:flex flex-col z-10 gap-[1px]">
+                      <div class="print:hidden absolute right-0 top-0 hidden group-hover:flex flex-col z-10 gap-[1px] uppercase">
                         <button
                           contenteditable="false"
                           @click.stop="openClassPicker(null, slotIndex, sheet.id)"
-                          class="bg-emerald-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-emerald-600 font-sans tracking-widest font-bold"
+                          class="bg-emerald-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-emerald-600 font-sans tracking-widest font-bold uppercase"
                         >
                           KELAS
                         </button>
                         <button
                           contenteditable="false"
                           @click.stop="clearManualRow(null, slotIndex, sheet.id)"
-                          class="bg-red-500 text-white rounded-l px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-red-600 font-sans tracking-widest font-bold"
+                          class="bg-red-500 text-white rounded-l px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-red-600 font-sans tracking-widest font-bold uppercase"
                         >
                           PADAM
                         </button>
@@ -700,7 +754,7 @@
                   </td>
 
                   <td
-                    class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]"
+                    class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px] uppercase"
                     style="width: 45px; max-width: 45px;"
                   >
                     KELAS
@@ -712,34 +766,34 @@
                     contenteditable="true"
                     @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'kelas', p, $event)"
                     v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'kelas', p)"
-                    class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-semibold text-[11px] whitespace-pre-wrap leading-tight text-center"
+                    class="border border-black p-0.5 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-semibold text-[11px] whitespace-pre-wrap leading-tight text-center uppercase"
                     style="max-width: 0;"
                   ></td>
                 </tr>
 
                 <tr>
-                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px]">
+                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[10px] uppercase">
                     GURU GANTI
                   </td>
 
                   <td
                     v-for="p in currentPeriodTimes.length"
                     :key="'ganti-'+p"
-                    class="border border-black p-0.5 align-middle h-8 relative group"
+                    class="border border-black p-0.5 align-middle h-8 relative group uppercase"
                     style="max-width: 0;"
                   >
-                    <div class="w-full h-full relative flex items-center justify-center">
+                    <div class="w-full h-full relative flex items-center justify-center uppercase">
                       <div
                         contenteditable="true"
                         @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p, $event)"
                         v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ganti', p)"
-                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-[10px] text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center"
+                        class="w-full h-full outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors font-bold text-[10px] text-indigo-900 whitespace-pre-wrap leading-tight flex items-center justify-center text-center uppercase"
                       ></div>
 
                       <button
                         contenteditable="false"
                         @click.stop="openBlankModal(slotIndex, p, sheet.id)"
-                        class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold"
+                        class="print:hidden absolute right-0 top-0 hidden group-hover:flex bg-indigo-500 text-white rounded-bl px-1.5 py-0.5 text-[9px] cursor-pointer shadow-sm hover:bg-indigo-600 z-10 font-sans tracking-widest font-bold uppercase"
                       >
                         TETAP
                       </button>
@@ -748,7 +802,7 @@
                 </tr>
 
                 <tr>
-                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[8px] whitespace-nowrap">
+                  <td class="border border-black p-1 font-bold bg-slate-50 print:bg-white text-[8px] whitespace-nowrap uppercase">
                     T/TANGAN
                   </td>
 
@@ -758,7 +812,7 @@
                     contenteditable="true"
                     @blur="saveManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ttangan', p, $event)"
                     v-text="getManualEntry(`sheet_${sheet.id}_${slotIndex}`, 'ttangan', p)"
-                    class="border border-black p-1 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors"
+                    class="border border-black p-1 align-middle h-8 outline-none focus:bg-indigo-50/50 hover:bg-slate-100 cursor-text transition-colors uppercase"
                   ></td>
                 </tr>
               </tbody>
@@ -769,12 +823,12 @@
     </div>
 
     <!-- Butang tambah di bahagian bawah -->
-    <div class="print:hidden mt-8 mb-12 flex justify-center w-full">
+    <div class="print:hidden mt-8 mb-12 flex justify-center w-full uppercase">
       <button
         @click="addBlankSheet"
-        class="flex items-center gap-2 bg-slate-900 hover:bg-indigo-600 text-white px-8 py-3.5 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer whitespace-nowrap"
+        class="flex items-center gap-2 bg-slate-900 hover:bg-indigo-600 text-white px-8 py-3.5 rounded-2xl text-xs font-bold shadow-md transition-all cursor-pointer whitespace-nowrap uppercase"
       >
-        <span class="text-base font-extrabold">+</span>
+        <span class="text-base font-extrabold uppercase">+</span>
         TAMBAH SATU JADUAL KOSONG RASMI
       </button>
     </div>
@@ -790,35 +844,35 @@
     >
       <div
         v-if="showClassPickerModal"
-        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 uppercase"
       >
-        <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" @click="showClassPickerModal = false"></div>
-        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden ring-1 ring-slate-900/10">
+        <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm uppercase" @click="showClassPickerModal = false"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden ring-1 ring-slate-900/10 uppercase">
           
-          <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50 uppercase">
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 uppercase">
               <span>📚 EKSTRAK SUBJEK KELAS SEHARIAN</span>
             </h2>
-            <button @click="showClassPickerModal = false" class="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer font-bold">
+            <button @click="showClassPickerModal = false" class="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer font-bold uppercase">
               ✕
             </button>
           </div>
           
-          <div class="p-6 space-y-5">
+          <div class="p-6 space-y-5 uppercase">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-2">PILIH KELAS UNTUK DIEKSTRAK:</label>
-              <select v-model="selectedClassToFill" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
-                <option value="">-- SILA PILIH KELAS --</option>
-                <option v-for="cls in allClassesList" :key="cls" :value="cls">{{ cls }}</option>
+              <label class="block text-xs font-bold text-slate-700 mb-2 uppercase">PILIH KELAS UNTUK DIEKSTRAK:</label>
+              <select v-model="selectedClassToFill" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer uppercase">
+                <option value="" class="uppercase">-- SILA PILIH KELAS --</option>
+                <option v-for="cls in allClassesList" :key="cls" :value="cls" class="uppercase">{{ cls }}</option>
               </select>
             </div>
           </div>
 
-          <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-            <button @click="showClassPickerModal = false" class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer">
+          <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 uppercase">
+            <button @click="showClassPickerModal = false" class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer uppercase">
               BATAL
             </button>
-            <button @click="confirmClassPicker" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+            <button @click="confirmClassPicker" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer uppercase">
               SAHKAN EKSTRAK
             </button>
           </div>
@@ -827,7 +881,7 @@
       </div>
     </transition>
 
-    <!-- Modal tugasan guru ganti ringkas (Dropdown ekstrak subjek dihapuskan) -->
+    <!-- Modal tugasan guru ganti ringkas -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95"
@@ -838,20 +892,20 @@
     >
       <div
         v-if="showBlankModal"
-        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+        class="print:hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 uppercase"
       >
         <div
-          class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
+          class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm uppercase"
           @click="showBlankModal = false"
         ></div>
 
-        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden ring-1 ring-slate-900/10">
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden ring-1 ring-slate-900/10 uppercase">
           
-          <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+          <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50 uppercase">
             <div>
-              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 uppercase">
                 <span>📝 TETAPAN PANTAS</span>
-                <span class="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
+                <span class="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full uppercase">
                   TUGASAN KHAS/SEMENTARA
                 </span>
               </h2>
@@ -859,28 +913,29 @@
 
             <button
               @click="showBlankModal = false"
-              class="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer font-bold"
+              class="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer font-bold uppercase"
             >
               ✕
             </button>
           </div>
           
-          <div class="p-6 space-y-5">
+          <div class="p-6 space-y-5 uppercase">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-2">
-                🧑‍‍🏫 PILIH GURU GANTI (SESI SAMA):
+              <label class="block text-xs font-bold text-slate-700 mb-2 uppercase">
+                🧑‍🏫 PILIH GURU GANTI (SESI SAMA):
               </label>
 
               <select
                 v-model="blankForm.teacherId"
-                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer uppercase"
               >
-                <option value="">-- TIDAK DIPILIH (KOSONG / TEKS SAHAJA) --</option>
+                <option value="" class="uppercase">-- TIDAK DIPILIH (KOSONG / TEKS SAHAJA) --</option>
 
                 <option
                   v-for="t in allSameSessionTeachers"
                   :key="t.id"
                   :value="t.id"
+                  class="uppercase"
                 >
                   {{ t.name }} <span v-if="t.subject">({{ t.subject }})</span>
                 </option>
@@ -888,7 +943,7 @@
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-2">
+              <label class="block text-xs font-bold text-slate-700 mb-2 uppercase">
                 📍 CATATAN (LOKASI/TUGASAN CTH: JAGA PERTANDINGAN):
               </label>
 
@@ -896,55 +951,55 @@
                 v-model="blankForm.remark"
                 type="text"
                 placeholder="CONTOH: PERPUSTAKAAN / LATIHAN SUKAN"
-                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 uppercase"
               />
             </div>
 
-            <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 flex items-start gap-3">
+            <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 flex items-start gap-3 uppercase">
               <input
                 type="checkbox"
                 v-model="blankForm.kiraBeban"
                 id="kiraBebanCb"
-                class="mt-0.5 w-4 h-4 text-indigo-600 rounded cursor-pointer"
+                class="mt-0.5 w-4 h-4 text-indigo-600 rounded cursor-pointer uppercase"
               />
 
-              <div class="flex-1">
+              <div class="flex-1 uppercase">
                 <label
                   for="kiraBebanCb"
-                  class="text-sm font-bold text-slate-800 cursor-pointer block mb-1"
+                  class="text-sm font-bold text-slate-800 cursor-pointer block mb-1 uppercase"
                 >
                   DIKIRA DALAM STATISTIK BEBAN (KIRA BEBAN)
                 </label>
 
-                <p class="text-[10px] text-slate-500 font-medium leading-relaxed">
+                <p class="text-[10px] text-slate-500 font-medium leading-relaxed uppercase">
                   Jika ditandai, sistem akan mencipta rekod maya (tidak menjejaskan laporan MMI) dan menambah jumlah kelas guru ini sebanyak +1 secara latar belakang.
                 </p>
               </div>
             </div>
           </div>
 
-          <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+          <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center uppercase">
             <button
               v-if="hasExistingVirtual"
               @click="removeBlankAssignment"
-              class="text-xs text-red-600 hover:text-red-800 font-bold px-4 py-2 bg-red-50 hover:bg-red-100 rounded-xl cursor-pointer transition whitespace-nowrap"
+              class="text-xs text-red-600 hover:text-red-800 font-bold px-4 py-2 bg-red-50 hover:bg-red-100 rounded-xl cursor-pointer transition whitespace-nowrap uppercase"
             >
               KOSONGKAN SEL INI
             </button>
 
             <div v-else></div>
 
-            <div class="flex gap-3">
+            <div class="flex gap-3 uppercase">
               <button
                 @click="showBlankModal = false"
-                class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer"
+                class="text-slate-500 hover:text-slate-700 px-4 py-2 text-xs font-bold transition cursor-pointer uppercase"
               >
                 BATAL
               </button>
 
               <button
                 @click="confirmBlankAssignment"
-                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer uppercase"
               >
                 SAHKAN
               </button>
@@ -1019,13 +1074,13 @@ const currentPeriodTimes = computed(() =>
 )
 
 const dayNames = [
-  'Ahad',
-  'Isnin',
-  'Selasa',
-  'Rabu',
-  'Khamis',
-  'Jumaat',
-  'Sabtu'
+  'AHAD',
+  'ISNIN',
+  'SELASA',
+  'RABU',
+  'KHAMIS',
+  'JUMAAT',
+  'SABTU'
 ]
 
 const leaveRequests = ref([])
@@ -1084,6 +1139,34 @@ const classPickerTarget = ref({
 })
 const selectedClassToFill = ref('')
 
+// ⭐️ Senarai Catatan Dinamik (Array of Textareas)
+const remarksList = ref([''])
+
+// Sinkronisasi senarai array ke string global (huruf besar)
+const syncRemarksToGlobal = () => {
+  globalPageRemark.value = remarksList.value.map(r => r ? r.toUpperCase() : '').join('\n')
+}
+
+// Tambah satu kotak teks catatan baru
+const addRemarkBox = () => {
+  remarksList.value.push('')
+  syncRemarksToGlobal()
+  saveCustomSheetsToCloud()
+}
+
+// Padam kotak teks catatan tertentu
+const removeRemarkBox = (index) => {
+  remarksList.value.splice(index, 1)
+  if (remarksList.value.length === 0) {
+    remarksList.value = ['']
+  }
+  syncRemarksToGlobal()
+  saveCustomSheetsToCloud()
+}
+
+// Pembolehubah string global untuk simpanan awan
+const globalPageRemark = ref('')
+
 // =====================================================
 // Identiti Sekolah
 // =====================================================
@@ -1099,16 +1182,16 @@ const fetchSchoolIdentity = async () => {
     if (error) throw error
 
     schoolName.value =
-      data?.school_name?.trim() ||
+      (data?.school_name?.trim() ||
       localStorage.getItem('school_name')?.trim() ||
-      'SJK (C) LADANG GRISEK'
+      'SJK (C) LADANG GRISEK').toUpperCase()
 
   } catch (err) {
     console.error('Gagal memuatkan nama sekolah:', err)
 
     schoolName.value =
-      localStorage.getItem('school_name')?.trim() ||
-      'SJK (C) LADANG GRISEK'
+      (localStorage.getItem('school_name')?.trim() ||
+      'SJK (C) LADANG GRISEK').toUpperCase()
   }
 }
 
@@ -1125,6 +1208,7 @@ const getDynamicStyle = (text, baseSize) => {
   const maxCharsAllowed = 10
   
   const words = String(text)
+    .toUpperCase()
     .split(/\s+/)
     .filter(Boolean)
 
@@ -1157,7 +1241,6 @@ const getDynamicStyle = (text, baseSize) => {
     }
   }
 
-  // Mekanisme pengecilan tulisan
   const scaledSize =
     baseSize *
     (maxCharsAllowed / maxWordLen) *
@@ -1197,10 +1280,11 @@ const displayTeachersList = computed(() => {
     ) {
       let cleanReason = (req.reason || '')
         .replace(/\[.*?\]\s*/, '')
+        .toUpperCase()
 
       map[req.teacher_id] = {
         id: req.teacher_id,
-        name: teacher.name,
+        name: teacher.name ? teacher.name.toUpperCase() : '',
         reason: cleanReason
       }
     }
@@ -1231,6 +1315,8 @@ const sessionCustomSheets = ref({
 const fetchManualDrafts = async () => {
   manualEntries.value = {}
   sessionCustomSheets.value[currentSession.value] = []
+  globalPageRemark.value = ''
+  remarksList.value = ['']
 
   try {
     const { data, error } = await supabase
@@ -1241,11 +1327,28 @@ const fetchManualDrafts = async () => {
       .maybeSingle()
 
     if (data && data.draft_data) {
-      manualEntries.value = data.draft_data
+      const upperDraft = {}
+      for (const k in data.draft_data) {
+        if (k === '__custom_sheets__' && Array.isArray(data.draft_data[k])) {
+          upperDraft[k] = data.draft_data[k].map(sheet => ({
+            ...sheet,
+            day: sheet.day ? sheet.day.toUpperCase() : ''
+          }))
+        } else if (typeof data.draft_data[k] === 'string') {
+          upperDraft[k] = data.draft_data[k].toUpperCase()
+        } else {
+          upperDraft[k] = data.draft_data[k]
+        }
+      }
+      manualEntries.value = upperDraft
 
-      if (data.draft_data.__custom_sheets__) {
-        sessionCustomSheets.value[currentSession.value] =
-          data.draft_data.__custom_sheets__
+      if (upperDraft.__custom_sheets__) {
+        sessionCustomSheets.value[currentSession.value] = upperDraft.__custom_sheets__
+      }
+      if (upperDraft.__global_remark__) {
+        globalPageRemark.value = upperDraft.__global_remark__.toUpperCase()
+        const parsed = globalPageRemark.value.split(/\r?\n/).map(s => s.toUpperCase())
+        remarksList.value = parsed.length > 0 ? parsed : ['']
       }
     }
   } catch (err) {
@@ -1254,8 +1357,21 @@ const fetchManualDrafts = async () => {
 }
 
 const saveCustomSheetsToCloud = async () => {
+  syncRemarksToGlobal()
+  sessionCustomSheets.value[currentSession.value] = sessionCustomSheets.value[currentSession.value].map(s => ({
+    ...s,
+    day: s.day ? s.day.toUpperCase() : ''
+  }))
+
   manualEntries.value['__custom_sheets__'] =
     sessionCustomSheets.value[currentSession.value]
+  manualEntries.value['__global_remark__'] = globalPageRemark.value.toUpperCase()
+
+  for (const k in manualEntries.value) {
+    if (k !== '__custom_sheets__' && typeof manualEntries.value[k] === 'string') {
+      manualEntries.value[k] = manualEntries.value[k].toUpperCase()
+    }
+  }
 
   try {
     await supabase
@@ -1284,6 +1400,7 @@ const saveManualEntry = async (
   const text = event.target.innerText
     .trim()
     .replace(/\n+/g, '\n')
+    .toUpperCase()
 
   const key = `${slotIndex}-${type}-${period}`
 
@@ -1311,7 +1428,7 @@ const saveManualEntry = async (
 
 const getManualEntry = (slotIndex, type, period) => {
   const key = `${slotIndex}-${type}-${period}`
-  return manualEntries.value[key] || ''
+  return (manualEntries.value[key] || '').toUpperCase()
 }
 
 // =================================================================
@@ -1384,7 +1501,7 @@ const getTeacherPeriodData = (
   if (!leaveItem) return ''
 
   if (type === 'class_subject') {
-    return `${leaveItem.class_name} ${leaveItem.subject}`
+    return `${leaveItem.class_name} ${leaveItem.subject}`.toUpperCase()
   }
 
   if (type === 'substitute_name') {
@@ -1398,14 +1515,14 @@ const getTeacherPeriodData = (
     const subTeacher =
       teachersMap.value[subItem.sub_teacher_id]
 
-    let name = subTeacher ? subTeacher.name : ''
+    let name = subTeacher && subTeacher.name ? subTeacher.name.toUpperCase() : ''
 
     if (subItem.assignment_type === 'swap') {
       name += ' ✦'
     }
 
     return subItem.remark
-      ? `${name} (${subItem.remark})`
+      ? `${name} (${subItem.remark.toUpperCase()})`
       : name
   }
 
@@ -1419,12 +1536,16 @@ const loadSameSessionTeachers = async () => {
     .eq('is_active', true)
     .eq('session', currentSession.value)
 
-  allSameSessionTeachers.value = (data || []).sort((a, b) => 
+  allSameSessionTeachers.value = (data || []).map(t => ({
+    ...t,
+    name: t.name ? t.name.toUpperCase() : '',
+    subject: t.subject ? t.subject.toUpperCase() : ''
+  })).sort((a, b) => 
     a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
   )
 }
 
-// ⭐️ Penyelesaian sempurna untuk pengekstrakan kelas gabung (PMPI) & pelbagai subjek
+// ⭐️ Penyelesaian sempurna untuk pengekstrakan kelas gabung (PMPI) & pelbagai subjek (UPPERCASE)
 const loadClassSchedulesForTargetDate = async () => {
   try {
     const dateObj = new Date(targetDate.value)
@@ -1445,17 +1566,14 @@ const loadClassSchedulesForTargetDate = async () => {
       ttData.forEach(row => {
         if (!row.class_name || !row.subject) return;
 
-        // 1. Dapatkan nama kelas asal & buang nama subjek di dalamnya (cth: 3A PM, 3A PI)
         const rawClassName = String(row.class_name).toUpperCase();
         let cleanedClassName = rawClassName
           .replace(/\b(PM|PI|MORAL|AGAMA|ISLAM|PENDIDIKAN)\b/g, '')
           .replace(/\s+/g, ' ')
           .trim();
         
-        // 2. Buang pembahagi di awal/akhir
         cleanedClassName = cleanedClassName.replace(/^[/-]+|[/-]+$/g, '').trim();
 
-        // 3. Ekstrak kelas yang digabungkan (cth: "3A/3B" dipisah kepada "3A" dan "3B")
         const classTokens = cleanedClassName.split(/[/,&+,]|\bDAN\b/).map(c => c.trim()).filter(Boolean);
 
         classTokens.forEach(cName => {
@@ -1476,7 +1594,6 @@ const loadClassSchedulesForTargetDate = async () => {
             if (hasPM && hasPI) {
               map[cName][row.period] = 'PMPI'
             } else {
-              // Jika bukan PMPI & tiada pertindihan, gabung subjek (cth: BM/BI)
               if (!s1.includes(s2)) {
                 map[cName][row.period] = `${s1}/${s2}`
               }
@@ -1500,7 +1617,7 @@ const loadClassSchedulesForTargetDate = async () => {
 // =================================================================
 // ⭐️ Logik untuk membersihkan seluruh baris manual
 const clearManualRow = async (pageIndex, slotIndex, sheetId) => {
-  if (!window.confirm('Adakah anda pasti mahu memadamkan semua kandungan dalam baris ini (termasuk rekod guru ganti yang mungkin telah ditetapkan)?')) {
+  if (!window.confirm('ADAKAH ANDA PASTI MAHU MEMADAMKAN SEMUA KANDUNGAN DALAM BARIS INI?')) {
     return
   }
 
@@ -1512,14 +1629,12 @@ const clearManualRow = async (pageIndex, slotIndex, sheetId) => {
       const virtualLeaveKey = `${prefix}_virtual_leave_${p}`
       const existingVirtualLeaveId = manualEntries.value[virtualLeaveKey]
 
-      // Buang rekod penetapan dalam database
       if (existingVirtualLeaveId) {
         await supabase.from('substitute_assignments').delete().eq('leave_request_id', existingVirtualLeaveId)
         await supabase.from('leave_requests').delete().eq('id', existingVirtualLeaveId)
         delete manualEntries.value[virtualLeaveKey]
       }
 
-      // Kosongkan kandungan teks
       manualEntries.value[`${prefix}-kelas-${p}`] = ''
       manualEntries.value[`${prefix}-ganti-${p}`] = ''
       manualEntries.value[`${prefix}-ttangan-${p}`] = ''
@@ -1528,12 +1643,11 @@ const clearManualRow = async (pageIndex, slotIndex, sheetId) => {
     manualEntries.value[`${prefix}-name-0`] = ''
 
     await saveCustomSheetsToCloud()
-    toast.success('Kandungan baris telah dikosongkan!')
+    toast.success('KANDUNGAN BARIS TELAH DIKOSONGKAN!')
     
-    // Refresh jadual tugasan ganti
     fetchData()
   } catch (err) {
-    toast.error('Gagal dikosongkan: ' + err.message)
+    toast.error('GAGAL DIKOSONGKAN: ' + err.message)
   }
 }
 
@@ -1548,27 +1662,24 @@ const openClassPicker = (pageIndex, slotIndex, sheetId) => {
 // Pengesahan ekstrak kelas ke baris KELAS
 const confirmClassPicker = async () => {
   if (!selectedClassToFill.value) {
-    toast.error('Sila pilih satu kelas!')
+    toast.error('SILA PILIH SATU KELAS!')
     return
   }
 
   const { pageIndex, slotIndex, sheetId } = classPickerTarget.value
   const prefix = sheetId ? `sheet_${sheetId}_${slotIndex}` : `page_${pageIndex}_${slotIndex}`
-  const className = selectedClassToFill.value
+  const className = selectedClassToFill.value.toUpperCase()
 
-  // 1. Masukkan nama kelas ke dalam sel nama
   manualEntries.value[`${prefix}-name-0`] = className
 
-  // 2. Isi automatik subjek ke dalam baris KELAS
   for (let p = 1; p <= currentPeriodTimes.value.length; p++) {
     const subject = classSchedulesMap.value[className]?.[p] || ''
-    // Format output: Nama kelas + Subjek (cth: 3A PMPI)
-    const text = subject ? `${className} ${subject}` : '' 
+    const text = subject ? `${className} ${subject}`.toUpperCase() : '' 
     manualEntries.value[`${prefix}-kelas-${p}`] = text
   }
 
   await saveCustomSheetsToCloud()
-  toast.success(`Semua subjek untuk kelas ${className} pada hari ini telah diekstrak!`)
+  toast.success(`SEMUA SUBJEK UNTUK KELAS ${className} PADA HARI INI TELAH DIEKSTRAK!`)
   showClassPickerModal.value = false
 }
 
@@ -1586,7 +1697,7 @@ const handleCellClick = async (
   )
 
   if (!leaveItem) {
-    toast.error('Tiada rekod cuti untuk guru ini pada waktu ini!')
+    toast.error('TIADA REKOD CUTI UNTUK GURU INI PADA WAKTU INI!')
     return
   }
 
@@ -1600,7 +1711,7 @@ const handleCellClick = async (
 
   if (existingSub) {
     assignmentRemark.value =
-      existingSub.remark || ''
+      existingSub.remark ? existingSub.remark.toUpperCase() : ''
 
     manualSelectedTeacherId.value =
       existingSub.sub_teacher_id || ''
@@ -1653,7 +1764,7 @@ const handleCellClick = async (
           const isBusy = busyPeriodsMap[t.id]?.has(Number(periodNum))
           return {
             id: t.id,
-            name: t.name,
+            name: t.name ? t.name.toUpperCase() : '',
             originalClasses: originalClassMap[t.id] || 0,
             todaySubCount: todaySubMap[t.id] || 0,
             currentSubCount: '-',
@@ -1671,9 +1782,12 @@ const handleCellClick = async (
       results = [...results, ...restTeachers]
     }
 
-    recommendations.value = results
+    recommendations.value = results.map(r => ({
+      ...r,
+      name: r.name ? r.name.toUpperCase() : ''
+    }))
   } catch (err) {
-    toast.error('Gagal memuatkan data jadual: ' + err.message)
+    toast.error('GAGAL MEMUATKAN DATA JADUAL: ' + err.message)
     recommendations.value = []
   } finally {
     loadingRecs.value = false
@@ -1693,7 +1807,7 @@ const assignSubstitute = async (teacherId) => {
     const payload = {
       sub_teacher_id: teacherId,
       remark: assignmentRemark.value
-        ? assignmentRemark.value.trim()
+        ? assignmentRemark.value.trim().toUpperCase()
         : null,
       assignment_type: assignmentType.value
     }
@@ -1725,15 +1839,15 @@ const assignSubstitute = async (teacherId) => {
 
     toast.success(
       assignmentType.value === 'swap'
-        ? 'Pertukaran jadual berjaya ditetapkan!'
-        : 'Guru ganti berjaya ditetapkan!'
+        ? 'PERTUKARAN JADUAL BERJAYA DITETAPKAN!'
+        : 'GURU GANTI BERJAYA DITETAPKAN!'
     )
 
     showModal.value = false
 
     fetchData()
   } catch (err) {
-    toast.error('Gagal menetapkan: ' + err.message)
+    toast.error('GAGAL MENETAPKAN: ' + err.message)
   }
 }
 
@@ -1759,14 +1873,14 @@ const removeAssignment = async () => {
         })
         .eq('id', leaveId)
 
-      toast.success('Penetapan telah dibatalkan')
+      toast.success('PENETAPAN TELAH DIBATALKAN')
 
       showModal.value = false
 
       fetchData()
     }
   } catch (err) {
-    toast.error('Operasi gagal: ' + err.message)
+    toast.error('OPERASI GAGAL: ' + err.message)
   }
 }
 
@@ -1797,7 +1911,7 @@ const handleAutoAssignAll = async () => {
     })
 
   if (pendingRequests.length === 0) {
-    toast.success('Tiada kelas yang perlu ditetapkan untuk sesi ini!')
+    toast.success('TIADA KELAS YANG PERLU DITETAPKAN UNTUK SESI INI!')
     return
   }
 
@@ -1836,11 +1950,11 @@ const handleAutoAssignAll = async () => {
       }
     }
 
-    toast.success(`Berjaya! Sebanyak ${successCount} kelas telah ditetapkan secara automatik.`)
+    toast.success(`BERJAYA! SEBANYAK ${successCount} KELAS TELAH DITETAPKAN SECARA AUTOMATIK.`)
 
     fetchData()
   } catch (err) {
-    toast.error('Ralat semasa penetapan automatik: ' + err.message)
+    toast.error('RALAT SEMASA PENETAPAN AUTOMATIK: ' + err.message)
   } finally {
     isAutoAssigning.value = false
   }
@@ -1888,7 +2002,7 @@ const openBlankModal = async (
         existingSub.sub_teacher_id || ''
 
       blankForm.value.remark =
-        existingSub.remark || ''
+        existingSub.remark ? existingSub.remark.toUpperCase() : ''
 
       blankForm.value.kiraBeban = true
     }
@@ -1920,7 +2034,7 @@ const confirmBlankAssignment = async () => {
     !blankForm.value.teacherId &&
     blankForm.value.kiraBeban
   ) {
-    return toast.error('Sila pilih guru ganti jika ingin mengira beban!')
+    return toast.error('SILA PILIH GURU GANTI JIKA INGIN MENGIRA BEBAN!')
   }
 
   let teacherName = ''
@@ -1936,15 +2050,16 @@ const confirmBlankAssignment = async () => {
         blankForm.value.teacherId
       ]
 
-    teacherName = t ? t.name : ''
+    teacherName = t && t.name ? t.name.toUpperCase() : ''
   }
   
   let displayText = teacherName
 
   if (blankForm.value.remark) {
+    const upperRemark = blankForm.value.remark.toUpperCase()
     displayText = teacherName
-      ? `${teacherName} (${blankForm.value.remark})`
-      : blankForm.value.remark
+      ? `${teacherName} (${upperRemark})`
+      : upperRemark
   }
   
   const existingVirtualLeaveId =
@@ -1987,7 +2102,7 @@ const confirmBlankAssignment = async () => {
           'VIRTUAL_CLASS'
         ) {
           return toast.error(
-            'Guru ini sudah mempunyai rekod cuti sebenar pada waktu ini!'
+            'GURU INI SUDAH MEMPUNYAI REKOD CUTI SEBENAR PADA WAKTU INI!'
           )
         }
 
@@ -1998,7 +2113,7 @@ const confirmBlankAssignment = async () => {
           .from('leave_requests')
           .update({
             reason:
-              blankForm.value.remark ||
+              (blankForm.value.remark ? blankForm.value.remark.toUpperCase() : '') ||
               'TUGAS KHAS'
           })
           .eq(
@@ -2021,7 +2136,7 @@ const confirmBlankAssignment = async () => {
             period:
               period,
             reason:
-              blankForm.value.remark ||
+              (blankForm.value.remark ? blankForm.value.remark.toUpperCase() : '') ||
               'TUGAS KHAS',
             class_name:
               'VIRTUAL_CLASS',
@@ -2057,7 +2172,7 @@ const confirmBlankAssignment = async () => {
             sub_teacher_id:
               blankForm.value.teacherId,
             remark:
-              blankForm.value.remark
+              blankForm.value.remark ? blankForm.value.remark.toUpperCase() : null
           })
           .eq(
             'id',
@@ -2074,7 +2189,7 @@ const confirmBlankAssignment = async () => {
             assignment_type:
               'substitute',
             remark:
-              blankForm.value.remark
+              blankForm.value.remark ? blankForm.value.remark.toUpperCase() : null
           })
       }
 
@@ -2129,14 +2244,14 @@ const confirmBlankAssignment = async () => {
     }
 
     manualEntries.value[textKey] =
-      displayText
+      displayText.toUpperCase()
 
     await saveCustomSheetsToCloud()
     
     toast.success(
       blankForm.value.kiraBeban
-        ? 'Berjaya ditetapkan! Direkod dalam statistik beban.'
-        : 'Teks berjaya disimpan! Tidak dikira dalam beban.'
+        ? 'BERJAYA DITETAPKAN! DIREKOD DALAM STATISTIK BEBAN.'
+        : 'TEKS BERJAYA DISIMPAN! TIDAK DIKIRA DALAM BEBAN.'
     )
 
     showBlankModal.value = false
@@ -2144,7 +2259,7 @@ const confirmBlankAssignment = async () => {
     fetchData()
 
   } catch (err) {
-    toast.error('Gagal disimpan: ' + err.message)
+    toast.error('GAGAL DISIMPAN: ' + err.message)
   }
 }
 
@@ -2197,14 +2312,14 @@ const removeBlankAssignment = async () => {
 
     await saveCustomSheetsToCloud()
     
-    toast.success('Berjaya dikosongkan dan beban dibatalkan!')
+    toast.success('BERJAYA DIKOSONGKAN DAN BEBAN DIBATALKAN!')
 
     showBlankModal.value = false
 
     fetchData()
 
   } catch (err) {
-    toast.error('Gagal dipadam: ' + err.message)
+    toast.error('GAGAL DIPADAM: ' + err.message)
   }
 }
 
@@ -2336,7 +2451,7 @@ const handleExportPdf = async () => {
         return ''
       }
 
-      return String(value).trim()
+      return String(value).trim().toUpperCase()
     }
 
     const drawCenteredText = (
@@ -2497,8 +2612,7 @@ const handleExportPdf = async () => {
       doc.setFontSize(18)
 
       doc.text(
-        schoolName.value ||
-          'SJK (C) LADANG GRISEK',
+        (schoolName.value || 'SJK (C) LADANG GRISEK').toUpperCase(),
         PAGE_W / 2,
         y + 5,
         {
@@ -2509,7 +2623,7 @@ const handleExportPdf = async () => {
       doc.setFontSize(14)
 
       doc.text(
-        `JADUAL GURU GANTI (${sessionText})`,
+        `JADUAL GURU GANTI (${sessionText})`.toUpperCase(),
         PAGE_W / 2,
         y + 14,
         {
@@ -2604,7 +2718,7 @@ const handleExportPdf = async () => {
         teacher.id,
         period,
         type
-      )
+      ).toUpperCase()
     }
 
     const getManualValue = (
@@ -2622,7 +2736,7 @@ const handleExportPdf = async () => {
         prefix,
         type,
         period
-      )
+      ).toUpperCase()
     }
 
     const drawTimetable = ({
@@ -2750,7 +2864,7 @@ const handleExportPdf = async () => {
         const teacher = pageTeachers[slot - 1] || null
 
         const teacherName =
-          teacher
+          (teacher
             ? teacher.name
             : getManualValue(
                 slot,
@@ -2758,13 +2872,13 @@ const handleExportPdf = async () => {
                 0,
                 sheetId,
                 pageIndex
-              )
+              )).toUpperCase()
 
         const teacherReason =
           teacher
             ? (
                 teacher.reason
-                  ? `(${teacher.reason})`
+                  ? `(${teacher.reason.toUpperCase()})`
                   : ''
               )
             : ''
@@ -2778,7 +2892,7 @@ const handleExportPdf = async () => {
             teacherReason
               ? `\n${teacherReason}`
               : ''
-          }`,
+          }`.toUpperCase(),
           {
             fontSize:
               teacherReason
@@ -2806,7 +2920,7 @@ const handleExportPdf = async () => {
               pIndex + 1
 
             const value =
-              teacher
+              (teacher
                 ? getDisplayValue(
                     teacher,
                     period,
@@ -2818,7 +2932,7 @@ const handleExportPdf = async () => {
                     period,
                     sheetId,
                     pageIndex
-                  )
+                  )).toUpperCase()
 
             drawCell(
               tableX +
@@ -2856,7 +2970,7 @@ const handleExportPdf = async () => {
               pIndex + 1
 
             const value =
-              teacher
+              (teacher
                 ? getDisplayValue(
                     teacher,
                     period,
@@ -2868,7 +2982,7 @@ const handleExportPdf = async () => {
                     period,
                     sheetId,
                     pageIndex
-                  )
+                  )).toUpperCase()
 
             drawCell(
               tableX +
@@ -2907,7 +3021,7 @@ const handleExportPdf = async () => {
               pIndex + 1
 
             const value =
-              teacher
+              (teacher
                 ? ''
                 : getManualValue(
                     slot,
@@ -2915,7 +3029,7 @@ const handleExportPdf = async () => {
                     period,
                     sheetId,
                     pageIndex
-                  )
+                  )).toUpperCase()
 
             drawCell(
               tableX +
@@ -2935,6 +3049,46 @@ const handleExportPdf = async () => {
         )
 
         y += rowH * 3
+      }
+
+      // ⭐️ PDF End: Render Catatan secara melintang ke sebelah kanan (UPPERCASE)
+      const remarksListPdf = remarksList.value.map(s => s.trim().toUpperCase()).filter(Boolean)
+
+      if (remarksListPdf.length > 0) {
+        y += 4
+        doc.setFont('Georgia', 'bold')
+        doc.setFontSize(8)
+        doc.setTextColor(...BLACK)
+        doc.text('CATATAN:', M, y)
+        
+        y += 4
+        const colCount = Math.min(remarksListPdf.length, 3) // Maksimum 3 kolum sebaris
+        const colWidth = (CONTENT_W - (colCount - 1) * 4) / colCount
+        
+        let startX = M
+        let maxBlockH = 0
+        
+        remarksListPdf.forEach((rmkText, rIdx) => {
+          const colIndex = rIdx % colCount
+          if (colIndex === 0 && rIdx > 0) {
+            y += maxBlockH + 3
+            startX = M
+          }
+          
+          doc.setFont('Georgia', 'bold')
+          doc.setFontSize(7)
+          doc.text(`Catatan ${rIdx + 1}:`.toUpperCase(), startX, y)
+          
+          doc.setFont('Georgia', 'normal')
+          doc.setFontSize(6.5)
+          const splitText = doc.splitTextToSize(rmkText, colWidth)
+          doc.text(splitText, startX, y + 3.5)
+          
+          const blockH = 3.5 + splitText.length * 3
+          if (blockH > maxBlockH) maxBlockH = blockH
+          
+          startX += colWidth + 4
+        })
       }
     }
 
@@ -2998,19 +3152,19 @@ const handleExportPdf = async () => {
         : 'SESI_PETANG'
 
     doc.save(
-      `JADUAL_GURU_GANTI_${safeDate}_${sessionName}.pdf`
+      `JADUAL_GURU_GANTI_${safeDate}_${sessionName}`.toUpperCase() + '.PDF'
     )
 
     toast.success(
-      `PDF berjaya dijana, sebanyak ${
+      `PDF BERJAYA DIJANA, SEBANYAK ${
         pages.length +
         extraCustomSheets.value.length
-      } muka surat.`
+      } MUKA SURAT.`
     )
 
   } catch (err) {
     console.error('PDF export failed:', err)
-    toast.error(`Gagal menjana PDF: ${err?.message || err}`)
+    toast.error(`GAGAL MENJANA PDF: ${err?.message || err}`.toUpperCase())
   } finally {
     isExportingPdf.value = false
   }
