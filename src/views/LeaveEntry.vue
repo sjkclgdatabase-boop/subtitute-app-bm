@@ -159,14 +159,27 @@
           <p class="text-slate-500 text-xs font-bold mt-4">SEDANG MENGAMBIL JADUAL WAKTU DARI PANGKALAN DATA...</p>
         </div>
 
-        <div v-else-if="dailyClasses.length === 0" class="bg-slate-50 rounded-2xl p-8 text-center border border-slate-100 space-y-2">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+        <!-- 🌟 SITUASI: TIADA JADUAL WAKTU (Rekod Sahaja) -->
+        <div v-else-if="dailyClasses.length === 0" class="bg-slate-50 rounded-2xl p-8 border border-slate-100 flex flex-col items-center text-center space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto">
             <CheckCircle2 class="w-6 h-6" />
           </div>
-          <p class="text-slate-900 font-bold text-sm">GURU INI TIADA SEBARANG JADUAL WAKTU PADA HARI INI</p>
-          <p class="text-slate-500 text-xs font-medium">TIDAK PERLU GURU GANTI, PIHAK PENTADBIR BOLEH TERUS MELULUSKAN.</p>
+          <div>
+            <p class="text-slate-900 font-bold text-sm">GURU INI TIADA SEBARANG JADUAL WAKTU PADA HARI INI</p>
+            <p class="text-slate-500 text-xs font-medium mt-1">TIDAK PERLU GURU GANTI. ANDA BOLEH TERUS MENYELARASKAN REKOD INI KE LAPORAN MMI.</p>
+          </div>
+          
+          <button 
+            @click="submitAbsenceOnly" 
+            :disabled="isSubmitting"
+            class="mt-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer"
+          >
+            <span v-if="!isSubmitting">REKOD KETIDAKHADIRAN SAHAJA (SELARAS KE MMI)</span>
+            <span v-else>SEDANG MEREKOD...</span>
+          </button>
         </div>
 
+        <!-- 🌟 SITUASI: ADA JADUAL WAKTU -->
         <div v-else class="space-y-3">
           <!-- Kad Slot Masa -->
           <div 
@@ -210,21 +223,33 @@
             </div>
           </div>
 
-          <!-- Submit Button -->
+          <!-- Submit Button Area -->
           <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="text-xs text-slate-500 font-bold truncate">
               DIPILIH <strong class="text-indigo-600 text-sm font-black">{{ selectedClassesCount }}</strong> TUGASAN GURU GANTI
             </div>
 
-            <button 
-              @click="submitLeaveRequests" 
-              :disabled="isSubmitting || selectedClassesCount === 0"
-              class="group flex items-center justify-center px-6 py-3 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shrink-0 w-full sm:w-auto"
-            >
-              <span v-if="!isSubmitting" class="truncate">JANA TUGASAN GURU GANTI ({{ selectedClassesCount }})</span>
-              <span v-else>SEDANG DIJANA...</span>
-              <ArrowRight v-if="!isSubmitting" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform shrink-0" />
-            </button>
+            <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+              <!-- 🌟 BUTANG REKOD SAHAJA (HANYA MUNCUL JIKA 0 SLOT DIPILIH) -->
+              <button 
+                v-if="selectedClassesCount === 0"
+                @click="submitAbsenceOnly" 
+                :disabled="isSubmitting"
+                class="px-6 py-3 text-xs font-bold text-amber-700 bg-amber-100 hover:bg-amber-200 rounded-2xl transition-all shadow-sm cursor-pointer w-full sm:w-auto uppercase"
+              >
+                Rekod Ketidakhadiran Sahaja
+              </button>
+
+              <button 
+                @click="submitLeaveRequests" 
+                :disabled="isSubmitting || selectedClassesCount === 0"
+                class="group flex items-center justify-center px-6 py-3 text-xs font-bold text-white bg-slate-900 rounded-2xl hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shrink-0 w-full sm:w-auto"
+              >
+                <span v-if="!isSubmitting" class="truncate">JANA TUGASAN ({{ selectedClassesCount }})</span>
+                <span v-else>SEDANG DIJANA...</span>
+                <ArrowRight v-if="!isSubmitting" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform shrink-0" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -260,6 +285,10 @@ const selectedTeacherId = ref('')
 const leaveDate = ref('')
 const leaveReason = ref('')
 const dateInputRef = ref(null)
+
+// 🌟 Pembolehubah dalaman untuk penetapan automatik slot masa (Rekod Sahaja)
+const manualStartPeriod = ref(1)
+const manualEndPeriod = ref(10)
 
 // 🌟 辅助函数：允许点击外框任意地方唤起日期组件
 const openDatePicker = () => {
@@ -369,6 +398,16 @@ const fetchDailyTimetable = async () => {
     })
 
     dailyClasses.value = Array.from(periodMap.values())
+    
+    // 🌟 Pengiraan Automatik untuk "Rekod Sahaja"
+    if (dailyClasses.value.length > 0) {
+      const sortedPeriods = dailyClasses.value.map(c => Number(c.period)).sort((a, b) => a - b)
+      manualStartPeriod.value = sortedPeriods[0]
+      manualEndPeriod.value = sortedPeriods[sortedPeriods.length - 1]
+    } else {
+      manualStartPeriod.value = 1
+      manualEndPeriod.value = 10
+    }
   } catch (error) {
     toast.error("GAGAL MENGAMBIL JADUAL: " + error.message)
   } finally {
@@ -376,7 +415,41 @@ const fetchDailyTimetable = async () => {
   }
 }
 
-// 🚀 Core Submit Logic with Categories & Auto-Uppercase (Beserta Pembaikan Tepat MMI)
+// 🚀 Core Logic 1: REKOD KETIDAKHADIRAN SAHAJA (TIADA GURU GANTI)
+const submitAbsenceOnly = async () => {
+  isSubmitting.value = true
+  try {
+    const currentTeacher = teachersList.value.find(t => t.id === selectedTeacherId.value)
+    const teacherName = currentTeacher ? currentTeacher.name : 'GURU TIDAK DIKENALI'
+
+    const rawReason = leaveReason.value.trim()
+    const formattedReason = rawReason 
+      ? `[${leaveCategory.value}] ${rawReason.toUpperCase()}`
+      : `[${leaveCategory.value}] TIDAK DINYATAKAN`
+
+    const mmiLogPayload = {
+      interruption_date: leaveDate.value,
+      type: 'teacher',
+      start_period: manualStartPeriod.value,
+      end_period: manualEndPeriod.value,
+      reason: formattedReason,
+      target_display: `GURU: ${teacherName}`,
+      remarks: '(TIADA JADUAL ATAU TIADA GURU GANTI DIPERLUKAN)'
+    }
+
+    const { error: mmiError } = await supabase.from('mmi_interruptions').insert([mmiLogPayload])
+    if (mmiError) throw mmiError
+
+    toast.success("REKOD KETIDAKHADIRAN BERJAYA DISELARASKAN KE LAPORAN MMI!")
+    router.push('/')
+  } catch (error) {
+    toast.error("REKOD GAGAL: " + error.message)
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+// 🚀 Core Logic 2: JANA GURU GANTI (Beserta Pembaikan Tepat MMI)
 const submitLeaveRequests = async () => {
   const selectedList = dailyClasses.value.filter(cls => cls.selected)
   if (selectedList.length === 0) {
